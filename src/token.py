@@ -25,12 +25,38 @@ class Token:
     FUNCTION = "FUNCTION"
     LET = "LET"
 
+    # Operators
+    ASSIGN   = "="
+    PLUS     = "+"
+    MINUS    = "-"
+    BANG     = "!"
+    ASTERISK = "*"
+    SLASH    = "/"
+    LT = "<"
+    GT = ">"
+    # Keywords
+    FUNCTION = "FUNCTION"
+    LET = "LET"
+    TRUE = "TRUE"
+    FALSE = "FALSE"
+    IF = "IF"
+    ELSE = "ELSE"
+    RETURN = "RETURN"
+
+    EQ = "=="
+    NOT_EQ = "!="
+
     keywords = {
-      "fn": FUNCTION,
-      "let": LET, 
+        "fn": FUNCTION,
+        "let": LET,
+        "true": TRUE,
+        "false": FALSE,
+        "if": IF,
+        "else": ELSE,
+        "return": RETURN,
     }
 
-    def __init__(self, type, literal) -> None:
+    def __init__(self, type, literal):
         self.type = type
         self.literal = literal
     

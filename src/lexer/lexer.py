@@ -1,4 +1,3 @@
-from turtle import position
 from src.token import Token
 
 
@@ -17,16 +16,16 @@ class Lexer:
             self.ch = self.input[self.read_position]
         self.position = self.read_position
         self.read_position += 1
+
     def skip_whitespace(self):
-        while self.ch == " " or self.ch == "" or self.ch == "\t" or self.ch == "\r":
+        while self.ch == " " or self.ch == "\t" or self.ch == "\r" or self.ch == "\n":
             self.read_char()
 
     def next_token(self):
         tok = Token(None, None)
         self.skip_whitespace()
-        if self.ch == "=":
-            tok = Token(Token.ASSIGN, self.ch)
-        elif self.ch == ";":
+
+        if self.ch == ";":
             tok = Token(Token.SEMICOLON, self.ch)
         elif self.ch == "(":
             tok = Token(Token.LPAREN, self.ch)
@@ -40,8 +39,38 @@ class Lexer:
             tok = Token(Token.LBRACE, self.ch)
         elif self.ch == "}":
             tok = Token(Token.RBRACE, self.ch)
+        elif self.ch == '+':
+            tok = Token(Token.PLUS, self.ch)
+        elif self.ch == '-':
+            tok = Token(Token.MINUS, self.ch)
+        elif self.ch == '/':
+            tok = Token(Token.SLASH, self.ch)
+        elif self.ch == '*':
+            tok = Token(Token.ASTERISK, self.ch)
+        elif self.ch == '<':
+            tok = Token(Token.LT, self.ch)
+        elif self.ch == '>':
+            tok = Token(Token.GT, self.ch)
+        elif self.ch == ';':
+            tok = Token(Token.SEMICOLON, self.ch)
+        elif self.ch == ',':
+            tok = Token(Token.COMMA, self.ch)
         elif self.ch == "":
             tok = Token(Token.EOF, "")
+        elif self.ch == "=":
+            if self.peek_char() == '=':
+                ch = self.ch
+                self.read_char()
+                tok = Token(Token.EQ, ch + self.ch)
+            else:
+                tok = Token(Token.ASSIGN, self.ch)
+        elif self.ch == '!':
+            if self.peek_char() == '=':
+                ch = self.ch
+                self.read_char()
+                tok = Token(Token.NOT_EQ, ch + self.ch)
+            else:
+                tok = Token(Token.BANG, self.ch)
         else:
             if self.is_letter(self.ch):
                 literal = self.read_identifier()
@@ -73,3 +102,9 @@ class Lexer:
     def is_letter(self, ch):
         # return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_'
         return self.ch.isalpha()
+
+    def peek_char(self):
+        if self.read_position > len(self.input):
+            return 0
+        else:
+            return self.input[self.read_position]

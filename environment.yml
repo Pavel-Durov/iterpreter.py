@@ -1,0 +1,4 @@
+name: interpreter-py
+dependencies:
+  - python=2.7.18
+

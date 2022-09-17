@@ -289,3 +289,7 @@ cython_debug/
 .idea/
 .direnv
 .vscode
+
+# pypy
+.pypy*
+pypy*.tar.bz2
