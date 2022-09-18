@@ -23,7 +23,9 @@ run:
 	PYTHONPATH=$(PYTHONPATH) python ./src/main.py
 
 test: 
-	pytest ./src
+	# pytest ./src
+	/Users/kimchi/opt/anaconda3/envs/interpreter-py/bin/py.test ./src
+	
 
 translate-some:
 	python ./.pypy/rpython/translator/goal/translate.py /Users/kimchi/git-repos/side-projects/iterpreter.rpy/src/lexer/lexer.py
