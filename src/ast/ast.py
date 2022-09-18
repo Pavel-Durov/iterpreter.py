@@ -122,3 +122,38 @@ class ExpressionStatement(Statement):
         if self.expression is not None:
           return self.expression
         return ""
+
+# Literals
+class IntegerLiteral(Expression):
+    def __init__(self, token, value):
+        self.token = token
+        self.value = value
+
+
+    def expression_node(self):
+        pass
+
+
+    def token_literal(self):
+        return self.token.literal
+
+
+    def __str__(self):
+        return self.token.literal    
+
+# PrefixExpression
+class PrefixExpression(Expression):
+    def __init__(self, token, operator, right):
+        self.token = token
+        assert operator in ["!", "-"]
+        self.operator = operator
+        self.right = right
+
+    def expression_node(self):
+        pass
+
+    def token_literal(self):
+        return self.token.literal
+
+    def __str__(self):
+        return "(" + self.operator + str(self.right) + ")"
