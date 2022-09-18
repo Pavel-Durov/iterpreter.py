@@ -8,15 +8,21 @@ class Parser():
         self.l = lexer
         self.cur_token = None
         self.peek_token = None
+        self.errors = []
         
         # Read two tokens, so curToken and peekToken are both set
         self.next_token()
         self.next_token()
 
+    def peek_error(self, token_type):
+        msg = "expected next token to be {}, got {} instead".format(token_type, self.peek_token.type)
+        self.errors.append(msg)
+
 
     def next_token(self):
         self.cur_token = self.peek_token
         self.peek_token = self.l.next_token()
+
 
     def parse_program(self):
         prog = Program()
@@ -32,15 +38,11 @@ class Parser():
         stmt = LetStatement(token=self.cur_token, identifier=None, value_exp=None)
         if self.expect_peek(Token.IDENT) == False:
             return None
-        else:
-            self.next_token()
-
-            
+        
         stmt.name = Identifier(self.cur_token, self.cur_token.literal)
         if self.expect_peek(Token.ASSIGN) == False:
             return None
-        else:
-            self.next_token()
+        
 
         # TODO: We're skipping the expressions until we encounter a semicolon
         while self.cur_token_is(Token.SEMICOLON) == False:
@@ -56,8 +58,10 @@ class Parser():
 
     def expect_peek(self, token_type):
         if self.peek_token_is(token_type):
+            self.next_token()
             return True
         else:
+            self.peek_error(token_type)
             return False
 
     def parse_statement(self):

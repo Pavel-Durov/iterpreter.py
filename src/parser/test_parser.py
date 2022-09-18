@@ -8,12 +8,12 @@ def test_let_statement():
    let x = 5;
    let y = 10;
    let foobar = 838383;"""
+  p = Parser(Lexer(input))
   
-  l = Lexer(input)
-  p = Parser(l)
   prog = p.parse_program()
-  assert prog != None, "ParseProgram() returned None"
-  print(prog.statements)
+  
+  assert_parser_has_no_errors(p.errors)
+
   assert len(prog.statements) == 3, "prog.statements does not contain 3 statements. got={}".format(len(prog.statements))
 
   tests = ["x", "y", "foobar"]  
@@ -22,5 +22,25 @@ def test_let_statement():
     assert stmt.token_literal() == "let", "stmt.token_literal not 'let'. got={}".format(stmt.token_literal())
     assert stmt.name.value == tt, "stmt.name.value not '{}'. got={}".format(tt, stmt.name.value)
     assert stmt.name.token_literal() == tt, "stmt.name not '{}'. got={}".format(tt, stmt.name)
+
+
+def test_parser_errors():
+  input = """
+   let x = 5;
+   let y = 10;
+   let = 838383;"""
+  p = Parser(Lexer(input))
   
+  prog = p.parse_program()
+  assert len(p.errors) == 1, "parser has {} errors".format(len(p.errors))
+  assert p.errors[0] is not None
+
+
+def assert_parser_has_no_errors(errors):
+
+    if len(errors) != 0:
+        print("parser has {} errors".format(len(errors)))
+        for err in errors:
+            print("parser error: {}".format(err))
+        assert False, "parser has {} errors".format(len(errors))
 
