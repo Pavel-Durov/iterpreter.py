@@ -81,7 +81,6 @@ class Lexer:
             else:
                 tok = Token(Token.ILLEGAL, self.ch)
         self.read_char()
-        print('tok', tok)
         return tok
     
     def read_number(self):

@@ -30,7 +30,6 @@ class Parser():
             stmt = self.parse_statement()
             if stmt != None:
                 prog.statements.append(stmt)
-                print("@@@", prog.statements)
             self.next_token()
         return prog
 

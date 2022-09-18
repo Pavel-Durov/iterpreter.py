@@ -9,6 +9,7 @@ class Node():
     pass
 
 
+
 class Statement(Node):
   def token_literal():
     pass
@@ -31,6 +32,12 @@ class Program(Node):
     if len(self.statements) > 0:
       return self.statements[0].token_literal()
     return ""
+
+  def __str__(self):
+    out = ""
+    for s in self.statements:
+      out += str(s)
+    return out
 
 
 ### Let statement
@@ -67,9 +74,8 @@ class Identifier(Expression):
     def token_literal(self):
         return self.token.literal
 
-class AST():
-  def __init__(self):
-    pass
+    def __str__(self):
+        return self.value
 
 ## Returns  
 
@@ -90,3 +96,29 @@ class ReturnStatement(Statement):
 
     def statement_node(self):
         pass
+    
+    def __str__(self):
+        return self.token_literal()+ " " +self.return_value + ";"
+
+
+## Expressions
+class ExpressionStatement(Statement):
+    def __init__(self, token, expression):
+        self.token = token # the first token of the expression
+        self.expression = expression
+
+    def token_literal(self):
+        return self.token.literal
+
+    def __str__(self):
+        if self.expression != None:
+            return str(self.expression)
+        return ""
+
+    def statement_node(self):
+        pass
+    
+    def __str__(self):
+        if self.expression is not None:
+          return self.expression
+        return ""
