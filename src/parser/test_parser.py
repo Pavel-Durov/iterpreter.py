@@ -106,3 +106,51 @@ def assert_integer_literal(exp, value):
   assert isinstance(exp, IntegerLiteral), "exp is not IntegerLiteral. got={}".format(type(exp))
   assert exp.value == value, "exp.value is not {}. got={}".format(value, exp.value)
   assert exp.token_literal() == str(value), "exp.token_literal is not {}. got={}".format(value, exp.token_literal())
+
+
+def test_parsing_infix_expressions():
+    tests = [
+      ("5 + 5;", 5, "+", 5),
+      ("5 - 5;", 5, "-", 5),
+      ("5 * 5;", 5, "*", 5),
+      ("5 / 5;", 5, "/", 5),
+      ("5 > 5;", 5, ">", 5),
+      ("5 < 5;", 5, "<", 5),
+      ("5 == 5;", 5, "==", 5),
+      ("5 != 5;", 5, "!=", 5),
+    ]
+    for t in tests:
+      p = Parser(Lexer(t[0]))
+      prog = p.parse_program()
+      assert_no_parser_errors(p.errors)
+      assert len(prog.statements)==1, "prog.statements does not contain 1 statements. got={}".format(len(prog.statements))
+      assert isinstance(prog.statements[0], ExpressionStatement), "prog.statements[0] is not Identifier. got={}".format(type(prog.statements[0]))
+      assert isinstance(prog.statements[0].expression, Expression), "prog.statements[0].expression is not Expression. got={}".format(type(prog.statements[0].expression))
+      assert_integer_literal(prog.statements[0].expression.left, t[1])
+      assert prog.statements[0].expression.operator == t[2], "prog.statements[0].expression.operator is not {}. got={}".format(t[2], prog.statements[0].expression.operator)
+      assert_integer_literal(prog.statements[0].expression.right, t[3])
+
+def test_operator_precedence():
+  tests = [
+    ("-pavel * kimchi", "((-pavel) * kimchi)"),
+    ("!-pavel", "(!(-pavel))"),
+    ("pavel + kimchi + soda", "((pavel + kimchi) + soda)"),
+    ("pavel + kimchi - soda", "((pavel + kimchi) - soda)" ),
+    ("pavel * kimchi * soda", "((pavel * kimchi) * soda)"),
+    ("pavel * kimchi / soda","((pavel * kimchi) / soda)"),
+    ("pavel + kimchi / soda", "(pavel + (kimchi / soda))"),
+    ("pavel + kimchi * soda + love / london - yoyo",  "(((pavel + (kimchi * soda)) + (love / london)) - yoyo)"),
+    ("77 + 25; -5 * 5", "(77 + 25)((-5) * 5)"),
+    ("5 > 25 == 77 < 25", "((5 > 25) == (77 < 25))"),
+    ("5 < 25 != 77 > 25", "((5 < 25) != (77 > 25))"),
+    ("77 + 25 * 5 == 77 * 9 + 25 * 5", "((77 + (25 * 5)) == ((77 * 9) + (25 * 5)))"),
+    ("77 + 25 * 5 == 77 * 9 + 25 * 5", "((77 + (25 * 5)) == ((77 * 9) + (25 * 5)))")
+  ]
+  
+
+  for t in tests:
+    p = Parser(Lexer(t[0]))
+    prog = p.parse_program()
+    assert_no_parser_errors(p.errors)
+    print('@@@', str(prog))
+    assert str(prog) == t[1], "expected={}, got={}".format(t[1], str(prog))
