@@ -45,14 +45,12 @@ def test_return_statement():
 
 
 
-# def test_parser_errors():
-#   input = """
-#    let = 838383;"""
-#   p = Parser(Lexer(input))
-  
-#   prog = p.parse_program()
-#   assert len(p.errors) == 1, "parser has {} errors".format(len(p.errors))
-#   assert p.errors[0] is not None
+def test_parser_errors():
+  input = """let """
+  p = Parser(Lexer(input))
+  p.parse_program()
+  assert len(p.errors) == 1, "parser has {} errors".format(len(p.errors))
+  assert p.errors[0] is not None
 
 
 def assert_no_parser_errors(errors):

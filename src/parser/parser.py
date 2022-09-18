@@ -1,19 +1,7 @@
-
-
 from distutils.sysconfig import PREFIX
 from src.ast.ast import ExpressionStatement, Identifier, InfixExpression, IntegerLiteral, LetStatement, PrefixExpression, Program, ReturnStatement
 from src.token import Token
-
-trace_level = 0
-def trace(msg):
-    global trace_level
-    trace_level+=1
-    # print("." * trace_level + msg)
-
-def untrace(msg):
-    global trace_level
-    # print("." * trace_level +msg)
-    trace_level-=1
+from src.trace import trace, untrace
 
 
 class Parser():
@@ -23,7 +11,7 @@ class Parser():
     LESSGREATER = 2 # > or <
     SUM = 3 # +
     PRODUCT = 4  # *
-    PREFIX = 5 # -Xor!X
+    PREFIX = 5 # -X or !X
     CALL = 6 # myFunction(X)
     
     precedences = { 
