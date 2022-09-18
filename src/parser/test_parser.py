@@ -1,5 +1,6 @@
 from cgi import test
 from src.ast import Program, LetStatement, Identifier
+from src.ast.ast import ReturnStatement
 from src.lexer import Lexer
 from src.parser import Parser
 
@@ -24,10 +25,30 @@ def test_let_statement():
     assert stmt.name.token_literal() == tt, "stmt.name not '{}'. got={}".format(tt, stmt.name)
 
 
+def test_return_statement():
+  input = """
+   return 1;
+   return 10;
+   return 11;
+   """
+  p = Parser(Lexer(input))
+  
+  prog = p.parse_program()
+  
+  assert_parser_has_no_errors(p.errors)
+
+  assert len(prog.statements) == 3, "prog.statements does not contain 3 statements. got={}".format(len(prog.statements))
+
+  tests = ["x", "y", "foobar"]  
+  for stmt in prog.statements:
+    assert isinstance(stmt, ReturnStatement), "stmt is not ReturnStatement. got={}".format(type(stmt))
+    assert stmt.token_literal() == "return", "stmt.token_literal not 'return'. got={}".format(stmt.token_literal())
+
+
+
+
 def test_parser_errors():
   input = """
-   let x = 5;
-   let y = 10;
    let = 838383;"""
   p = Parser(Lexer(input))
   

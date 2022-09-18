@@ -70,3 +70,23 @@ class Identifier(Expression):
 class AST():
   def __init__(self):
     pass
+
+## Returns  
+
+class ReturnStatement(Statement):
+    def __init__(self, token, return_value):
+        self.token = token
+        self.return_value = return_value
+
+    def token_literal(self):
+        return self.token.literal
+
+    def __str__(self):
+        out = self.token_literal() + " "
+        if self.return_value != None:
+            out += str(self.return_value)
+        out += ";"
+        return out
+
+    def statement_node(self):
+        pass

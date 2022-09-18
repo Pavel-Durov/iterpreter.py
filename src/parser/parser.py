@@ -1,6 +1,6 @@
 
 
-from src.ast.ast import Identifier, LetStatement, Program
+from src.ast.ast import Identifier, LetStatement, Program, ReturnStatement
 from src.token import Token
 
 class Parser():
@@ -43,12 +43,27 @@ class Parser():
         if self.expect_peek(Token.ASSIGN) == False:
             return None
         
-
         # TODO: We're skipping the expressions until we encounter a semicolon
         while self.cur_token_is(Token.SEMICOLON) == False:
             self.next_token()
         
         return stmt
+        
+    def parse_return_statement(self):
+        stmt = ReturnStatement(token=self.cur_token, return_value=None)
+        self.next_token()
+        # TODO: We're skipping the expressions until we encounter a semicolon
+        while self.cur_token_is(Token.SEMICOLON) == False:
+            self.next_token()
+        return stmt
+
+    def parse_statement(self):
+        if self.cur_token.type == Token.LET:
+            return self.parse_let_statement()
+        if self.cur_token.type == Token.RETURN:
+            return self.parse_return_statement()
+        return None
+
 
     def cur_token_is(self, token_type):
         return self.cur_token.type == token_type
@@ -63,10 +78,3 @@ class Parser():
         else:
             self.peek_error(token_type)
             return False
-
-    def parse_statement(self):
-        if self.cur_token.type == Token.LET:
-            return self.parse_let_statement()
-        return None
-
-
