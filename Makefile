@@ -16,8 +16,12 @@ lint-fix:
 
 clone-pypy:
 	hg clone https://foss.heptapod.net/pypy/pypy .pypy	
+
+repl:
+	PYTHONPATH=$(PYTHONPATH) python ./src/repl.py
 run:
 	PYTHONPATH=$(PYTHONPATH) python ./src/main.py
+
 test: 
 	pytest ./src
 

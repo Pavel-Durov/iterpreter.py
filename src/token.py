@@ -59,8 +59,13 @@ class Token:
     def __init__(self, type, literal):
         self.type = type
         self.literal = literal
-    
+
+
     def lookup_ident(self, ident):
         if ident in self.keywords:
             return self.keywords[ident]
         return self.IDENT
+
+
+    def __str__(self):
+        return "[Token(" + self.type + ", " + self.literal + ")]"
