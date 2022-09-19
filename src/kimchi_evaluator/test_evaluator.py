@@ -4,19 +4,31 @@ from src.kimchi_lexer import Lexer
 from src.kimchi_object.environment import Environment
 from src.kimchi_parser import Parser
 
-# def test_function_application():
-#     tests = [
-#         ("let identity = fn(x) { x; }; identity(5);", 5),
-#         ("let identity = fn(x) { return x; }; identity(5);", 5),
-#         ("let double = fn(x) { x * 2; }; double(5);", 10),
-#         ("let add = fn(x, y) { x + y; }; add(5, 5);", 10),
-#         ("let add = fn(x, y) { x + y; }; add(5 + 5, add(5, 5));", 20),
-#         ("fn(x) { x; }(5)", 5),
-#     ]
+def test_closure():
+    input = """
+    let add = fn(x) {
+      fn(y) { x + y };
+    };
+    let addTwo = add(2);
+    addTwo(3);
+    """
+    evaluated = eval_test(input)
+    assert_integer_object(evaluated, 5)
 
-#     for tt in tests:
-#         evaluated = eval_test(tt[0])
-#         assert_integer_object(evaluated, tt[1])
+
+def test_function_application():
+    tests = [
+        ("let identity = fn(x) { x; }; identity(5);", 5),
+        ("let identity = fn(x) { return x; }; identity(5);", 5),
+        ("let double = fn(x) { x * 2; }; double(5);", 10),
+        ("let add = fn(x, y) { x + y; }; add(5, 5);", 10),
+        ("let add = fn(x, y) { x + y; }; add(5 + 5, add(5, 5));", 20),
+        # ("fn(x) { x } (5) ", 5),
+    ]
+
+    for tt in tests:
+        evaluated = eval_test(tt[0])
+        assert_integer_object(evaluated, tt[1])
 
 def test_function_object():
     input = "fn(x) { x + 2; };"
