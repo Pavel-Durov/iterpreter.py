@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: conda-incubator/setup-miniconda@v2
       with:
-        activate-environment: meta-tracing
+        activate-environment: interpreter-py
         environment-file: environment.yml
         python-version: 2.7.18
         auto-activate-base: false
