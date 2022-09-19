@@ -28,6 +28,6 @@ jobs:
       run: make get-pypy
     - name: Test with pytest
       run: |
-        pip install -r ./requirments.tx
+        pip install -r ./requirments.txt
         which pip
         source .envrc && py.test ./src
