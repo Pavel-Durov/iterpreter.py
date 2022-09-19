@@ -1,5 +1,6 @@
-from src.ast.ast import Boolean, ExpressionStatement, FunctionLiteral, Identifier, IfExpression, InfixExpression, \
-    IntegerLiteral, ReturnStatement, Expression
+from src.ast.ast import Boolean, CallExpression, ExpressionStatement, FunctionLiteral, Identifier, IfExpression, \
+    InfixExpression, \
+    IntegerLiteral, LetStatement, ReturnStatement, Expression
 from src.lexer import Lexer
 from src.parser import Parser
 
@@ -26,6 +27,24 @@ def test_let_statement():
         assert stmt.name.token_literal() == tt, "stmt.name not '{}'. got={}".format(tt, stmt.name)
 
 
+def test_let_expressions():
+    tests = [
+        ("let x = 5;", "x", 5),
+        ("let y = true;", "y", True),
+        ("let foobar = y;", "foobar", "y"),
+    ]
+    for tt in tests:
+        p = Parser(Lexer(tt[0]))
+        prog = p.parse_program()
+        assert_no_parser_errors(p.errors)
+
+        assert len(prog.statements) == 1, "prog.statements does not contain 1 statements. got={}".format(
+            len(prog.statements))
+        stmt = prog.statements[0]
+        assert isinstance(stmt, LetStatement), "stmt is not LetStatement. got={}".format(type(stmt))
+        assert_literal_expression(stmt.value, tt[2])
+
+
 def test_return_statement():
     input = """
    return 1;
@@ -50,14 +69,6 @@ def test_parser_errors():
     p.parse_program()
     assert len(p.errors) == 1, "parser has {} errors".format(len(p.errors))
     assert p.errors[0] is not None
-
-
-def assert_no_parser_errors(errors):
-    if len(errors) != 0:
-        print("parser has {} errors".format(len(errors)))
-        for err in errors:
-            print("parser error: {}".format(err))
-        assert False, "parser has {} errors".format(len(errors))
 
 
 def test_identifier_expression():
@@ -127,12 +138,6 @@ def test_parsing_prefix_expressions():
         assert_literal_expression(prog.statements[0].expression.right, t[2])
 
 
-def assert_integer_literal(exp, value):
-    assert isinstance(exp, IntegerLiteral), "exp is not IntegerLiteral. got={}".format(type(exp))
-    assert exp.value == value, "exp.value is not {}. got={}".format(value, exp.value)
-    assert exp.token_literal() == str(value), "exp.token_literal is not {}. got={}".format(value, exp.token_literal())
-
-
 def test_parsing_infix_expressions():
     tests = [
         ("5 + 5;", 5, "+", 5),
@@ -191,11 +196,9 @@ def test_operator_precedence():
         ("(5 + 5) * 2 * (5 + 5)", "(((5 + 5) * 2) * (5 + 5))"),
         ("-(5 + 5)", "(-(5 + 5))"),
         ("!(true == true)", "(!(true == true))"),
-        # ("a + add(b * c) + d","((a + add((b * c))) + d)"),
-        # ("add(a, b, 1, 2 * 3, 4 + 5, add(6, 7 * 8))","add(a, b, 1, (2 * 3), (4 + 5), add(6, (7 * 8)))"),
-        # ("add(a + b + c * d / f + g)","add((((a + b) + ((c * d) / f)) + g))"),
-        # ("a * [1, 2, 3, 4][b * c] * d","((a * ([1, 2, 3, 4][(b * c)])) * d)"),
-        # ("add(a * b[2], b[1], 2 * [1, 2][1])","add((a * (b[2])), (b[1]), (2 * ([1, 2][1])))"),
+        ("a + add(b * c) + d", "((a + add((b * c))) + d)"),
+        ("add(a, b, 1, 2 * 3, 4 + 5, add(6, 7 * 8))", "add(a, b, 1, (2 * 3), (4 + 5), add(6, (7 * 8)))"),
+        ("add(a + b + c * d / f + g)", "add((((a + b) + ((c * d) / f)) + g))")
     ]
     for t in tests:
         p = Parser(Lexer(t[0]))
@@ -208,8 +211,9 @@ def test_boolean_expressions():
     tests = [
         ("true;", True),
         ("false;", False),
-        ("3 > 5 == false", "((3 > 5) == false)"),
-        ("3 < 5 == true", "((3 < 5) == true)"),
+        # TODO: add more tests
+        # ("3 > 5 == false", "((3 > 5) == false)"),
+        # ("3 < 5 == true", "((3 < 5) == true)"),
     ]
     for tt in tests:
         p = Parser(Lexer(tt[0]))
@@ -217,13 +221,12 @@ def test_boolean_expressions():
         assert_no_parser_errors(p.errors)
         assert len(prog.statements) == 1, "prog.statements does not contain 1 statements. got={}".format(
             len(prog.statements))
-        assert isinstance(prog.statements[0],
-                          ExpressionStatement), "prog.statements[0] is not ExpressionStatement. got={}".format(
-            type(prog.statements[0]))
-        # assert isinstance(prog.statements[0].expression, InfixExpression), "prog.statements[0].expression is not Expression. got={}".format(type(prog.statements[0].expression))
-        # assert prog.statements[0].expression.value == tt[1], "prog.statements[0].expression.value is not {}. got={}".format(tt[1], prog.statements[0].expression.value)
-        # assert prog.statements[0].expression.token_literal() == str(tt[1]).lower(), "prog.statements[0].expression.token_literal is not {}. got={}".format(tt[1], prog.statements[0].expression.token_literal())
-        # assert_boolean_literal(prog.statements[0].expression[, tt[1])
+        stmt = prog.statements[0]
+        assert isinstance(stmt, ExpressionStatement), "stmt is not ExpressionStatement. got={}".format(type(stmt))
+        assert isinstance(stmt.expression, Expression), "stmt.expression is not Expression. got={}".format(
+            type(stmt.expression))
+        assert stmt.expression.value == tt[1], "stmt.expression.value is not {}. got={}".format(tt[1],
+                                                                                                stmt.expression.value)
 
 
 def test_if_expression():
@@ -278,37 +281,6 @@ def test_if_else_expression():
         prog.statements[0].expression.alternative)
 
 
-def assert_identifier(exp, value):
-    assert isinstance(exp, Identifier), "exp is not Identifier. got={}".format(type(exp))
-    assert exp.value == value, "exp.value is not {}. got={}".format(value, exp.value)
-    assert exp.token_literal() == value, "exp.token_literal is not {}. got={}".format(value, exp.token_literal())
-
-
-def assert_literal_expression(exp, expected):
-    if type(expected) is int:
-        assert_integer_literal(exp, expected)
-    elif type(expected) is str:
-        assert_identifier(exp, expected)
-    elif type(expected) is bool:
-        assert_boolean_literal(exp, expected)
-    else:
-        raise Exception("type of exp not handled. got={}".format(type(exp)))
-
-
-def assert_boolean_literal(exp, expected):
-    assert isinstance(exp, Boolean), "exp is not Boolean. got={}".format(type(exp))
-    assert exp.value == expected, "exp.value is not {}. got={}".format(expected, exp.value)
-    assert exp.token_literal() == str(expected).lower(), "exp.token_literal is not {}. got={}".format(expected,
-                                                                                                      exp.token_literal())
-
-
-def assert_infix_expression(exp, left, operator, right):
-    assert isinstance(exp, InfixExpression), "exp is not InfixExpression. got={}".format(type(exp))
-    assert_literal_expression(exp.left, left)
-    assert exp.operator == operator, "exp.operator is not {}. got={}".format(operator, exp.operator)
-    assert_literal_expression(exp.right, right)
-
-
 def test_function_literal():
     input = 'fn(x, y) { x + y; }'
     p = Parser(Lexer(input))
@@ -360,3 +332,67 @@ def test_function_parameter_parsing():
             len(tt["expected_params"]), len(prog.statements[0].expression.parameters))
         for i, ident in enumerate(tt["expected_params"]):
             assert_literal_expression(prog.statements[0].expression.parameters[i], ident)
+
+
+def test_call_expression():
+    input = "add(1, 2 * 3, 4 + 5);"
+    p = Parser(Lexer(input))
+    prog = p.parse_program()
+    assert_no_parser_errors(p.errors)
+    assert len(prog.statements) == 1, "prog.statements does not contain 1 statements. got={}".format(
+        len(prog.statements))
+    stmt = prog.statements[0]
+    assert isinstance(stmt, ExpressionStatement), "stmt is not ExpressionStatement. got={}".format(type(stmt))
+    assert isinstance(stmt.expression, CallExpression), "stmt.expression is not CallExpression. got={}".format(
+        type(stmt.expression))
+    assert_identifier(stmt.expression.function, "add")
+    assert len(stmt.expression.arguments) == 3, "wrong length of arguments. got={}".format(
+        len(stmt.expression.arguments))
+    assert_literal_expression(stmt.expression.arguments[0], 1)
+    assert_infix_expression(stmt.expression.arguments[1], 2, "*", 3)
+    assert_infix_expression(stmt.expression.arguments[2], 4, "+", 5)
+
+
+def assert_identifier(exp, value):
+    assert isinstance(exp, Identifier), "exp is not Identifier. got={}".format(type(exp))
+    assert exp.value == value, "exp.value is not {}. got={}".format(value, exp.value)
+    assert exp.token_literal() == value, "exp.token_literal is not {}. got={}".format(value, exp.token_literal())
+
+
+def assert_literal_expression(exp, expected):
+    if type(expected) is int:
+        assert_integer_literal(exp, expected)
+    elif type(expected) is str:
+        assert_identifier(exp, expected)
+    elif type(expected) is bool:
+        assert_boolean_literal(exp, expected)
+    else:
+        raise Exception("type of exp not handled. got={}".format(type(exp)))
+
+
+def assert_boolean_literal(exp, expected):
+    assert isinstance(exp, Boolean), "exp is not Boolean. got={}".format(type(exp))
+    assert exp.value == expected, "exp.value is not {}. got={}".format(expected, exp.value)
+    assert exp.token_literal() == str(expected).lower(), "exp.token_literal is not {}. got={}".format(expected,
+                                                                                                      exp.token_literal())
+
+
+def assert_infix_expression(exp, left, operator, right):
+    assert isinstance(exp, InfixExpression), "exp is not InfixExpression. got={}".format(type(exp))
+    assert_literal_expression(exp.left, left)
+    assert exp.operator == operator, "exp.operator is not {}. got={}".format(operator, exp.operator)
+    assert_literal_expression(exp.right, right)
+
+
+def assert_no_parser_errors(errors):
+    if len(errors) != 0:
+        print("parser has {} errors".format(len(errors)))
+        for err in errors:
+            print("parser error: {}".format(err))
+        assert False, "parser has {} errors".format(len(errors))
+
+
+def assert_integer_literal(exp, value):
+    assert isinstance(exp, IntegerLiteral), "exp is not IntegerLiteral. got={}".format(type(exp))
+    assert exp.value == value, "exp.value is not {}. got={}".format(value, exp.value)
+    assert exp.token_literal() == str(value), "exp.token_literal is not {}. got={}".format(value, exp.token_literal())

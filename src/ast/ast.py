@@ -34,9 +34,6 @@ class Program(Node):
             out += str(s)
         return out
 
-
-### Let statement
-
 class LetStatement(Node):
     def __init__(self, token, identifier, value_exp):
         self.token = token  # Token.LET
@@ -56,9 +53,6 @@ class LetStatement(Node):
     def statement_node(self):
         pass
 
-
-## Identifier
-
 class Identifier(Expression):
     def __init__(self, token, value):
         self.token = token
@@ -73,8 +67,6 @@ class Identifier(Expression):
     def __str__(self):
         return self.value
 
-
-## Returns
 
 class ReturnStatement(Statement):
     def __init__(self, token, return_value):
@@ -97,8 +89,6 @@ class ReturnStatement(Statement):
     def __str__(self):
         return self.token_literal() + " " + self.return_value + ";"
 
-
-## Expressions
 class ExpressionStatement(Statement):
     def __init__(self, token, expression):
         self.token = token  # the first token of the expression
@@ -121,7 +111,6 @@ class ExpressionStatement(Statement):
         return ""
 
 
-# Literals
 class IntegerLiteral(Expression):
     def __init__(self, token, value):
         self.token = token
@@ -135,8 +124,6 @@ class IntegerLiteral(Expression):
 
     def __str__(self):
         return self.token.literal
-
-    # PrefixExpression
 
 
 class PrefixExpression(Expression):
@@ -242,3 +229,22 @@ class FunctionLiteral(Expression):
         for p in self.parameters:
             params.append(str(p))
         return self.token_literal() + "(" + ", ".join(params) + ") " + str(self.body)
+
+
+class CallExpression(Expression):
+    def __init__(self, token, function, arguments):
+        self.token = token
+        self.function = function
+        self.arguments = arguments
+
+    def expression_node(self):
+        pass
+
+    def token_literal(self):
+        return self.token.literal
+
+    def __str__(self):
+        args = []
+        for a in self.arguments:
+            args.append(str(a))
+        return str(self.function) + "(" + ", ".join(args) + ")"

@@ -1,6 +1,7 @@
 from distutils.sysconfig import PREFIX
 
-from src.ast.ast import BlockStatement, Boolean, ExpressionStatement, FunctionLiteral, Identifier, IfExpression, \
+from src.ast.ast import BlockStatement, Boolean, CallExpression, ExpressionStatement, FunctionLiteral, Identifier, \
+    IfExpression, \
     InfixExpression, IntegerLiteral, LetStatement, PrefixExpression, Program, ReturnStatement
 from src.token import Token
 from src.trace import trace, untrace
@@ -24,6 +25,7 @@ class Parser():
         Token.MINUS: SUM,
         Token.SLASH: PRODUCT,
         Token.ASTERISK: PRODUCT,
+        Token.LPAREN: CALL,
     }
 
     def __init__(self, lexer):
@@ -42,7 +44,6 @@ class Parser():
         self.reg_prefix(token_type=Token.LPAREN, fn=self.parse_grouped_expression)
         self.reg_prefix(token_type=Token.IF, fn=self.parse_if_expression)
         self.reg_prefix(token_type=Token.FUNCTION, fn=self.parse_function_literal)
-
         self.infixParseFns = {}
         self.reg_infix(token_type=Token.PLUS, fn=self.parse_infix_expression)
         self.reg_infix(token_type=Token.MINUS, fn=self.parse_infix_expression)
@@ -52,10 +53,34 @@ class Parser():
         self.reg_infix(token_type=Token.NOT_EQ, fn=self.parse_infix_expression)
         self.reg_infix(token_type=Token.LT, fn=self.parse_infix_expression)
         self.reg_infix(token_type=Token.GT, fn=self.parse_infix_expression)
+        self.reg_infix(token_type=Token.LPAREN, fn=self.parse_call_expression)
 
         # Read two tokens, so curToken and peekToken are both set
         self.next_token()
         self.next_token()
+
+    def parse_call_expression(self, func):
+        exp = CallExpression(self.cur_token, func, None)
+        exp.arguments = self.parse_call_arguments()
+        return exp
+
+    def parse_call_arguments(self):
+        args = []
+        if self.peek_token_is(Token.RPAREN):
+            self.next_token()
+            return []
+        self.next_token()
+        args.append(self.parse_expression(self.LOWEST))
+
+        while self.peek_token_is(Token.COMMA):
+            self.next_token()
+            self.next_token()
+            args.append(self.parse_expression(self.LOWEST))
+
+        if not self.expect_peek(Token.RPAREN):
+            return None
+
+        return args
 
     def parse_function_literal(self):
         lit = FunctionLiteral(token=self.cur_token)
@@ -174,15 +199,17 @@ class Parser():
     def parse_let_statement(self):
         trace('parse_let_statement:start')
         stmt = LetStatement(token=self.cur_token, identifier=None, value_exp=None)
-        if self.expect_peek(Token.IDENT) == False:
+        if not self.expect_peek(Token.IDENT):
             return None
 
         stmt.name = Identifier(self.cur_token, self.cur_token.literal)
-        if self.expect_peek(Token.ASSIGN) == False:
+        if not self.expect_peek(Token.ASSIGN):
             return None
+        self.next_token()
 
-        # TODO: We're skipping the expressions until we encounter a semicolon
-        while self.cur_token_is(Token.SEMICOLON) == False:
+        stmt.value = self.parse_expression(self.LOWEST)
+
+        while not self.cur_token_is(Token.SEMICOLON):
             self.next_token()
         untrace('parse_let_statement:end')
         return stmt
@@ -191,8 +218,8 @@ class Parser():
         trace('parse_return_statement:start')
         stmt = ReturnStatement(token=self.cur_token, return_value=None)
         self.next_token()
-        # TODO: We're skipping the expressions until we encounter a semicolon
-        while self.cur_token_is(Token.SEMICOLON) == False:
+        stmt.return_value = self.parse_expression(self.LOWEST)
+        while not self.cur_token_is(Token.SEMICOLON):
             self.next_token()
         untrace('parse_return_statement:end')
         return stmt
