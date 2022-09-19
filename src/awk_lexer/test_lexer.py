@@ -1,5 +1,5 @@
-from src.lexer import Lexer
-from src.tk import Tk
+from src.awk_lexer import Lexer
+from src.awk_tk import Tk
 
 
 def test_next_token():

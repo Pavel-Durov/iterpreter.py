@@ -1,5 +1,5 @@
-from src.lexer import Lexer
-from src.parser import Parser
+from src.awk_lexer import Lexer
+from src.awk_parser import Parser
 
 
 def test_string():

@@ -1,6 +1,4 @@
-from distutils.sysconfig import PREFIX
-
-from src.ast.ast import (
+from src.awk_ast import (
     BlockStatement,
     Boolean,
     CallExpression,
@@ -15,8 +13,8 @@ from src.ast.ast import (
     Program,
     ReturnStatement,
 )
-from src.tk import Tk
-from src.trace import trace, untrace
+from src.awk_tk import Tk
+from src.awk_trace import trace, untrace
 
 
 class Parser:
@@ -211,7 +209,7 @@ class Parser:
         trace("parse_prefix_expression:start")
         exp = PrefixExpression(token=self.cur_token, operator=self.cur_token.literal)
         self.next_token()
-        exp.right = self.parse_expression(PREFIX)
+        exp.right = self.parse_expression(self.PREFIX)
         untrace("parse_prefix_expression:end")
         return exp
 
@@ -263,10 +261,7 @@ class Parser:
             self.on_prefix_parse_fn_error(self.cur_token.type)
             return None
         left_exp = prefix()
-        while (
-            self.peek_token_is(Tk.SEMICOLON) == False
-            and precedence < self.peek_precedence()
-        ):
+        while (self.peek_token_is(Tk.SEMICOLON) == False and precedence < self.peek_precedence()):
             infix = self.infixParseFns[self.peek_token.type]
             if infix == None:
                 return left_exp
