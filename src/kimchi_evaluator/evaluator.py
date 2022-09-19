@@ -1,5 +1,5 @@
 import src.kimchi_object.object as obj
-from src.kimchi_ast.ast import BlockStatement, ExpressionStatement, Identifier, IfExpression, InfixExpression, \
+from src.kimchi_ast.ast import BlockStatement, ExpressionStatement, FunctionLiteral, Identifier, IfExpression, InfixExpression, \
     IntegerLiteral, LetStatement, \
     PrefixExpression, Program, Boolean, ReturnStatement
 
@@ -22,8 +22,9 @@ def eval(node, env):
     elif isinstance(node, BlockStatement):
         return eval_block_statement(node, env)
 
-    # expressions
-    if isinstance(node, IntegerLiteral):
+    elif isinstance(node, FunctionLiteral):
+        return obj.Function(node.parameters, node.body, env)
+    elif isinstance(node, IntegerLiteral):
         return obj.Integer(node.value)
     elif isinstance(node, LetStatement):
         val = eval(node.value, env)
