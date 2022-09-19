@@ -1,7 +1,21 @@
 import src.kimchi_object.object as obj
 from src.kimchi_evaluator import eval
 from src.kimchi_lexer import Lexer
+from src.kimchi_object.environment import Environment
 from src.kimchi_parser import Parser
+
+
+def test_let_statements():
+    tests = [
+        ("let a = 5; a;", 5),
+        ("let a = 5 * 5; a;", 25),
+        ("let a = 5; let b = a; b;", 5),
+        ("let a = 5; let b = a; let c = a + b + 5; c;", 15),
+    ]
+
+    for tt in tests:
+        evaluated = eval_test(tt[0])
+        assert_integer_object(evaluated, tt[1])
 
 
 def test_error_handling():
@@ -16,7 +30,8 @@ def test_error_handling():
           if (10 > 1) {
             return true + false;
           }
-        return 1; }""", "unknown operator: BOOLEAN + BOOLEAN")
+        return 1; }""", "unknown operator: BOOLEAN + BOOLEAN"),
+        ("foobar", "identifier not found: foobar")
     ]
 
     for tt in tests:
@@ -137,7 +152,7 @@ def eval_test(str):
     lexer = Lexer(str)
     parser = Parser(lexer)
     program = parser.parse_program()
-    return eval(program)
+    return eval(program, Environment())
 
 
 def assert_integer_object(obj, expected):

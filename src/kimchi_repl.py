@@ -2,10 +2,13 @@ import os
 
 from src.kimchi_evaluator import eval
 from src.kimchi_lexer import Lexer
+from src.kimchi_object import Environment
 from src.kimchi_parser import Parser
 
 
 def main():
+    env = Environment()
+
     while True:
         s = raw_input("> ")
 
@@ -19,7 +22,7 @@ def main():
             print_parse_errors(p.errors)
             continue
 
-        evaluated = eval(prog)
+        evaluated = eval(prog, env)
         if evaluated != None:
             os.write(1, evaluated.inspect())
             os.write(1, "\n")
