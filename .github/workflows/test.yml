@@ -28,5 +28,6 @@ jobs:
       run: make get-pypy
     - name: Test with pytest
       run: |
-        conda install pytest
-        source .envrc && pytest ./src
+        pip install -r ./requirments.tx
+        which pip
+        source .envrc && py.test ./src
