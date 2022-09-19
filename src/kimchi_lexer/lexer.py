@@ -1,4 +1,4 @@
-from src.awk_tk import Tk
+from src.kimchi_tk import Tk
 
 
 class Lexer:

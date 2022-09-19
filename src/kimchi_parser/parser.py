@@ -1,4 +1,4 @@
-from src.awk_ast import (
+from src.kimchi_ast import (
     BlockStatement,
     Boolean,
     CallExpression,
@@ -13,8 +13,8 @@ from src.awk_ast import (
     Program,
     ReturnStatement,
 )
-from src.awk_tk import Tk
-from src.awk_trace import trace, untrace
+from src.kimchi_tk import Tk
+from src.kimchi_trace import trace, untrace
 
 
 class Parser:

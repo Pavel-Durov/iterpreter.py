@@ -28,5 +28,5 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
-        name: awk_vm-c-no-jit
-        path: ./awk_vm-c
+        name: kimnchi-c-no-jit
+        path: ./kimnchi-c

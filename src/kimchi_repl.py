@@ -1,7 +1,7 @@
 import os
-from src.awk_lexer import Lexer
-from src.awk_parser import Parser
-from src.awk_tk import Tk
+from src.kimchi_lexer import Lexer
+from src.kimchi_parser import Parser
+from src.kimchi_tk import Tk
 
 
 def main():

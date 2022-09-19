@@ -1,4 +1,4 @@
-from src.awk_ast import (
+from src.kimchi_ast import (
     Boolean,
     CallExpression,
     ExpressionStatement,
@@ -11,8 +11,8 @@ from src.awk_ast import (
     ReturnStatement,
     Expression,
 )
-from src.awk_lexer import Lexer
-from src.awk_parser import Parser
+from src.kimchi_lexer import Lexer
+from src.kimchi_parser import Parser
 
 
 def test_let_statement():
