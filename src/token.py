@@ -26,12 +26,12 @@ class Token:
     LET = "LET"
 
     # Operators
-    ASSIGN   = "="
-    PLUS     = "+"
-    MINUS    = "-"
-    BANG     = "!"
+    ASSIGN = "="
+    PLUS = "+"
+    MINUS = "-"
+    BANG = "!"
     ASTERISK = "*"
-    SLASH    = "/"
+    SLASH = "/"
     LT = "<"
     GT = ">"
     # Keywords
@@ -60,12 +60,10 @@ class Token:
         self.type = type
         self.literal = literal
 
-
     def lookup_ident(self, ident):
         if ident in self.keywords:
             return self.keywords[ident]
         return self.IDENT
-
 
     def __str__(self):
         return "[Token(" + self.type + ", " + self.literal + ")]"
