@@ -1,4 +1,4 @@
-from src.lexer import Lexer
+from src.awk_lexer import Lexer
 
 
 def entry_point(argv):

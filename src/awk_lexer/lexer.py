@@ -1,4 +1,4 @@
-from src.tk import Tk
+from src.awk_tk import Tk
 
 
 class Lexer:

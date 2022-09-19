@@ -23,10 +23,10 @@ clean-env:
 	conda env remove -n interpreter-py
 
 repl:
-	PYTHONPATH=$(PYTHONPATH) python ./src/repl.py
+	PYTHONPATH=$(PYTHONPATH) python ./src/awk_repl.py
 
 translate:
-	PYTHONPATH=$(PYTHONPATH) python .pypy/rpython/translator/goal/translate.py ${PWD}/src/main.py
+	PYTHONPATH=$(PYTHONPATH) python .pypy/rpython/translator/goal/translate.py ${PWD}/src/awk_main.py
 
 get-pypy:
 	wget https://downloads.python.org/pypy/$(PYPY_VERSION_ARTIFACT).tar.bz2
