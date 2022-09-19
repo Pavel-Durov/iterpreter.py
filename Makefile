@@ -11,7 +11,7 @@ run:
 	PYTHONPATH=$(PYTHONPATH) python ./src/main.py
 
 test: 
-	py.test-2.7 ./src
+	pytest ./test
 
 init-env: 
 	conda env create -f environment.yml
