@@ -1,5 +1,5 @@
 from src.lexer import Lexer
-from src.token import Token
+from src.tk import Tk
 
 
 def main():
@@ -11,7 +11,7 @@ def main():
         lex = Lexer(s)
         tk = lex.next_token()
 
-        while tk.type != Token.EOF:
+        while tk.type != Tk.EOF:
             print(tk)
             tk = lex.next_token()
 

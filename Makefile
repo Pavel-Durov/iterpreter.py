@@ -22,6 +22,6 @@ run:
 	PYTHONPATH=$(PYTHONPATH) python ./src/main.py
 
 test: 
-	pytest ./src
+	# pytest ./src
 	# TODO: fix local machine error
-	# ~/opt/anaconda3/envs/interpreter-py/bin/py.test ./src
+	~/opt/anaconda3/envs/interpreter-py/bin/py.test ./src

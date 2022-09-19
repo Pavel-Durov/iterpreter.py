@@ -1,4 +1,4 @@
-from src.token import Token
+from src.tk import Tk
 
 
 class Lexer:
@@ -22,64 +22,64 @@ class Lexer:
             self.read_char()
 
     def next_token(self):
-        tok = Token(None, None)
+        tok = Tk(None, None)
         self.skip_whitespace()
 
         if self.ch == ";":
-            tok = Token(Token.SEMICOLON, self.ch)
+            tok = Tk(Tk.SEMICOLON, self.ch)
         elif self.ch == "(":
-            tok = Token(Token.LPAREN, self.ch)
+            tok = Tk(Tk.LPAREN, self.ch)
         elif self.ch == ")":
-            tok = Token(Token.RPAREN, self.ch)
+            tok = Tk(Tk.RPAREN, self.ch)
         elif self.ch == ",":
-            tok = Token(Token.COMMA, self.ch)
+            tok = Tk(Tk.COMMA, self.ch)
         elif self.ch == "+":
-            tok = Token(Token.PLUS, self.ch)
+            tok = Tk(Tk.PLUS, self.ch)
         elif self.ch == "{":
-            tok = Token(Token.LBRACE, self.ch)
+            tok = Tk(Tk.LBRACE, self.ch)
         elif self.ch == "}":
-            tok = Token(Token.RBRACE, self.ch)
+            tok = Tk(Tk.RBRACE, self.ch)
         elif self.ch == "+":
-            tok = Token(Token.PLUS, self.ch)
+            tok = Tk(Tk.PLUS, self.ch)
         elif self.ch == "-":
-            tok = Token(Token.MINUS, self.ch)
+            tok = Tk(Tk.MINUS, self.ch)
         elif self.ch == "/":
-            tok = Token(Token.SLASH, self.ch)
+            tok = Tk(Tk.SLASH, self.ch)
         elif self.ch == "*":
-            tok = Token(Token.ASTERISK, self.ch)
+            tok = Tk(Tk.ASTERISK, self.ch)
         elif self.ch == "<":
-            tok = Token(Token.LT, self.ch)
+            tok = Tk(Tk.LT, self.ch)
         elif self.ch == ">":
-            tok = Token(Token.GT, self.ch)
+            tok = Tk(Tk.GT, self.ch)
         elif self.ch == ";":
-            tok = Token(Token.SEMICOLON, self.ch)
+            tok = Tk(Tk.SEMICOLON, self.ch)
         elif self.ch == ",":
-            tok = Token(Token.COMMA, self.ch)
+            tok = Tk(Tk.COMMA, self.ch)
         elif self.ch == "":
-            tok = Token(Token.EOF, "")
+            tok = Tk(Tk.EOF, "")
         elif self.ch == "=":
             if self.peek_char() == "=":
                 ch = self.ch
                 self.read_char()
-                tok = Token(Token.EQ, ch + self.ch)
+                tok = Tk(Tk.EQ, ch + self.ch)
             else:
-                tok = Token(Token.ASSIGN, self.ch)
+                tok = Tk(Tk.ASSIGN, self.ch)
         elif self.ch == "!":
             if self.peek_char() == "=":
                 ch = self.ch
                 self.read_char()
-                tok = Token(Token.NOT_EQ, ch + self.ch)
+                tok = Tk(Tk.NOT_EQ, ch + self.ch)
             else:
-                tok = Token(Token.BANG, self.ch)
+                tok = Tk(Tk.BANG, self.ch)
         else:
             if self.is_letter(self.ch):
                 literal = self.read_identifier()
                 type = tok.lookup_ident(literal)
-                return Token(type, literal)
+                return Tk(type, literal)
             elif self.is_digit(self.ch):
-                return Token(Token.INT, self.read_number())
+                return Tk(Tk.INT, self.read_number())
             else:
-                tok = Token(Token.ILLEGAL, self.ch)
+                tok = Tk(Tk.ILLEGAL, self.ch)
         self.read_char()
         return tok
 

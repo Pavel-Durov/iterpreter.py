@@ -1,4 +1,4 @@
-class Token:
+class Tk:
     FUNCTION = "function"
     LET = "let"
 
