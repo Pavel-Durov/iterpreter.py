@@ -1,6 +1,48 @@
 from src.kimchi_lexer import Lexer
 from src.kimchi_parser import Parser
 from src.kimchi_evaluator import eval
+import src.kimchi_object.object as obj
+
+def test_return_statements():
+    tests = [
+      ("return 10;", 10),
+      ("return 10; 9;", 10),
+      ("return 2 * 5; 9;", 10),
+      ("9; return 2 * 5; 9;", 10),
+      ("""
+        if (10 > 1) {
+            if (10 > 1) {
+              return 10;
+            }
+            return 1
+        }""", 10)
+    ]
+    
+    for tt in tests:
+        evaluated = eval_test(tt[0])
+        assert_integer_object(evaluated, tt[1])
+
+
+def test_of_else_expressions():
+    tests = [
+      ("if (true) { 10 }", 10),
+      ("if (false) { 10 }", None),
+      ("if (1) { 10 }", 10),
+      ("if (1 < 2) { 10 }", 10),
+      ("if (1 > 2) { 10 }", None),
+      ("if (1 > 2) { 10 } else { 20 }", 20),
+      ("if (1 < 2) { 10 } else { 20 }", 10),
+    ]
+    
+    for tt in tests:
+        evaluated = eval_test(tt[0])
+        if type(tt[1]) is int:
+          assert_integer_object(evaluated, tt[1])
+        else:
+          assert_null_object(evaluated)
+
+def assert_null_object(value):
+    assert isinstance(value, obj.Null)
 
 def test_eval_integer_expression():
     tests = [

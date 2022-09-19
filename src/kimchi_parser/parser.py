@@ -147,8 +147,8 @@ class Parser:
         block = BlockStatement(token=self.cur_token)
         self.next_token()
         while (
-            self.cur_token_is(Tk.RBRACE) == False
-            and self.cur_token_is(Tk.EOF) == False
+                self.cur_token_is(Tk.RBRACE) == False
+                and self.cur_token_is(Tk.EOF) == False
         ):
             stmt = self.parse_statement()
             block.statements.append(stmt)

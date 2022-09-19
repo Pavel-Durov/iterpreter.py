@@ -87,13 +87,13 @@ class Lexer:
         position = self.position
         while self.is_digit(self.ch):
             self.read_char()
-        return self.input[position : self.position]
+        return self.input[position: self.position]
 
     def read_identifier(self):
         position = self.position
         while self.is_letter(self.ch):
             self.read_char()
-        return self.input[position : self.position]
+        return self.input[position: self.position]
 
     def is_digit(self, ch):
         return "0" <= ch and ch <= "9"

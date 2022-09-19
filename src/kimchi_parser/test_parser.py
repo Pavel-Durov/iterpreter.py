@@ -27,7 +27,7 @@ def test_let_statement():
     assert_no_parser_errors(p.errors)
 
     assert (
-        len(prog.statements) == 3
+            len(prog.statements) == 3
     ), "prog.statements does not contain 3 statements. got={}".format(
         len(prog.statements)
     )
@@ -36,7 +36,7 @@ def test_let_statement():
     for i, tt in enumerate(tests):
         stmt = prog.statements[i]
         assert (
-            stmt.token_literal() == "let"
+                stmt.token_literal() == "let"
         ), "stmt.token_literal not 'let'. got={}".format(stmt.token_literal())
         assert stmt.name.value == tt, "stmt.name.value not '{}'. got={}".format(
             tt, stmt.name.value
@@ -58,7 +58,7 @@ def test_let_expressions():
         assert_no_parser_errors(p.errors)
 
         assert (
-            len(prog.statements) == 1
+                len(prog.statements) == 1
         ), "prog.statements does not contain 1 statements. got={}".format(
             len(prog.statements)
         )
@@ -80,7 +80,7 @@ def test_return_statement():
     assert_no_parser_errors(p.errors)
 
     assert (
-        len(prog.statements) == 3
+            len(prog.statements) == 3
     ), "prog.statements does not contain 3 statements. got={}".format(
         len(prog.statements)
     )
@@ -90,7 +90,7 @@ def test_return_statement():
             stmt, ReturnStatement
         ), "stmt is not ReturnStatement. got={}".format(type(stmt))
         assert (
-            stmt.token_literal() == "return"
+                stmt.token_literal() == "return"
         ), "stmt.token_literal not 'return'. got={}".format(stmt.token_literal())
 
 
@@ -110,7 +110,7 @@ def test_identifier_expression():
     assert_no_parser_errors(p.errors)
 
     assert (
-        len(prog.statements) == 1
+            len(prog.statements) == 1
     ), "prog.statements does not contain 1 statements. got={}".format(
         len(prog.statements)
     )
@@ -119,12 +119,12 @@ def test_identifier_expression():
         prog.statements[0], ExpressionStatement
     ), "prog.statements[0] is not Identifier. got={}".format(type(prog.statements[0]))
     assert (
-        prog.statements[0].expression.value == "foobar"
+            prog.statements[0].expression.value == "foobar"
     ), "prog.statements[0].value not {}. got={}".format(
         "foobar", prog.statements[0].value
     )
     assert (
-        prog.statements[0].token_literal() == "foobar"
+            prog.statements[0].token_literal() == "foobar"
     ), "prog.statements[0] not {}. got={}".format("foobar", prog.statements[0])
 
 
@@ -134,7 +134,7 @@ def test_integer_literal_expression():
     prog = p.parse_program()
     assert_no_parser_errors(p.errors)
     assert (
-        len(prog.statements) == 1
+            len(prog.statements) == 1
     ), "prog.statements does not contain 1 statements. got={}".format(
         len(prog.statements)
     )
@@ -148,10 +148,10 @@ def test_integer_literal_expression():
         type(prog.statements[0].expression)
     )
     assert (
-        prog.statements[0].expression.value == 6
+            prog.statements[0].expression.value == 6
     ), "prog.statements[0].value not {}. got={}".format(6, prog.statements[0].value)
     assert (
-        prog.statements[0].expression.token_literal() == "6"
+            prog.statements[0].expression.token_literal() == "6"
     ), "prog.statements[0] not {}. got={}".format(6, prog.statements[0])
 
 
@@ -168,7 +168,7 @@ def test_parsing_prefix_expressions():
         prog = p.parse_program()
         assert_no_parser_errors(p.errors)
         assert (
-            len(prog.statements) == 1
+                len(prog.statements) == 1
         ), "prog.statements does not contain 1 statements. got={}".format(
             len(prog.statements)
         )
@@ -183,7 +183,7 @@ def test_parsing_prefix_expressions():
             type(prog.statements[0].expression)
         )
         assert (
-            prog.statements[0].expression.operator == t[1]
+                prog.statements[0].expression.operator == t[1]
         ), "prog.statements[0].expression.operator is not {}. got={}".format(
             t[1], prog.statements[0].expression.operator
         )
@@ -209,7 +209,7 @@ def test_parsing_infix_expressions():
         prog = p.parse_program()
         assert_no_parser_errors(p.errors)
         assert (
-            len(prog.statements) == 1
+                len(prog.statements) == 1
         ), "prog.statements does not contain 1 statements. got={}".format(
             len(prog.statements)
         )
@@ -225,7 +225,7 @@ def test_parsing_infix_expressions():
         )
         assert_literal_expression(prog.statements[0].expression.left, t[1])
         assert (
-            prog.statements[0].expression.operator == t[2]
+                prog.statements[0].expression.operator == t[2]
         ), "prog.statements[0].expression.operator is not {}. got={}".format(
             t[2], prog.statements[0].expression.operator
         )
@@ -293,7 +293,7 @@ def test_boolean_expressions():
         prog = p.parse_program()
         assert_no_parser_errors(p.errors)
         assert (
-            len(prog.statements) == 1
+                len(prog.statements) == 1
         ), "prog.statements does not contain 1 statements. got={}".format(
             len(prog.statements)
         )
@@ -305,7 +305,7 @@ def test_boolean_expressions():
             stmt.expression, Expression
         ), "stmt.expression is not Expression. got={}".format(type(stmt.expression))
         assert (
-            stmt.expression.value == tt[1]
+                stmt.expression.value == tt[1]
         ), "stmt.expression.value is not {}. got={}".format(
             tt[1], stmt.expression.value
         )
@@ -317,7 +317,7 @@ def test_if_expression():
     prog = p.parse_program()
     assert_no_parser_errors(p.errors)
     assert (
-        len(prog.statements) == 1
+            len(prog.statements) == 1
     ), "prog.statements does not contain 1 statements. got={}".format(
         len(prog.statements)
     )
@@ -333,7 +333,7 @@ def test_if_expression():
     )
     assert_infix_expression(prog.statements[0].expression.condition, "x", "<", "y")
     assert (
-        len(prog.statements[0].expression.consequence.statements) == 1
+            len(prog.statements[0].expression.consequence.statements) == 1
     ), "consequence is not 1 statements. got={}".format(
         len(prog.statements[0].expression.consequence.statements)
     )
@@ -346,7 +346,7 @@ def test_if_expression():
         prog.statements[0].expression.consequence.statements[0].expression, "x"
     )
     assert (
-        prog.statements[0].expression.alternative is None
+            prog.statements[0].expression.alternative is None
     ), "prog.statements[0].expression.alternative.statements was not None. got={}".format(
         prog.statements[0].expression.alternative
     )
@@ -358,7 +358,7 @@ def test_if_else_expression():
     prog = p.parse_program()
     assert_no_parser_errors(p.errors)
     assert (
-        len(prog.statements) == 1
+            len(prog.statements) == 1
     ), "prog.statements does not contain 1 statements. got={}".format(
         len(prog.statements)
     )
@@ -374,7 +374,7 @@ def test_if_else_expression():
     )
     assert_infix_expression(prog.statements[0].expression.condition, "x", "<", "y")
     assert (
-        len(prog.statements[0].expression.consequence.statements) == 1
+            len(prog.statements[0].expression.consequence.statements) == 1
     ), "consequence is not 1 statements. got={}".format(
         len(prog.statements[0].expression.consequence.statements)
     )
@@ -387,7 +387,7 @@ def test_if_else_expression():
         prog.statements[0].expression.consequence.statements[0].expression, "x"
     )
     assert (
-        prog.statements[0].expression.alternative is not None
+            prog.statements[0].expression.alternative is not None
     ), "prog.statements[0].expression.alternative.statements was not None. got={}".format(
         prog.statements[0].expression.alternative
     )
@@ -400,7 +400,7 @@ def test_function_literal():
     assert_no_parser_errors(p.errors)
 
     assert (
-        len(prog.statements) == 1
+            len(prog.statements) == 1
     ), "prog.statements does not contain 1 statements. got={}".format(
         len(prog.statements)
     )
@@ -415,7 +415,7 @@ def test_function_literal():
         type(prog.statements[0].expression)
     )
     assert (
-        len(prog.statements[0].expression.parameters) == 2
+            len(prog.statements[0].expression.parameters) == 2
     ), "function literal parameters wrong. want 2, got={}".format(
         len(prog.statements[0].expression.parameters)
     )
@@ -423,7 +423,7 @@ def test_function_literal():
     assert_literal_expression(prog.statements[0].expression.parameters[1], "y")
 
     assert (
-        len(prog.statements[0].expression.body.statements) == 1
+            len(prog.statements[0].expression.body.statements) == 1
     ), "function body statements has not 1 statements. got={}".format(
         len(prog.statements[0].expression.body.statements)
     )
@@ -448,7 +448,7 @@ def test_function_parameter_parsing():
         prog = p.parse_program()
         assert_no_parser_errors(p.errors)
         assert (
-            len(prog.statements) == 1
+                len(prog.statements) == 1
         ), "prog.statements does not contain 1 statements. got={}".format(
             len(prog.statements)
         )
@@ -479,7 +479,7 @@ def test_call_expression():
     prog = p.parse_program()
     assert_no_parser_errors(p.errors)
     assert (
-        len(prog.statements) == 1
+            len(prog.statements) == 1
     ), "prog.statements does not contain 1 statements. got={}".format(
         len(prog.statements)
     )
@@ -492,7 +492,7 @@ def test_call_expression():
     ), "stmt.expression is not CallExpression. got={}".format(type(stmt.expression))
     assert_identifier(stmt.expression.function, "add")
     assert (
-        len(stmt.expression.arguments) == 3
+            len(stmt.expression.arguments) == 3
     ), "wrong length of arguments. got={}".format(len(stmt.expression.arguments))
     assert_literal_expression(stmt.expression.arguments[0], 1)
     assert_infix_expression(stmt.expression.arguments[1], 2, "*", 3)
@@ -526,7 +526,7 @@ def assert_boolean_literal(exp, expected):
         expected, exp.value
     )
     assert (
-        exp.token_literal() == str(expected).lower()
+            exp.token_literal() == str(expected).lower()
     ), "exp.token_literal is not {}. got={}".format(expected, exp.token_literal())
 
 
