@@ -1,5 +1,5 @@
 from distutils.sysconfig import PREFIX
-from src.ast.ast import Boolean, ExpressionStatement, Identifier, InfixExpression, IntegerLiteral, LetStatement, PrefixExpression, Program, ReturnStatement
+from src.ast.ast import BlockStatement, Boolean, ExpressionStatement, Identifier, IfExpression, InfixExpression, IntegerLiteral, LetStatement, PrefixExpression, Program, ReturnStatement
 from src.token import Token
 from src.trace import trace, untrace
 
@@ -38,6 +38,7 @@ class Parser():
         self.reg_prefix(token_type=Token.TRUE, fn=self.parse_boolean)
         self.reg_prefix(token_type=Token.FALSE, fn=self.parse_boolean)
         self.reg_prefix(token_type=Token.LPAREN, fn=self.parse_grouped_expression)
+        self.reg_prefix(token_type=Token.IF, fn=self.parse_if_expression)
 
 
         self.infixParseFns = {}
@@ -55,6 +56,39 @@ class Parser():
         # Read two tokens, so curToken and peekToken are both set
         self.next_token()
         self.next_token()
+
+    def parse_if_expression(self):
+        exp = IfExpression(token=self.cur_token)
+        if self.expect_peek(Token.LPAREN) == False:
+            return None
+        self.next_token()
+        exp.condition = self.parse_expression(self.LOWEST)
+        if self.expect_peek(Token.RPAREN) == False:
+            return None
+        if self.expect_peek(Token.LBRACE) == False:
+            return None
+        exp.consequence = self.parse_block_statement()
+
+        if self.cur_token_is(Token.ELSE):
+            print("@@@", "ELSE")
+    
+            if self.expect_peek(Token.LBRACE) is False:
+                return None
+            exp.alternative = self.parse_block_statement()
+            # TODO: this might be needed as it diverges from the book
+            # self.next_token()
+        return exp
+    
+    def parse_block_statement(self):
+        block = BlockStatement(token=self.cur_token)
+        self.next_token()
+        while self.cur_token_is(Token.RBRACE) == False and self.cur_token_is(Token.EOF) == False:
+            stmt = self.parse_statement()
+            block.statements.append(stmt)
+            self.next_token()
+        self.next_token()
+        return block
+
 
     def parse_grouped_expression(self):
         self.next_token()
@@ -184,7 +218,8 @@ class Parser():
 
     def parse_expression_statement(self):
         trace('parse_expression_statement:start')
-        stms = ExpressionStatement(token=self.cur_token, expression=self.parse_expression(self.LOWEST))
+        exp = self.parse_expression(self.LOWEST)
+        stms = ExpressionStatement(token=self.cur_token, expression=exp)
         if self.peek_token_is(Token.SEMICOLON):
             self.next_token()
         untrace('parse_expression_statement:end')
@@ -197,7 +232,6 @@ class Parser():
             return self.parse_return_statement()
         else:
             return self.parse_expression_statement()
-        return None
     
 
     def cur_token_is(self, token_type):

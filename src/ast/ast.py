@@ -188,3 +188,40 @@ class Boolean(Expression):
 
     def __str__(self):
         return self.token.literal
+
+class IfExpression(Expression):
+    def __init__(self, token=None, condition=None, consequence=None, alternative=None):
+        self.token = token
+        self.condition = condition
+        self.consequence = consequence # BlockStatement
+        self.alternative = alternative # BlockStatement
+
+    def expression_node(self):
+        pass
+
+    def token_literal(self):
+        return self.token.literal
+
+    def __str__(self):
+        out = "if" + str(self.condition) + " " + str(self.consequence)
+        if self.alternative != None:
+            out += "else " + str(self.alternative)
+        return out
+
+class BlockStatement(Statement):
+    def __init__(self, token):
+        self.token = token
+        self.statements = []
+
+    def token_literal(self):
+        return self.token.literal
+
+    def statement_node(self):
+        pass
+
+
+    def __str__(self):
+        out = ""
+        for s in self.statements:
+            out += str(s)
+        return out
