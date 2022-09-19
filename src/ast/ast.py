@@ -173,3 +173,18 @@ class InfixExpression(Expression):
 
     def __str__(self):
         return "(" + str(self.left) + " " + self.operator + " " + str(self.right) + ")"
+
+
+class Boolean(Expression):
+    def __init__(self, token, value):
+        self.token = token
+        self.value = value
+
+    def expression_node(self):
+        pass
+
+    def token_literal(self):
+        return self.token.literal
+
+    def __str__(self):
+        return self.token.literal

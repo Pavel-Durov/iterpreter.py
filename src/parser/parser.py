@@ -1,5 +1,5 @@
 from distutils.sysconfig import PREFIX
-from src.ast.ast import ExpressionStatement, Identifier, InfixExpression, IntegerLiteral, LetStatement, PrefixExpression, Program, ReturnStatement
+from src.ast.ast import Boolean, ExpressionStatement, Identifier, InfixExpression, IntegerLiteral, LetStatement, PrefixExpression, Program, ReturnStatement
 from src.token import Token
 from src.trace import trace, untrace
 
@@ -35,6 +35,10 @@ class Parser():
         self.reg_prefix(token_type=Token.INT, fn=self.parse_integer_literal)
         self.reg_prefix(token_type=Token.BANG, fn=self.parse_prefix_expression)
         self.reg_prefix(token_type=Token.MINUS, fn=self.parse_prefix_expression)
+        self.reg_prefix(token_type=Token.TRUE, fn=self.parse_boolean)
+        self.reg_prefix(token_type=Token.FALSE, fn=self.parse_boolean)
+        self.reg_prefix(token_type=Token.LPAREN, fn=self.parse_grouped_expression)
+
 
         self.infixParseFns = {}
         self.reg_infix(token_type=Token.PLUS, fn=self.parse_infix_expression)
@@ -52,9 +56,18 @@ class Parser():
         self.next_token()
         self.next_token()
 
+    def parse_grouped_expression(self):
+        self.next_token()
+        exp = self.parse_expression(self.LOWEST)
+        if self.expect_peek(Token.RPAREN) == False:
+            return None
+        return exp
+
+    def parse_boolean(self):
+        return Boolean(self.cur_token, self.cur_token_is(Token.TRUE))
 
     def parse_identifier(self):
-      return Identifier(self.cur_token, self.cur_token.literal)
+        return Identifier(self.cur_token, self.cur_token.literal)
 
 
     def reg_prefix(self, token_type, fn):
