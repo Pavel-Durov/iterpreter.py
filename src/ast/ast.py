@@ -1,4 +1,4 @@
-class Node():
+class Node:
     def __init__(self):
         pass
 
@@ -34,6 +34,7 @@ class Program(Node):
             out += str(s)
         return out
 
+
 class LetStatement(Node):
     def __init__(self, token, identifier, value_exp):
         self.token = token  # Token.LET
@@ -52,6 +53,7 @@ class LetStatement(Node):
 
     def statement_node(self):
         pass
+
 
 class Identifier(Expression):
     def __init__(self, token, value):
@@ -88,6 +90,7 @@ class ReturnStatement(Statement):
 
     def __str__(self):
         return self.token_literal() + " " + self.return_value + ";"
+
 
 class ExpressionStatement(Statement):
     def __init__(self, token, expression):

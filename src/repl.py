@@ -4,9 +4,9 @@ from src.token import Token
 
 def main():
     while True:
-        s = raw_input('>')
+        s = raw_input(">")
 
-        if s == '':
+        if s == "":
             break
         lex = Lexer(s)
         tk = lex.next_token()
@@ -16,5 +16,5 @@ def main():
             tk = lex.next_token()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

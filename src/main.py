@@ -3,7 +3,7 @@ from src.lexer import Lexer
 
 def entry_point(argv):
     print("Hello, world!")
-    Lexer('2+2=3')
+    Lexer("2+2=3")
     return 0
 
 

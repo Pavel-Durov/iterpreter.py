@@ -1,15 +1,27 @@
 from distutils.sysconfig import PREFIX
 
-from src.ast.ast import BlockStatement, Boolean, CallExpression, ExpressionStatement, FunctionLiteral, Identifier, \
-    IfExpression, \
-    InfixExpression, IntegerLiteral, LetStatement, PrefixExpression, Program, ReturnStatement
+from src.ast.ast import (
+    BlockStatement,
+    Boolean,
+    CallExpression,
+    ExpressionStatement,
+    FunctionLiteral,
+    Identifier,
+    IfExpression,
+    InfixExpression,
+    IntegerLiteral,
+    LetStatement,
+    PrefixExpression,
+    Program,
+    ReturnStatement,
+)
 from src.token import Token
 from src.trace import trace, untrace
 
 
-class Parser():
+class Parser:
     LOWEST = 0
-    EQUALS = 1  # == 
+    EQUALS = 1  # ==
     LESSGREATER = 2  # > or <
     SUM = 3  # +
     PRODUCT = 4  # *
@@ -136,7 +148,10 @@ class Parser():
     def parse_block_statement(self):
         block = BlockStatement(token=self.cur_token)
         self.next_token()
-        while self.cur_token_is(Token.RBRACE) == False and self.cur_token_is(Token.EOF) == False:
+        while (
+            self.cur_token_is(Token.RBRACE) == False
+            and self.cur_token_is(Token.EOF) == False
+        ):
             stmt = self.parse_statement()
             block.statements.append(stmt)
             self.next_token()
@@ -163,7 +178,9 @@ class Parser():
         self.infixParseFns[token_type] = fn
 
     def peek_error(self, token_type):
-        msg = "expected next token to be {}, got {} instead".format(token_type, self.peek_token.type)
+        msg = "expected next token to be {}, got {} instead".format(
+            token_type, self.peek_token.type
+        )
         self.errors.append(msg)
 
     def next_token(self):
@@ -180,24 +197,26 @@ class Parser():
         return prog
 
     def parse_infix_expression(self, left):
-        trace('parse_infix_expression:start')
-        exp = InfixExpression(token=self.cur_token, operator=self.cur_token.literal, left=left)
+        trace("parse_infix_expression:start")
+        exp = InfixExpression(
+            token=self.cur_token, operator=self.cur_token.literal, left=left
+        )
         precedence = self.cur_precedence()
         self.next_token()
         exp.right = self.parse_expression(precedence)
-        untrace('parse_infix_expression:end')
+        untrace("parse_infix_expression:end")
         return exp
 
     def parse_prefix_expression(self):
-        trace('parse_prefix_expression:start')
+        trace("parse_prefix_expression:start")
         exp = PrefixExpression(token=self.cur_token, operator=self.cur_token.literal)
         self.next_token()
         exp.right = self.parse_expression(PREFIX)
-        untrace('parse_prefix_expression:end')
+        untrace("parse_prefix_expression:end")
         return exp
 
     def parse_let_statement(self):
-        trace('parse_let_statement:start')
+        trace("parse_let_statement:start")
         stmt = LetStatement(token=self.cur_token, identifier=None, value_exp=None)
         if not self.expect_peek(Token.IDENT):
             return None
@@ -211,17 +230,17 @@ class Parser():
 
         while not self.cur_token_is(Token.SEMICOLON):
             self.next_token()
-        untrace('parse_let_statement:end')
+        untrace("parse_let_statement:end")
         return stmt
 
     def parse_return_statement(self):
-        trace('parse_return_statement:start')
+        trace("parse_return_statement:start")
         stmt = ReturnStatement(token=self.cur_token, return_value=None)
         self.next_token()
         stmt.return_value = self.parse_expression(self.LOWEST)
         while not self.cur_token_is(Token.SEMICOLON):
             self.next_token()
-        untrace('parse_return_statement:end')
+        untrace("parse_return_statement:end")
         return stmt
 
     def on_prefix_parse_fn_error(self, token_type):
@@ -238,39 +257,44 @@ class Parser():
         return self.LOWEST
 
     def parse_expression(self, precedence):
-        trace('parse_expression:start')
+        trace("parse_expression:start")
         prefix = self.prefixParseFns[self.cur_token.type]
         if prefix == None:
             self.on_prefix_parse_fn_error(self.cur_token.type)
             return None
         left_exp = prefix()
-        while self.peek_token_is(Token.SEMICOLON) == False and precedence < self.peek_precedence():
+        while (
+            self.peek_token_is(Token.SEMICOLON) == False
+            and precedence < self.peek_precedence()
+        ):
             infix = self.infixParseFns[self.peek_token.type]
             if infix == None:
                 return left_exp
             self.next_token()
             left_exp = infix(left_exp)
-        untrace('parse_expression:end')
+        untrace("parse_expression:end")
         return left_exp
 
     def parse_integer_literal(self):
-        trace('parse_integer_literal:start')
+        trace("parse_integer_literal:start")
         value = 0
         try:
             value = int(self.cur_token.literal)
         except ValueError:
-            self.errors.append("could not parse {} as integer".format(self.cur_token.literal))
+            self.errors.append(
+                "could not parse {} as integer".format(self.cur_token.literal)
+            )
             return None
-        untrace('parse_integer_literal:end')
+        untrace("parse_integer_literal:end")
         return IntegerLiteral(self.cur_token, value)
 
     def parse_expression_statement(self):
-        trace('parse_expression_statement:start')
+        trace("parse_expression_statement:start")
         exp = self.parse_expression(self.LOWEST)
         stms = ExpressionStatement(token=self.cur_token, expression=exp)
         if self.peek_token_is(Token.SEMICOLON):
             self.next_token()
-        untrace('parse_expression_statement:end')
+        untrace("parse_expression_statement:end")
         return stms
 
     def parse_statement(self):

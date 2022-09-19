@@ -39,33 +39,33 @@ class Lexer:
             tok = Token(Token.LBRACE, self.ch)
         elif self.ch == "}":
             tok = Token(Token.RBRACE, self.ch)
-        elif self.ch == '+':
+        elif self.ch == "+":
             tok = Token(Token.PLUS, self.ch)
-        elif self.ch == '-':
+        elif self.ch == "-":
             tok = Token(Token.MINUS, self.ch)
-        elif self.ch == '/':
+        elif self.ch == "/":
             tok = Token(Token.SLASH, self.ch)
-        elif self.ch == '*':
+        elif self.ch == "*":
             tok = Token(Token.ASTERISK, self.ch)
-        elif self.ch == '<':
+        elif self.ch == "<":
             tok = Token(Token.LT, self.ch)
-        elif self.ch == '>':
+        elif self.ch == ">":
             tok = Token(Token.GT, self.ch)
-        elif self.ch == ';':
+        elif self.ch == ";":
             tok = Token(Token.SEMICOLON, self.ch)
-        elif self.ch == ',':
+        elif self.ch == ",":
             tok = Token(Token.COMMA, self.ch)
         elif self.ch == "":
             tok = Token(Token.EOF, "")
         elif self.ch == "=":
-            if self.peek_char() == '=':
+            if self.peek_char() == "=":
                 ch = self.ch
                 self.read_char()
                 tok = Token(Token.EQ, ch + self.ch)
             else:
                 tok = Token(Token.ASSIGN, self.ch)
-        elif self.ch == '!':
-            if self.peek_char() == '=':
+        elif self.ch == "!":
+            if self.peek_char() == "=":
                 ch = self.ch
                 self.read_char()
                 tok = Token(Token.NOT_EQ, ch + self.ch)
@@ -87,16 +87,16 @@ class Lexer:
         position = self.position
         while self.is_digit(self.ch):
             self.read_char()
-        return self.input[position: self.position]
+        return self.input[position : self.position]
 
     def read_identifier(self):
         position = self.position
         while self.is_letter(self.ch):
             self.read_char()
-        return self.input[position: self.position]
+        return self.input[position : self.position]
 
     def is_digit(self, ch):
-        return '0' <= ch and ch <= '9'
+        return "0" <= ch and ch <= "9"
         # raise Exception("Oi! You need to implement this method!")
 
     def is_letter(self, ch):
