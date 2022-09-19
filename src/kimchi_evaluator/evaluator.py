@@ -11,15 +11,15 @@ def eval(node):
     # statements
     if isinstance(node, Program):
         return eval_program(node)
-
-    if isinstance(node, ExpressionStatement):
+    elif isinstance(node, ExpressionStatement):
         return eval(node.expression)
-
-    if isinstance(node, ReturnStatement):
+    elif isinstance(node, ReturnStatement):
         val = eval(node.return_value)
         if isinstance(val, obj.Error):
             return val
         return obj.ReturnValue(val)
+    elif isinstance(node, BlockStatement):
+        return eval_block_statement(node)
 
     # expressions
     if isinstance(node, IntegerLiteral):
@@ -39,8 +39,7 @@ def eval(node):
         if isinstance(right, obj.Error):
             return right
         return eval_infix_expression(node.operator, left, right)
-    elif isinstance(node, BlockStatement):
-        return eval_block_statement(node)
+    
     elif isinstance(node, IfExpression):
         return eval_if_expression(node)
 
