@@ -1,2 +1,2 @@
 from .environment import Environment
-from .object import Boolean, Error, Function, Integer, Null, ReturnValue
+from .object import Boolean, Error, Function, Integer, Null, ReturnValue, Builtin, String

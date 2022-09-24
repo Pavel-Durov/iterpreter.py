@@ -1,4 +1,3 @@
-import re
 from src.kimchi_ast import (
     BlockStatement,
     Boolean,
@@ -71,11 +70,10 @@ class Parser:
         # Read two tokens, so curToken and peekToken are both set
         self.next_token()
         self.next_token()
-    
+
     def parse_string_literal(self):
         return StringLiteral(self.cur_token, self.cur_token.literal)
-    
-    
+
     def parse_call_expression(self, func):
         exp = CallExpression(self.cur_token, func, None)
         exp.arguments = self.parse_call_arguments()
@@ -154,8 +152,7 @@ class Parser:
         block = BlockStatement(token=self.cur_token)
         self.next_token()
         while (
-                self.cur_token_is(Tk.RBRACE) == False
-                and self.cur_token_is(Tk.EOF) == False
+                self.cur_token_is(Tk.RBRACE) == False and self.cur_token_is(Tk.EOF) == False
         ):
             stmt = self.parse_statement()
             block.statements.append(stmt)

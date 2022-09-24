@@ -6,6 +6,7 @@ class Object():
     ERROR_OBJ = "ERROR"
     FUNCTION_OBJ = "FUNCTION"
     STRING_OBJECT = "STRING"
+    BUILTIN_OBJ = "BUILTIN"
 
     def type():
         pass
@@ -98,6 +99,7 @@ class Function(Object):
         out += "\n}"
         return out
 
+
 class String(Object):
     def __init__(self, value):
         self.value = value
@@ -107,6 +109,20 @@ class String(Object):
 
     def inspect(self):
         return self.value
+
+    def __str__(self):
+        return self.inspect()
+
+
+class Builtin(Object):
+    def __init__(self, fn):
+        self.fn = fn
+
+    def type(self):
+        return Object.BUILTIN_OBJ
+
+    def inspect(self):
+        return "builtin function"
 
     def __str__(self):
         return self.inspect()

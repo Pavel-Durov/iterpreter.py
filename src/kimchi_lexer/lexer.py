@@ -84,6 +84,7 @@ class Lexer:
                 tok = Tk(Tk.ILLEGAL, self.ch)
         self.read_char()
         return tok
+
     def read_string(self):
         position = self.position + 1
         while True:
@@ -91,7 +92,7 @@ class Lexer:
             if self.ch == "\"" or self.ch == "":
                 break
         return self.input[position: self.position]
-        
+
     def read_number(self):
         position = self.position
         while self.is_digit(self.ch):

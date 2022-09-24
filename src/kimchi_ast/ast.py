@@ -265,4 +265,4 @@ class StringLiteral(Expression):
         return self.token.literal
 
     def __str__(self):
-      return self.token.literal
+        return self.token.literal
