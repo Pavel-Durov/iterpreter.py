@@ -266,3 +266,37 @@ class StringLiteral(Expression):
 
     def __str__(self):
         return self.token.literal
+
+
+class IndexExpression(Expression):
+    def __init__(self, token, left, index):
+        self.token = token
+        self.left = left
+        self.index = index
+
+    def expression_node(self):
+        pass
+
+    def token_literal(self):
+        return self.token.literal
+
+    def __str__(self):
+        return "(" + str(self.left) + "[" + str(self.index) + "])"
+
+class ArrayLiteral(Expression):
+    def __init__(self, token, elements):
+        self.token = token
+        self.elements = elements
+
+    def expression_node(self):
+        pass
+
+    def token_literal(self):
+        return self.token.literal
+
+    def __str__(self):
+        elements = []
+        for e in self.elements:
+            elements.append(str(e))
+        return "[" + ", ".join(elements) + "]"
+

@@ -37,6 +37,10 @@ class Lexer:
             tok = Tk(Tk.PLUS, self.ch)
         elif self.ch == "{":
             tok = Tk(Tk.LBRACE, self.ch)
+        elif self.ch == "[":
+            tok = Tk(Tk.LBRACKET, self.ch)
+        elif self.ch == "]":
+            tok = Tk(Tk.RBRACKET, self.ch)
         elif self.ch == "}":
             tok = Tk(Tk.RBRACE, self.ch)
         elif self.ch == "+":

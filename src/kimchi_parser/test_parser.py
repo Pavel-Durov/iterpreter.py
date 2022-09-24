@@ -1,4 +1,4 @@
-from src.kimchi_ast import (
+from src.kimchi_ast.ast import (
     Boolean,
     CallExpression,
     ExpressionStatement,
@@ -10,10 +10,34 @@ from src.kimchi_ast import (
     LetStatement,
     ReturnStatement,
     Expression,
+    IndexExpression,
+    StringLiteral,
 )
-from src.kimchi_ast.ast import StringLiteral
+
 from src.kimchi_lexer import Lexer
 from src.kimchi_parser import Parser
+
+
+def test_parsing_index_expression():
+    input = "myArray[1 + 1];"
+    p = Parser(Lexer(input))
+    prog = p.parse_program()
+    assert_no_parser_errors(p.errors)
+    assert isinstance(prog.statements[0], ExpressionStatement)
+    assert isinstance(prog.statements[0].expression, IndexExpression)
+    assert_infix_expression(prog.statements[0].expression.index, 1, "+", 1)
+
+
+def test_parsing_array_literals():
+    input = "[1,2*2,3+3];"
+    p = Parser(Lexer(input))
+    prog = p.parse_program()
+    assert_no_parser_errors(p.errors)
+    assert isinstance(prog.statements[0], ExpressionStatement)
+    assert len(prog.statements[0].expression.elements) == 3
+    assert_integer_literal(prog.statements[0].expression.elements[0], 1)
+    assert_infix_expression(prog.statements[0].expression.elements[1], 2, "*", 2)
+    assert_infix_expression(prog.statements[0].expression.elements[2], 3, "+", 3)
 
 
 def test_string_literal_expression():
@@ -285,6 +309,8 @@ def test_operator_precedence():
             "add(a, b, 1, (2 * 3), (4 + 5), add(6, (7 * 8)))",
         ),
         ("add(a + b + c * d / f + g)", "add((((a + b) + ((c * d) / f)) + g))"),
+        ("a * [ 1, 2, 3, 4 ][ b * c ] * d ", "((a * ([1, 2, 3, 4][(b * c)])) * d)"),
+        ("add( a * b[2], b[1], 2 * [1,2][1])", "add((a * (b[2])), (b[1]), (2 * ([1, 2][1])))"),
     ]
     for t in tests:
         p = Parser(Lexer(t[0]))
@@ -317,9 +343,7 @@ def test_boolean_expressions():
         assert isinstance(
             stmt.expression, Expression
         ), "stmt.expression is not Expression. got={}".format(type(stmt.expression))
-        assert (
-                stmt.expression.value == tt[1]
-        ), "stmt.expression.value is not {}. got={}".format(
+        assert (stmt.expression.value == tt[1]), "stmt.expression.value is not {}. got={}".format(
             tt[1], stmt.expression.value
         )
 

@@ -1,4 +1,4 @@
-from src.kimchi_ast import (
+from src.kimchi_ast.ast import (
     BlockStatement,
     Boolean,
     CallExpression,
@@ -12,8 +12,11 @@ from src.kimchi_ast import (
     PrefixExpression,
     Program,
     ReturnStatement,
+    ArrayLiteral,
+    StringLiteral,
+    IndexExpression
 )
-from src.kimchi_ast.ast import StringLiteral
+
 from src.kimchi_tk import Tk
 from src.kimchi_trace import trace, untrace
 
@@ -26,6 +29,7 @@ class Parser:
     PRODUCT = 4  # *
     PREFIX = 5  # -X or !X
     CALL = 6  # myFunction(X)
+    INDEX = 8  # [0]
 
     precedences = {
         Tk.EQ: EQUALS,
@@ -37,6 +41,7 @@ class Parser:
         Tk.SLASH: PRODUCT,
         Tk.ASTERISK: PRODUCT,
         Tk.LPAREN: CALL,
+        Tk.LBRACKET: INDEX
     }
 
     def __init__(self, lexer):
@@ -56,7 +61,10 @@ class Parser:
         self.reg_prefix(token_type=Tk.IF, fn=self.parse_if_expression)
         self.reg_prefix(token_type=Tk.FUNCTION, fn=self.parse_function_literal)
         self.reg_prefix(token_type=Tk.STRING, fn=self.parse_string_literal)
+        self.reg_prefix(token_type=Tk.LBRACKET, fn=self.parse_array_literal)
+
         self.infixParseFns = {}
+
         self.reg_infix(token_type=Tk.PLUS, fn=self.parse_infix_expression)
         self.reg_infix(token_type=Tk.MINUS, fn=self.parse_infix_expression)
         self.reg_infix(token_type=Tk.SLASH, fn=self.parse_infix_expression)
@@ -66,10 +74,42 @@ class Parser:
         self.reg_infix(token_type=Tk.LT, fn=self.parse_infix_expression)
         self.reg_infix(token_type=Tk.GT, fn=self.parse_infix_expression)
         self.reg_infix(token_type=Tk.LPAREN, fn=self.parse_call_expression)
-
+        self.reg_infix(token_type=Tk.LBRACKET, fn=self.parse_index_expression)
         # Read two tokens, so curToken and peekToken are both set
         self.next_token()
         self.next_token()
+
+    def parse_index_expression(self, left):
+        self.next_token()
+        index = self.parse_expression(self.LOWEST)
+        exp = IndexExpression(self.cur_token, left, index)
+
+        if not self.expect_peek(Tk.RBRACKET):
+            return None
+        return exp
+
+    def parse_array_literal(self):
+        return ArrayLiteral(self.cur_token, self.parse_expression_list(Tk.RBRACKET))
+
+    def parse_expression_list(self, end):
+        expressions = []
+        if self.peek_token_is(end):
+            self.next_token()
+            return expressions
+
+        self.next_token()
+
+        expressions.append(self.parse_expression(self.LOWEST))
+
+        while self.peek_token_is(Tk.COMMA):
+            self.next_token()
+            self.next_token()
+            expressions.append(self.parse_expression(self.LOWEST))
+
+        if not self.expect_peek(Tk.RBRACKET):
+            return None
+
+        return expressions
 
     def parse_string_literal(self):
         return StringLiteral(self.cur_token, self.cur_token.literal)
@@ -145,7 +185,7 @@ class Parser:
                 return None
             exp.alternative = self.parse_block_statement()
             # TODO: this might be needed as it diverges from the book
-            # self.next_token()
+            self.next_token()
         return exp
 
     def parse_block_statement(self):

@@ -22,6 +22,7 @@ def test_next_token():
     10 != 9;
     "some-string-here"
     "another-string-there"
+    [1, 2];
    """
     tests = [
         (Tk.LET, "let"),
@@ -99,6 +100,12 @@ def test_next_token():
         (Tk.SEMICOLON, ";"),
         (Tk.STRING, "some-string-here"),
         (Tk.STRING, "another-string-there"),
+        (Tk.LBRACKET, "["),
+        (Tk.INT, "1"),
+        (Tk.COMMA, ","),
+        (Tk.INT, "2"),
+        (Tk.RBRACKET, "]"),
+        (Tk.SEMICOLON, ";"),
         (Tk.EOF, ""),
     ]
     lex = Lexer(input)
