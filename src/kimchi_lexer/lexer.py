@@ -57,6 +57,8 @@ class Lexer:
             tok = Tk(Tk.COMMA, self.ch)
         elif self.ch == "":
             tok = Tk(Tk.EOF, "")
+        elif self.ch == "\"":
+            tok = Tk(Tk.STRING, self.read_string())
         elif self.ch == "=":
             if self.peek_char() == "=":
                 ch = self.ch
@@ -82,7 +84,14 @@ class Lexer:
                 tok = Tk(Tk.ILLEGAL, self.ch)
         self.read_char()
         return tok
-
+    def read_string(self):
+        position = self.position + 1
+        while True:
+            self.read_char()
+            if self.ch == "\"" or self.ch == "":
+                break
+        return self.input[position: self.position]
+        
     def read_number(self):
         position = self.position
         while self.is_digit(self.ch):

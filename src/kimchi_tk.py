@@ -46,6 +46,8 @@ class Tk:
     EQ = "=="
     NOT_EQ = "!="
 
+    STRING = "STRING"
+
     keywords = {
         "fn": FUNCTION,
         "let": LET,
