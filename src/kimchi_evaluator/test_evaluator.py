@@ -1,8 +1,30 @@
 import src.kimchi_object.object as obj
 from src.kimchi_evaluator import eval
 from src.kimchi_lexer import Lexer
-from src.kimchi_object.environment import Environment
+import src.kimchi_object as obj
+import src.kimchi_object.environment as env
 from src.kimchi_parser import Parser
+
+
+def test_array_index_expressions():
+    tests = [
+        ("[1, 2, 3][0]", 1),
+        ("[1, 2, 3][1]", 2),
+        ("[1, 2, 3][2]", 3),
+        ("let i = 0; [1][i];",1,),
+        ( "[1, 2, 3][1 + 1];", 3),
+        ("let myArray = [1, 2, 3]; myArray[2];", 3),
+        ("let myArray = [1, 2, 3]; myArray[0] + myArray[1] + myArray[2];", 6),
+        ("let myArray = [1, 2, 3]; let i = myArray[0]; myArray[i]", 2),
+        ("[1, 2, 3][3]", None),
+        ("[1, 2, 3][-1]", None)]
+    for t in tests:
+      evaluated = eval_test(t[0])
+      if t[1] is None:
+          assert_null_object(evaluated)
+      else:
+          assert_integer_object(evaluated, t[1])
+
 
 
 def test_array_literals():
@@ -233,7 +255,7 @@ def eval_test(str):
     lexer = Lexer(str)
     parser = Parser(lexer)
     program = parser.parse_program()
-    return eval(program, Environment())
+    return eval(program, env.Environment())
 
 
 def assert_integer_object(obj, expected):

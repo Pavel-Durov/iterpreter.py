@@ -1,9 +1,6 @@
-import src.kimchi_object.object as obj
-from src.kimchi_ast.ast import ArrayLiteral, BlockStatement, ExpressionStatement, FunctionLiteral, Identifier, IfExpression, \
-    InfixExpression, \
-    IntegerLiteral, LetStatement, PrefixExpression, Program, Boolean, ReturnStatement, CallExpression, StringLiteral
+import src.kimchi_object as obj
+import src.kimchi_ast as ast
 from src.kimchi_evaluator.builtins import builtins
-from src.kimchi_object import Environment
 
 TRUE = obj.Boolean(True)
 FALSE = obj.Boolean(False)
@@ -11,25 +8,33 @@ NULL = obj.Null()
 
 
 def eval(node, env):
-    if isinstance(node, Program):
+    if isinstance(node, ast.Program):
         return eval_program(node, env)
-    elif isinstance(node, StringLiteral):
+    elif isinstance(node, ast.IndexExpression):
+        left = eval(node.left, env)
+        if isinstance(left, obj.Error):
+            return left
+        index = eval(node.index, env)
+        if isinstance(index, obj.Error):
+            return index
+        return eval_index_expression(left, index)
+    elif isinstance(node, ast.StringLiteral):
         return obj.String(node.value)
-    elif isinstance(node, ArrayLiteral):
+    elif isinstance(node, ast.ArrayLiteral):
         elements = eval_expressions(node.elements, env)
         if len(elements) == 1 and isinstance(elements[0], obj.Error):
             return elements[0]
         return obj.Array(elements)
-    elif isinstance(node, ExpressionStatement):
+    elif isinstance(node, ast.ExpressionStatement):
         return eval(node.expression, env)
-    elif isinstance(node, ReturnStatement):
+    elif isinstance(node, ast.ReturnStatement):
         val = eval(node.return_value, env)
         if isinstance(val, obj.Error):
             return val
         return obj.ReturnValue(val)
-    elif isinstance(node, BlockStatement):
+    elif isinstance(node, ast.BlockStatement):
         return eval_block_statement(node, env)
-    elif isinstance(node, CallExpression):
+    elif isinstance(node, ast.CallExpression):
         func = eval(node.function, env)
         if isinstance(func, obj.Error):
             return func
@@ -37,25 +42,25 @@ def eval(node, env):
         if len(args) == 1 and isinstance(args[0], obj.Error):
             return args[0]
         return apply_function(func, args)
-    elif isinstance(node, FunctionLiteral):
+    elif isinstance(node, ast.FunctionLiteral):
         return obj.Function(node.parameters, node.body, env)
-    elif isinstance(node, IntegerLiteral):
+    elif isinstance(node, ast.IntegerLiteral):
         return obj.Integer(node.value)
-    elif isinstance(node, LetStatement):
+    elif isinstance(node, ast.LetStatement):
         val = eval(node.value, env)
         if isinstance(val, obj.Error):
             return val
         env.set(node.name.value, val)
-    elif isinstance(node, Identifier):
+    elif isinstance(node, ast.Identifier):
         return eval_identifier(node, env)
-    elif isinstance(node, Boolean):
+    elif isinstance(node, ast.Boolean):
         return native_bool_to_boolean_object(node.value)
-    elif isinstance(node, PrefixExpression):
+    elif isinstance(node, ast.PrefixExpression):
         right = eval(node.right, env)
         if isinstance(right, obj.Error):
             return right
         return eval_prefix_expression(node.operator, right)
-    elif isinstance(node, InfixExpression):
+    elif isinstance(node, ast.InfixExpression):
         left = eval(node.left, env)
         if isinstance(left, obj.Error):
             return left
@@ -64,10 +69,25 @@ def eval(node, env):
             return right
         return eval_infix_expression(node.operator, left, right)
 
-    elif isinstance(node, IfExpression):
+    elif isinstance(node, ast.IfExpression):
         return eval_if_expression(node, env)
 
     return None
+
+def eval_index_expression(left, index):
+    if isinstance(left, obj.Array) and isinstance(index, obj.Integer):
+        return eval_array_index_expression(left, index)
+    # elif isinstance(left, obj.Hash):
+    #     return eval_hash_index_expression(left, index)
+    return obj.Error("index operator not supported: {}".format(left.type()))
+
+
+def eval_array_index_expression(array, index):
+    idx = index.value
+    max = len(array.elements) - 1
+    if idx < 0 or idx > max:
+        return NULL
+    return array.elements[idx]
 
 
 def unwrap_return_value(wrapper):
@@ -77,7 +97,7 @@ def unwrap_return_value(wrapper):
 
 
 def extend_function_env(fn, args):
-    env = Environment(fn.env)
+    env = obj.Environment(fn.env)
 
     for param_idx, param in enumerate(fn.parameters):
         env.set(param.value, args[param_idx])
