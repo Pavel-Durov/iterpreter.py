@@ -2,6 +2,7 @@ import src.kimchi_object.object as obj
 from src.kimchi_ast.ast import BlockStatement, ExpressionStatement, FunctionLiteral, Identifier, IfExpression, \
     InfixExpression, \
     IntegerLiteral, LetStatement, PrefixExpression, Program, Boolean, ReturnStatement, CallExpression, StringLiteral
+from src.kimchi_evaluator.builtins import builtins
 from src.kimchi_object import Environment
 
 TRUE = obj.Boolean(True)
@@ -80,10 +81,14 @@ def extend_function_env(fn, args):
 
 
 def apply_function(fn, args):
-    assert isinstance(fn, obj.Function), "fn must be a Function, got %s" % type(fn)
-    extended_env = extend_function_env(fn, args)
-    evaluated = eval(fn.body, extended_env)
-    return unwrap_return_value(evaluated)
+    if isinstance(fn, obj.Function):
+        extended_env = extend_function_env(fn, args)
+        evaluated = eval(fn.body, extended_env)
+        return unwrap_return_value(evaluated)
+    elif isinstance(fn, obj.Builtin):
+        return fn.fn(*args)
+
+    return obj.Error("not a function: {}".format(fn.type()))
 
 
 def eval_expressions(args, env):
@@ -98,9 +103,11 @@ def eval_expressions(args, env):
 
 def eval_identifier(node, env):
     val = env.get(node.value)
-    if not val:
-        return obj.Error("identifier not found: {}".format(node.value))
-    return val
+    if val:
+        return val
+    if node.value in builtins:
+        return builtins[node.value]
+    return obj.Error("identifier not found: {}".format(node.value))
 
 
 def eval_block_statement(block, env):
@@ -177,7 +184,7 @@ def eval_infix_expression(operator, left, right):
     elif operator == "!=":
         return native_bool_to_boolean_object(left != right)
     elif isinstance(left, obj.String) and isinstance(right, obj.String):
-        return  eval_string_infix_expression(left, right, operator)
+        return eval_string_infix_expression(left, right, operator)
     elif left.type() != right.type():
         return obj.Error("type mismatch: {} {} {}".format(left.type(), operator, right.type()))
     return obj.Error("unknown operator: {} {} {}".format(left.type(), operator, right.type()))

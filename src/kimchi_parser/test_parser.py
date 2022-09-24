@@ -15,16 +15,18 @@ from src.kimchi_ast.ast import StringLiteral
 from src.kimchi_lexer import Lexer
 from src.kimchi_parser import Parser
 
+
 def test_string_literal_expression():
-  input = """
+    input = """
   "Hello Space!"
   """
-  p = Parser(Lexer(input))
-  prog = p.parse_program()
-  assert_no_parser_errors(p.errors)
-  assert prog.statements[0].expression.value == "Hello Space!"
-  assert isinstance(prog.statements[0], ExpressionStatement)
-  assert isinstance(prog.statements[0].expression, StringLiteral)
+    p = Parser(Lexer(input))
+    prog = p.parse_program()
+    assert_no_parser_errors(p.errors)
+    assert prog.statements[0].expression.value == "Hello Space!"
+    assert isinstance(prog.statements[0], ExpressionStatement)
+    assert isinstance(prog.statements[0].expression, StringLiteral)
+
 
 def test_let_statement():
     input = """

@@ -5,6 +5,23 @@ from src.kimchi_object.environment import Environment
 from src.kimchi_parser import Parser
 
 
+def test_builtin_functions():
+    tests = [
+        ("len(\"\")", 0),
+        ("len(\"four\")", 4),
+        ("len(\"hello world\")", 11),
+        ("len(1)", "argument to `len` not supported, got INTEGER"),
+        ("len(\"one\", \"two\")", "wrong number of arguments. got=2, want=1"),
+    ]
+    for t in tests:
+        evaluated = eval_test(t[0])
+        if type(t[1]) is int:
+            assert_integer_object(evaluated, t[1])
+        else:
+            assert isinstance(evaluated, obj.Error)
+            assert evaluated.message == t[1]
+
+
 def test_string_concat():
     input = """
       "Hello" + " " + "World!"
@@ -13,6 +30,7 @@ def test_string_concat():
     assert isinstance(evaluated, obj.String)
     assert evaluated.value == "Hello World!"
 
+
 def test_string_literal_expression():
     input = """
       "Hello World!"
@@ -20,6 +38,7 @@ def test_string_literal_expression():
     evaluated = eval_test(input)
     assert isinstance(evaluated, obj.String)
     assert evaluated.value == "Hello World!"
+
 
 def test_closure():
     input = """
@@ -215,4 +234,3 @@ def assert_integer_object(obj, expected):
 def assert_boolean_object(obj, expected):
     assert obj.value == expected
     assert obj.type() == "BOOLEAN"
-
