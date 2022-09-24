@@ -1,5 +1,5 @@
 import src.kimchi_object.object as obj
-from src.kimchi_ast.ast import BlockStatement, ExpressionStatement, FunctionLiteral, Identifier, IfExpression, \
+from src.kimchi_ast.ast import ArrayLiteral, BlockStatement, ExpressionStatement, FunctionLiteral, Identifier, IfExpression, \
     InfixExpression, \
     IntegerLiteral, LetStatement, PrefixExpression, Program, Boolean, ReturnStatement, CallExpression, StringLiteral
 from src.kimchi_evaluator.builtins import builtins
@@ -13,8 +13,13 @@ NULL = obj.Null()
 def eval(node, env):
     if isinstance(node, Program):
         return eval_program(node, env)
-    if isinstance(node, StringLiteral):
+    elif isinstance(node, StringLiteral):
         return obj.String(node.value)
+    elif isinstance(node, ArrayLiteral):
+        elements = eval_expressions(node.elements, env)
+        if len(elements) == 1 and isinstance(elements[0], obj.Error):
+            return elements[0]
+        return obj.Array(elements)
     elif isinstance(node, ExpressionStatement):
         return eval(node.expression, env)
     elif isinstance(node, ReturnStatement):

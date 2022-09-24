@@ -5,6 +5,16 @@ from src.kimchi_object.environment import Environment
 from src.kimchi_parser import Parser
 
 
+def test_array_literals():
+    input = "[1, 2 * 2, 3 + 3]"
+    evaluated = eval_test(input)
+    assert isinstance(evaluated, obj.Array)
+    assert len(evaluated.elements) == 3
+    assert_integer_object(evaluated.elements[0], 1)
+    assert_integer_object(evaluated.elements[1], 4)
+    assert_integer_object(evaluated.elements[2], 6)
+
+
 def test_builtin_functions():
     tests = [
         ("len(\"\")", 0),
@@ -234,3 +244,4 @@ def assert_integer_object(obj, expected):
 def assert_boolean_object(obj, expected):
     assert obj.value == expected
     assert obj.type() == "BOOLEAN"
+
