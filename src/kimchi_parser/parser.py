@@ -1,4 +1,4 @@
-from src.kimchi_ast import (
+from src.kimchi_ast.ast import (
     BlockStatement,
     Boolean,
     CallExpression,
@@ -12,8 +12,11 @@ from src.kimchi_ast import (
     PrefixExpression,
     Program,
     ReturnStatement,
-    ArrayLiteral, StringLiteral
+    ArrayLiteral,
+    StringLiteral,
+    IndexExpression
 )
+
 from src.kimchi_tk import Tk
 from src.kimchi_trace import trace, untrace
 
@@ -26,6 +29,7 @@ class Parser:
     PRODUCT = 4  # *
     PREFIX = 5  # -X or !X
     CALL = 6  # myFunction(X)
+    INDEX = 8  # [0]
 
     precedences = {
         Tk.EQ: EQUALS,
@@ -37,6 +41,7 @@ class Parser:
         Tk.SLASH: PRODUCT,
         Tk.ASTERISK: PRODUCT,
         Tk.LPAREN: CALL,
+        Tk.LBRACKET: INDEX
     }
 
     def __init__(self, lexer):
@@ -69,16 +74,23 @@ class Parser:
         self.reg_infix(token_type=Tk.LT, fn=self.parse_infix_expression)
         self.reg_infix(token_type=Tk.GT, fn=self.parse_infix_expression)
         self.reg_infix(token_type=Tk.LPAREN, fn=self.parse_call_expression)
-
+        self.reg_infix(token_type=Tk.LBRACKET, fn=self.parse_index_expression)
         # Read two tokens, so curToken and peekToken are both set
         self.next_token()
         self.next_token()
 
-    
+    def parse_index_expression(self, left):
+        self.next_token()
+        index = self.parse_expression(self.LOWEST)
+        exp = IndexExpression(self.cur_token, left, index)
+
+        if not self.expect_peek(Tk.RBRACKET):
+            return None
+        return exp
+
     def parse_array_literal(self):
         return ArrayLiteral(self.cur_token, self.parse_expression_list(Tk.RBRACKET))
 
-    
     def parse_expression_list(self, end):
         expressions = []
         if self.peek_token_is(end):
@@ -93,7 +105,7 @@ class Parser:
             self.next_token()
             self.next_token()
             expressions.append(self.parse_expression(self.LOWEST))
-        
+
         if not self.expect_peek(Tk.RBRACKET):
             return None
 
