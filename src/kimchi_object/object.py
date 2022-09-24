@@ -79,13 +79,16 @@ class Error(Object):
     def __str__(self):
         return self.inspect()
 
+
 class Function(Object):
     def __init__(self, parameters, body, env):
         self.parameters = parameters
         self.body = body
         self.env = env
+
     def type(self):
         return Object.FUNCTION_OBJ
+
     def inspect(self):
         out = "fn("
         out += ", ".join(self.parameters)

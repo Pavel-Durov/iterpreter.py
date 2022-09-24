@@ -1,5 +1,5 @@
 class Environment():
-    def __init__(self, outer = None):
+    def __init__(self, outer=None):
         self.store = {}
         self.outer = outer
 

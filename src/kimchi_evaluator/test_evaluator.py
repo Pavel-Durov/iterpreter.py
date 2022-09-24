@@ -4,6 +4,7 @@ from src.kimchi_lexer import Lexer
 from src.kimchi_object.environment import Environment
 from src.kimchi_parser import Parser
 
+
 def test_closure():
     input = """
     let add = fn(x) {
@@ -29,6 +30,7 @@ def test_function_application():
     for tt in tests:
         evaluated = eval_test(tt[0])
         assert_integer_object(evaluated, tt[1])
+
 
 def test_function_object():
     input = "fn(x) { x + 2; };"

@@ -1,8 +1,9 @@
 import src.kimchi_object.object as obj
+from src.kimchi_ast.ast import BlockStatement, ExpressionStatement, FunctionLiteral, Identifier, IfExpression, \
+    InfixExpression, \
+    IntegerLiteral, LetStatement, PrefixExpression, Program, Boolean, ReturnStatement, CallExpression
 from src.kimchi_object import Environment
 
-from src.kimchi_ast.ast import BlockStatement, ExpressionStatement, FunctionLiteral, Identifier, IfExpression, InfixExpression, \
-    IntegerLiteral, LetStatement, PrefixExpression, Program, Boolean, ReturnStatement, CallExpression
 TRUE = obj.Boolean(True)
 FALSE = obj.Boolean(False)
 NULL = obj.Null()
@@ -60,34 +61,37 @@ def eval(node, env):
 
     return None
 
+
 def unwrap_return_value(wrapper):
     if isinstance(wrapper, obj.ReturnValue):
         return wrapper.value
     return wrapper
 
+
 def extend_function_env(fn, args):
-  env = Environment(fn.env)
-  
-  for param_idx, param in enumerate(fn.parameters):
-      env.set(param.value, args[param_idx])
-  
-  return env
-  
+    env = Environment(fn.env)
+
+    for param_idx, param in enumerate(fn.parameters):
+        env.set(param.value, args[param_idx])
+
+    return env
+
+
 def apply_function(fn, args):
-  assert isinstance(fn, obj.Function), "fn must be a Function, got %s" % type(fn)
-  extended_env = extend_function_env(fn, args)
-  evaluated = eval(fn.body, extended_env)
-  return unwrap_return_value(evaluated)
+    assert isinstance(fn, obj.Function), "fn must be a Function, got %s" % type(fn)
+    extended_env = extend_function_env(fn, args)
+    evaluated = eval(fn.body, extended_env)
+    return unwrap_return_value(evaluated)
 
 
 def eval_expressions(args, env):
-  result = []
-  for arg in args:
-      evaluated = eval(arg, env)
-      if isinstance(evaluated, obj.Error):
-          return [evaluated]
-      result.append(evaluated)
-  return result
+    result = []
+    for arg in args:
+        evaluated = eval(arg, env)
+        if isinstance(evaluated, obj.Error):
+            return [evaluated]
+        result.append(evaluated)
+    return result
 
 
 def eval_identifier(node, env):
