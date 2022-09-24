@@ -12,6 +12,7 @@ def builtin_len(*args):
     else:
         return obj.Error("argument to `len` not supported, got {}".format(arg.type()))
 
+
 def builtin_first(*args):
     if len(args) != 1:
         return obj.Error("wrong number of arguments. got={}, want=1".format(len(args)))
@@ -22,6 +23,7 @@ def builtin_first(*args):
         return arg.elements[0]
     else:
         return NULL
+
 
 def builtin_last(*args):
     if len(args) != 1:
@@ -34,6 +36,7 @@ def builtin_last(*args):
     else:
         return NULL
 
+
 def builtin_rest(*args):
     if len(args) != 1:
         return obj.Error("wrong number of arguments. got={}, want=1".format(len(args)))
@@ -45,6 +48,7 @@ def builtin_rest(*args):
     else:
         return NULL
 
+
 def builtin_push(*args):
     if len(args) != 2:
         return obj.Error("wrong number of arguments. got={}, want=2".format(len(args)))
@@ -54,6 +58,7 @@ def builtin_push(*args):
     new_element = args[1]
     new_elements = arg.elements + [new_element]
     return obj.A(new_elements)
+
 
 builtins = {
     "len": obj.Builtin(builtin_len),

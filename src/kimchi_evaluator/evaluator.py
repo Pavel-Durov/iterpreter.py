@@ -1,5 +1,5 @@
-import src.kimchi_object as obj
 import src.kimchi_ast as ast
+import src.kimchi_object as obj
 from src.kimchi_evaluator.builtins import builtins
 
 TRUE = obj.Boolean(True)
@@ -73,6 +73,7 @@ def eval(node, env):
         return eval_if_expression(node, env)
 
     return None
+
 
 def eval_index_expression(left, index):
     if isinstance(left, obj.Array) and isinstance(index, obj.Integer):

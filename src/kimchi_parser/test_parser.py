@@ -343,9 +343,7 @@ def test_boolean_expressions():
         assert isinstance(
             stmt.expression, Expression
         ), "stmt.expression is not Expression. got={}".format(type(stmt.expression))
-        assert (
-                stmt.expression.value == tt[1]
-        ), "stmt.expression.value is not {}. got={}".format(
+        assert (stmt.expression.value == tt[1]), "stmt.expression.value is not {}. got={}".format(
             tt[1], stmt.expression.value
         )
 

@@ -185,7 +185,7 @@ class Parser:
                 return None
             exp.alternative = self.parse_block_statement()
             # TODO: this might be needed as it diverges from the book
-            # self.next_token()
+            self.next_token()
         return exp
 
     def parse_block_statement(self):
