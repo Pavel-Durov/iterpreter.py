@@ -12,5 +12,8 @@ from .ast import (
     PrefixExpression,
     Program,
     ReturnStatement,
-    Expression
+    Expression,
+    ArrayLiteral,
+    Statement,
+    StringLiteral
 )

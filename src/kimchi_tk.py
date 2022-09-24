@@ -13,6 +13,9 @@ class Tk:
     ASSIGN = "="
     PLUS = "+"
 
+    LBRACKET = "["
+    RBRACKET = "]"
+
     # Delimiters
     COMMA = ","
     SEMICOLON = ";"

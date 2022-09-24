@@ -266,3 +266,21 @@ class StringLiteral(Expression):
 
     def __str__(self):
         return self.token.literal
+
+
+class ArrayLiteral(Expression):
+    def __init__(self, token, elements):
+        self.token = token
+        self.elements = elements
+
+    def expression_node(self):
+        pass
+
+    def token_literal(self):
+        return self.token.literal
+
+    def __str__(self):
+        s = "["
+        for e in self.elements:
+            S+= str(e) + ","
+        return s + "]"
