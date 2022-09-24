@@ -1,7 +1,7 @@
 import src.kimchi_object.object as obj
 from src.kimchi_ast.ast import BlockStatement, ExpressionStatement, FunctionLiteral, Identifier, IfExpression, \
     InfixExpression, \
-    IntegerLiteral, LetStatement, PrefixExpression, Program, Boolean, ReturnStatement, CallExpression
+    IntegerLiteral, LetStatement, PrefixExpression, Program, Boolean, ReturnStatement, CallExpression, StringLiteral
 from src.kimchi_object import Environment
 
 TRUE = obj.Boolean(True)
@@ -12,6 +12,8 @@ NULL = obj.Null()
 def eval(node, env):
     if isinstance(node, Program):
         return eval_program(node, env)
+    if isinstance(node, StringLiteral):
+        return obj.String(node.value)
     elif isinstance(node, ExpressionStatement):
         return eval(node.expression, env)
     elif isinstance(node, ReturnStatement):
