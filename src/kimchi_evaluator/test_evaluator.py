@@ -5,12 +5,22 @@ from src.kimchi_object.environment import Environment
 from src.kimchi_parser import Parser
 
 
-def test_string_literal_expression():
-    input = '"Hello World!"'
+def test_string_concat():
+    input = """
+      "Hello" + " " + "World!"
+    """
     evaluated = eval_test(input)
     assert isinstance(evaluated, obj.String)
     assert evaluated.value == "Hello World!"
-    
+
+def test_string_literal_expression():
+    input = """
+      "Hello World!"
+    """
+    evaluated = eval_test(input)
+    assert isinstance(evaluated, obj.String)
+    assert evaluated.value == "Hello World!"
+
 def test_closure():
     input = """
     let add = fn(x) {
