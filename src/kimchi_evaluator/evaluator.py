@@ -1,7 +1,7 @@
 import src.kimchi_object.object as obj
 from src.kimchi_ast.ast import BlockStatement, ExpressionStatement, FunctionLiteral, Identifier, IfExpression, \
     InfixExpression, \
-    IntegerLiteral, LetStatement, PrefixExpression, Program, Boolean, ReturnStatement, CallExpression
+    IntegerLiteral, LetStatement, PrefixExpression, Program, Boolean, ReturnStatement, CallExpression, StringLiteral
 from src.kimchi_object import Environment
 
 TRUE = obj.Boolean(True)
@@ -12,6 +12,8 @@ NULL = obj.Null()
 def eval(node, env):
     if isinstance(node, Program):
         return eval_program(node, env)
+    if isinstance(node, StringLiteral):
+        return obj.String(node.value)
     elif isinstance(node, ExpressionStatement):
         return eval(node.expression, env)
     elif isinstance(node, ReturnStatement):
@@ -174,9 +176,17 @@ def eval_infix_expression(operator, left, right):
         return native_bool_to_boolean_object(left == right)
     elif operator == "!=":
         return native_bool_to_boolean_object(left != right)
+    elif isinstance(left, obj.String) and isinstance(right, obj.String):
+        return  eval_string_infix_expression(left, right, operator)
     elif left.type() != right.type():
         return obj.Error("type mismatch: {} {} {}".format(left.type(), operator, right.type()))
     return obj.Error("unknown operator: {} {} {}".format(left.type(), operator, right.type()))
+
+
+def eval_string_infix_expression(left, right, operator):
+    if operator != "+":
+        return obj.Error("Unknown operator: {} {} {}".format(left.type(), operator, right.type()))
+    return obj.String(left.value + right.value)
 
 
 def eval_bang_operator_expression(right):

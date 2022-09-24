@@ -5,6 +5,7 @@ class Object():
     RETURN_VALUE_OBJ = "RETURN_VALUE"
     ERROR_OBJ = "ERROR"
     FUNCTION_OBJ = "FUNCTION"
+    STRING_OBJECT = "STRING"
 
     def type():
         pass
@@ -96,3 +97,16 @@ class Function(Object):
         out += str(self.body)
         out += "\n}"
         return out
+
+class String(Object):
+    def __init__(self, value):
+        self.value = value
+
+    def type(self):
+        return Object.STRING_OBJ
+
+    def inspect(self):
+        return self.value
+
+    def __str__(self):
+        return self.inspect()

@@ -20,6 +20,8 @@ def test_next_token():
     
     10 == 10; 
     10 != 9;
+    "some-string-here"
+    "another-string-there"
    """
     tests = [
         (Tk.LET, "let"),
@@ -95,8 +97,9 @@ def test_next_token():
         (Tk.NOT_EQ, "!="),
         (Tk.INT, "9"),
         (Tk.SEMICOLON, ";"),
+        (Tk.STRING, "some-string-here"),
+        (Tk.STRING, "another-string-there"),
         (Tk.EOF, ""),
-        # (Token.EOF, ""),
     ]
     lex = Lexer(input)
     for tt in tests:

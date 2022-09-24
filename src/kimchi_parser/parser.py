@@ -1,3 +1,4 @@
+import re
 from src.kimchi_ast import (
     BlockStatement,
     Boolean,
@@ -13,6 +14,7 @@ from src.kimchi_ast import (
     Program,
     ReturnStatement,
 )
+from src.kimchi_ast.ast import StringLiteral
 from src.kimchi_tk import Tk
 from src.kimchi_trace import trace, untrace
 
@@ -54,6 +56,7 @@ class Parser:
         self.reg_prefix(token_type=Tk.LPAREN, fn=self.parse_grouped_expression)
         self.reg_prefix(token_type=Tk.IF, fn=self.parse_if_expression)
         self.reg_prefix(token_type=Tk.FUNCTION, fn=self.parse_function_literal)
+        self.reg_prefix(token_type=Tk.STRING, fn=self.parse_string_literal)
         self.infixParseFns = {}
         self.reg_infix(token_type=Tk.PLUS, fn=self.parse_infix_expression)
         self.reg_infix(token_type=Tk.MINUS, fn=self.parse_infix_expression)
@@ -68,7 +71,11 @@ class Parser:
         # Read two tokens, so curToken and peekToken are both set
         self.next_token()
         self.next_token()
-
+    
+    def parse_string_literal(self):
+        return StringLiteral(self.cur_token, self.cur_token.literal)
+    
+    
     def parse_call_expression(self, func):
         exp = CallExpression(self.cur_token, func, None)
         exp.arguments = self.parse_call_arguments()
