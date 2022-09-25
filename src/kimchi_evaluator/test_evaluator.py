@@ -6,6 +6,13 @@ from src.kimchi_lexer import Lexer
 from src.kimchi_parser import Parser
 
 
+def test_puts():
+    source = """
+    puts("Hello World!");
+    """
+    evaluated = eval_test(source)
+    assert isinstance(evaluated, obj.Null)
+
 def test_hash_index_expressions():
     tests = [
         ("{\"foo\": 5}[\"foo\"]", 5),

@@ -1,3 +1,5 @@
+import os
+
 import src.kimchi_object.object as obj
 from src.kimchi_evaluator.const import NULL
 
@@ -50,6 +52,11 @@ def builtin_rest(*args):
         return NULL
 
 
+def write(s):
+    os.write(1, bytes(s))
+    os.write(1, "\n")
+
+
 def builtin_push(*args):
     if len(args) != 2:
         return obj.Error("wrong number of arguments. got={}, want=2".format(len(args)))
@@ -61,10 +68,17 @@ def builtin_push(*args):
     return obj.A(new_elements)
 
 
+def builtin_puts(*args):
+    for arg in args:
+        write(arg.inspect())
+    return NULL
+
+
 builtins = {
     "len": obj.Builtin(builtin_len),
     "first": obj.Builtin(builtin_first),
     "last": obj.Builtin(builtin_last),
     "rest": obj.Builtin(builtin_rest),
     "push": obj.Builtin(builtin_push),
+    "puts": obj.Builtin(builtin_puts),
 }
