@@ -6,6 +6,9 @@
 
 Interpreter called Kimchi, Inspired by a book [Writing An Interpreter In Go](https://interpreterbook.com/) but was writen in RPython.
 
+VM:
++ SELF-Like scope environment optimization
+
 Kimchi Support:
 + Mathematical Expressions - `2 + 4 / (2- 1)`
 + Variable Bindings - `let a = 5` 
