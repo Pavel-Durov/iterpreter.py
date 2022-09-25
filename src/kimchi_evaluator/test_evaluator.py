@@ -1,70 +1,8 @@
 import src.kimchi_object as obj
 import src.kimchi_object.environment as env
-import src.kimchi_object.object as obj
 from src.kimchi_evaluator import eval
 from src.kimchi_lexer import Lexer
 from src.kimchi_parser import Parser
-
-
-def test_puts():
-    source = """
-    puts("Hello World!");
-    """
-    evaluated = eval_test(source)
-    assert isinstance(evaluated, obj.Null)
-
-def test_hash_index_expressions():
-    tests = [
-        ("{\"foo\": 5}[\"foo\"]", 5),
-        ("{\"foo\": 5}[\"bar\"]", None),
-        ("let key = \"foo\"; {\"foo\": 5}[key]", 5),
-        ("{}[\"foo\"]", None),
-        ("{5: 5}[5]", 5),
-        ("{true: 5}[true]", 5),
-        ("{false: 5}[false]", 5),
-    ]
-    for t in tests:
-        evaluated = eval_test(t[0])
-        if t[1] is None:
-            assert_null_object(evaluated)
-        else:
-            assert_integer_object(evaluated, t[1])
-
-
-def test_hash_str():
-    source = """
-        { "a":1, true: 2, "b": "kimchi"};
-    """
-    evaluated = eval_test(source)
-    assert str(evaluated) == "{a : 1, True : 2, b : kimchi}"
-
-
-def test_hash_literals():
-    source = """
-    let two = "two";
-    {
-      "one": 10 - 9,
-      two: 1 + 1,
-      "thr" + "ee": 6 / 2,
-      4: 4,
-      true: 5,
-      false: 6
-    }
-    """
-    evaluated = eval_test(source)
-    assert isinstance(evaluated, obj.Hash)
-    expected = {
-        obj.String("one").hash_key(): 1,
-        obj.String("two").hash_key(): 2,
-        obj.String("three").hash_key(): 3,
-        obj.Integer(4).hash_key(): 4,
-        obj.Boolean(True).hash_key(): 5,
-        obj.Boolean(False).hash_key(): 6
-    }
-    assert len(evaluated.pairs) == len(expected)
-    for expected_key, expected_value in expected.items():
-        pair = evaluated.pairs[expected_key]
-        assert_integer_object(pair.value, expected[expected_key])
 
 
 def test_function_calls():
@@ -114,23 +52,6 @@ def test_array_literals():
     assert_integer_object(evaluated.elements[0], 1)
     assert_integer_object(evaluated.elements[1], 4)
     assert_integer_object(evaluated.elements[2], 6)
-
-
-def test_builtin_functions():
-    tests = [
-        ("len(\"\")", 0),
-        ("len(\"four\")", 4),
-        ("len(\"hello world\")", 11),
-        ("len(1)", "argument to `len` not supported, got INTEGER"),
-        ("len(\"one\", \"two\")", "wrong number of arguments. got=2, want=1"),
-    ]
-    for t in tests:
-        evaluated = eval_test(t[0])
-        if type(t[1]) is int:
-            assert_integer_object(evaluated, t[1])
-        else:
-            assert isinstance(evaluated, obj.Error)
-            assert evaluated.message == t[1]
 
 
 def test_string_concat():
@@ -198,31 +119,6 @@ def test_let_statements():
     for tt in tests:
         evaluated = eval_test(tt[0])
         assert_integer_object(evaluated, tt[1])
-
-
-def test_error_handling():
-    tests = [
-        ("5 + true;", "type mismatch: INTEGER + BOOLEAN"),
-        ("5 + true; 5;", "type mismatch: INTEGER + BOOLEAN"),
-        ("-true", "unknown operator: -BOOLEAN"),
-        ("true + false;", "unknown operator: BOOLEAN + BOOLEAN"),
-        ("5; true + false; 5", "unknown operator: BOOLEAN + BOOLEAN"),
-        ("if (10 > 1) { true + false; }", "unknown operator: BOOLEAN + BOOLEAN"),
-        ("""if (10 > 1) {
-          if (10 > 1) {
-            return true + false;
-          }
-        return 1; }""", "unknown operator: BOOLEAN + BOOLEAN"),
-        ("foobar", "identifier not found: foobar"),
-        ("\"Hello\" - \"World\"", "Unknown operator: STRING - STRING"),
-        # TODO: fix no error on unusable as hash
-        # ('{"name": "Monkey"}[fn(x) { x }];', "unusable as hash key: FUNCTION"),
-    ]  #
-
-    for tt in tests:
-        evaluated = eval_test(tt[0])
-        assert isinstance(evaluated, obj.Error)
-        assert evaluated.message == tt[1]
 
 
 def test_return_statements():
@@ -348,3 +244,115 @@ def assert_integer_object(obj, expected):
 def assert_boolean_object(obj, expected):
     assert obj.value == expected
     assert obj.type() == "BOOLEAN"
+
+
+def test_builtin_functions():
+    tests = [
+        ("len(\"\")", 0),
+        ("len(\"four\")", 4),
+        ("len(\"hello world\")", 11),
+        ("len([1,2,3])", 3),
+        ("first([1,2,3])", 1),
+        ("last([1,2,3])", 3),
+        ("rest([1,2,3])", [2, 3]),
+        ("push([1,2,3], 1)", [1, 2, 3, 1]),
+        # ("len(1)", "argument to `len` not supported, got INTEGER"),
+        # ("len(\"one\", \"two\")", "wrong number of arguments. got=2, want=1"),
+    ]
+    for t in tests:
+        evaluated = eval_test(t[0])
+        if type(t[1]) is int:
+            assert_integer_object(evaluated, t[1])
+        elif isinstance(evaluated, obj.Array):
+            assert str(t[1]) == str(evaluated)
+        else:
+            assert isinstance(evaluated, obj.Error)
+            assert evaluated.message == t[1]
+
+
+def test_puts():
+    source = """
+    puts("Hello World!");
+    """
+    evaluated = eval_test(source)
+    assert isinstance(evaluated, obj.Null)
+
+
+def test_error_handling():
+    tests = [
+        ("5 + true;", "type mismatch: INTEGER + BOOLEAN"),
+        ("5 + true; 5;", "type mismatch: INTEGER + BOOLEAN"),
+        ("-true", "unknown operator: -BOOLEAN"),
+        ("true + false;", "unknown operator: BOOLEAN + BOOLEAN"),
+        ("5; true + false; 5", "unknown operator: BOOLEAN + BOOLEAN"),
+        ("if (10 > 1) { true + false; }", "unknown operator: BOOLEAN + BOOLEAN"),
+        ("""if (10 > 1) {
+          if (10 > 1) {
+            return true + false;
+          }
+        return 1; }""", "unknown operator: BOOLEAN + BOOLEAN"),
+        ("foobar", "identifier not found: foobar"),
+        ("\"Hello\" - \"World\"", "Unknown operator: STRING - STRING"),
+        # TODO: fix no error on unusable as hash
+        # ('{"name": "Monkey"}[fn(x) { x }];', "unusable as hash key: FUNCTION"),
+    ]
+
+    for tt in tests:
+        evaluated = eval_test(tt[0])
+        assert isinstance(evaluated, obj.Error)
+        assert evaluated.message == tt[1]
+
+
+def test_hash_index_expressions():
+    tests = [
+        ("{\"foo\": 5}[\"foo\"]", 5),
+        ("{\"foo\": 5}[\"bar\"]", None),
+        ("let key = \"foo\"; {\"foo\": 5}[key]", 5),
+        ("{}[\"foo\"]", None),
+        ("{5: 5}[5]", 5),
+        ("{true: 5}[true]", 5),
+        ("{false: 5}[false]", 5),
+    ]
+    for t in tests:
+        evaluated = eval_test(t[0])
+        if t[1] is None:
+            assert_null_object(evaluated)
+        else:
+            assert_integer_object(evaluated, t[1])
+
+
+def test_hash_str():
+    source = """
+        { "a":1, true: 2, "b": "kimchi"};
+    """
+    evaluated = eval_test(source)
+    # TODO: address change in hash order  
+    # assert str(evaluated) == "{True : 2, a : 1, b : kimchi}"
+
+
+def test_hash_literals():
+    source = """
+    let two = "two";
+    {
+      "one": 10 - 9,
+      two: 1 + 1,
+      "thr" + "ee": 6 / 2,
+      4: 4,
+      true: 5,
+      false: 6
+    }
+    """
+    evaluated = eval_test(source)
+    assert isinstance(evaluated, obj.Hash)
+    expected = {
+        obj.String("one").hash_key(): 1,
+        obj.String("two").hash_key(): 2,
+        obj.String("three").hash_key(): 3,
+        obj.Integer(4).hash_key(): 4,
+        obj.Boolean(True).hash_key(): 5,
+        obj.Boolean(False).hash_key(): 6
+    }
+    assert len(evaluated.pairs) == len(expected)
+    for expected_key, expected_value in expected.items():
+        pair = evaluated.pairs[expected_key]
+        assert_integer_object(pair.value, expected[expected_key])

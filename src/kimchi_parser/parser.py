@@ -19,7 +19,6 @@ from src.kimchi_ast.ast import (
 )
 
 from src.kimchi_tk import Tk
-from src.kimchi_trace import trace, untrace
 
 
 class Parser:
@@ -51,35 +50,54 @@ class Parser:
         self.peek_token = None
         self.errors = []
 
-        self.prefixParseFns = {}
-        self.reg_prefix(token_type=Tk.IDENT, fn=self.parse_identifier)
-        self.reg_prefix(token_type=Tk.INT, fn=self.parse_integer_literal)
-        self.reg_prefix(token_type=Tk.BANG, fn=self.parse_prefix_expression)
-        self.reg_prefix(token_type=Tk.MINUS, fn=self.parse_prefix_expression)
-        self.reg_prefix(token_type=Tk.TRUE, fn=self.parse_boolean)
-        self.reg_prefix(token_type=Tk.FALSE, fn=self.parse_boolean)
-        self.reg_prefix(token_type=Tk.LPAREN, fn=self.parse_grouped_expression)
-        self.reg_prefix(token_type=Tk.IF, fn=self.parse_if_expression)
-        self.reg_prefix(token_type=Tk.FUNCTION, fn=self.parse_function_literal)
-        self.reg_prefix(token_type=Tk.STRING, fn=self.parse_string_literal)
-        self.reg_prefix(token_type=Tk.LBRACKET, fn=self.parse_array_literal)
-        self.reg_prefix(token_type=Tk.LBRACE, fn=self.parse_hash_literal)
-
-        self.infixParseFns = {}
-
-        self.reg_infix(token_type=Tk.PLUS, fn=self.parse_infix_expression)
-        self.reg_infix(token_type=Tk.MINUS, fn=self.parse_infix_expression)
-        self.reg_infix(token_type=Tk.SLASH, fn=self.parse_infix_expression)
-        self.reg_infix(token_type=Tk.ASTERISK, fn=self.parse_infix_expression)
-        self.reg_infix(token_type=Tk.EQ, fn=self.parse_infix_expression)
-        self.reg_infix(token_type=Tk.NOT_EQ, fn=self.parse_infix_expression)
-        self.reg_infix(token_type=Tk.LT, fn=self.parse_infix_expression)
-        self.reg_infix(token_type=Tk.GT, fn=self.parse_infix_expression)
-        self.reg_infix(token_type=Tk.LPAREN, fn=self.parse_call_expression)
-        self.reg_infix(token_type=Tk.LBRACKET, fn=self.parse_index_expression)
-        # Read two tokens, so cur_token and peek_token are both set
         self.next_token()
         self.next_token()
+
+    def parse_infix_token_exist(self, tk, left):
+        if tk == Tk.PLUS:
+            return True
+        elif tk == Tk.MINUS:
+            return True
+        elif tk == Tk.SLASH:
+            return True
+        elif tk == Tk.ASTERISK:
+            return True
+        elif tk == Tk.EQ:
+            return True
+        elif tk == Tk.NOT_EQ:
+            return True
+        elif tk == Tk.LT:
+            return True
+        elif tk == Tk.GT:
+            return True
+        elif tk == Tk.LPAREN:
+            return True
+        elif tk == Tk.LBRACKET:
+            return True
+        return False
+
+    def parse_infix_token(self, tk, left):
+        if tk == Tk.PLUS:
+            return self.parse_infix_expression(left)
+        elif tk == Tk.MINUS:
+            return self.parse_infix_expression(left)
+        elif tk == Tk.SLASH:
+            return self.parse_infix_expression(left)
+        elif tk == Tk.ASTERISK:
+            return self.parse_infix_expression(left)
+        elif tk == Tk.EQ:
+            return self.parse_infix_expression(left)
+        elif tk == Tk.NOT_EQ:
+            return self.parse_infix_expression(left)
+        elif tk == Tk.LT:
+            return self.parse_infix_expression(left)
+        elif tk == Tk.GT:
+            return self.parse_infix_expression(left)
+        elif tk == Tk.LPAREN:
+            return self.parse_call_expression(left)
+        elif tk == Tk.LBRACKET:
+            return self.parse_index_expression(left)
+        return None
 
     def parse_hash_literal(self):
         pairs = {}
@@ -231,14 +249,8 @@ class Parser:
     def parse_identifier(self):
         return Identifier(self.cur_token, self.cur_token.literal)
 
-    def reg_prefix(self, token_type, fn):
-        self.prefixParseFns[token_type] = fn
-
-    def reg_infix(self, token_type, fn):
-        self.infixParseFns[token_type] = fn
-
     def peek_error(self, token_type):
-        msg = "expected next token to be {}, got {} instead".format(
+        msg = "expected next token to be %s, got %s instead" % (
             token_type, self.peek_token.type
         )
         self.errors.append(msg)
@@ -251,32 +263,27 @@ class Parser:
         prog = Program()
         while self.cur_token.type != Tk.EOF:
             stmt = self.parse_statement()
-            if stmt != None:
+            if stmt is not None:
                 prog.statements.append(stmt)
             self.next_token()
         return prog
 
     def parse_infix_expression(self, left):
-        trace("parse_infix_expression:start")
         exp = InfixExpression(
             token=self.cur_token, operator=self.cur_token.literal, left=left
         )
         precedence = self.cur_precedence()
         self.next_token()
         exp.right = self.parse_expression(precedence)
-        untrace("parse_infix_expression:end")
         return exp
 
     def parse_prefix_expression(self):
-        trace("parse_prefix_expression:start")
         exp = PrefixExpression(token=self.cur_token, operator=self.cur_token.literal)
         self.next_token()
         exp.right = self.parse_expression(self.PREFIX)
-        untrace("parse_prefix_expression:end")
         return exp
 
     def parse_let_statement(self):
-        trace("parse_let_statement:start")
         stmt = LetStatement(token=self.cur_token, identifier=None, value_exp=None)
         if not self.expect_peek(Tk.IDENT):
             return None
@@ -290,21 +297,18 @@ class Parser:
 
         while not self.cur_token_is(Tk.SEMICOLON):
             self.next_token()
-        untrace("parse_let_statement:end")
         return stmt
 
     def parse_return_statement(self):
-        trace("parse_return_statement:start")
         stmt = ReturnStatement(token=self.cur_token, return_value=None)
         self.next_token()
         stmt.return_value = self.parse_expression(self.LOWEST)
         while not self.cur_token_is(Tk.SEMICOLON):
             self.next_token()
-        untrace("parse_return_statement:end")
         return stmt
 
     def on_prefix_parse_fn_error(self, token_type):
-        self.errors.append("no prefix parse function for {} found".format(token_type))
+        self.errors.append("no prefix parse function for %s found" % (token_type))
 
     def peek_precedence(self):
         if self.peek_token.type in self.precedences:
@@ -316,42 +320,22 @@ class Parser:
             return self.precedences[self.cur_token.type]
         return self.LOWEST
 
-    def parse_expression(self, precedence):
-        trace("parse_expression:start")
-        prefix = self.prefixParseFns[self.cur_token.type]
-        if prefix == None:
-            self.on_prefix_parse_fn_error(self.cur_token.type)
-            return None
-        left_exp = prefix()
-        while (self.peek_token_is(Tk.SEMICOLON) == False and precedence < self.peek_precedence()):
-            infix = self.infixParseFns[self.peek_token.type]
-            if infix == None:
-                return left_exp
-            self.next_token()
-            left_exp = infix(left_exp)
-        untrace("parse_expression:end")
-        return left_exp
-
     def parse_integer_literal(self):
-        trace("parse_integer_literal:start")
         value = 0
         try:
             value = int(self.cur_token.literal)
         except ValueError:
             self.errors.append(
-                "could not parse {} as integer".format(self.cur_token.literal)
+                "could not parse %s as integer" % (self.cur_token.literal)
             )
             return None
-        untrace("parse_integer_literal:end")
         return IntegerLiteral(self.cur_token, value)
 
     def parse_expression_statement(self):
-        trace("parse_expression_statement:start")
         exp = self.parse_expression(self.LOWEST)
         stms = ExpressionStatement(token=self.cur_token, expression=exp)
         if self.peek_token_is(Tk.SEMICOLON):
             self.next_token()
-        untrace("parse_expression_statement:end")
         return stms
 
     def parse_statement(self):
@@ -375,3 +359,57 @@ class Parser:
         else:
             self.peek_error(token_type)
             return False
+
+    def parse_expression(self, precedence):
+        tk = self.cur_token.type
+        left_exp = None
+        if tk == Tk.IDENT:
+            left_exp = self.parse_identifier()
+        elif tk == Tk.INT:
+            left_exp = self.parse_integer_literal()
+        elif tk == Tk.BANG or tk == Tk.MINUS:
+            left_exp = self.parse_prefix_expression()
+        elif tk == Tk.TRUE or tk == Tk.FALSE:
+            left_exp = self.parse_boolean()
+        elif tk == Tk.LPAREN:
+            left_exp = self.parse_grouped_expression()
+        elif tk == Tk.IF:
+            left_exp = self.parse_if_expression()
+        elif tk == Tk.FUNCTION:
+            left_exp = self.parse_function_literal()
+        elif tk == Tk.STRING:
+            left_exp = self.parse_string_literal()
+        elif tk == Tk.LBRACKET:
+            left_exp = self.parse_array_literal()
+        elif tk == Tk.LBRACE:
+            left_exp = self.parse_hash_literal()
+        else:
+            self.on_prefix_parse_fn_error(self.cur_token.type)
+
+        while (self.peek_token_is(Tk.SEMICOLON) == False and precedence < self.peek_precedence()):
+            tk = self.peek_token.type
+            self.next_token()
+            if tk == Tk.PLUS:
+                left_exp = self.parse_infix_expression(left_exp)
+            elif tk == Tk.MINUS:
+                left_exp = self.parse_infix_expression(left_exp)
+            elif tk == Tk.SLASH:
+                left_exp = self.parse_infix_expression(left_exp)
+            elif tk == Tk.ASTERISK:
+                left_exp = self.parse_infix_expression(left_exp)
+            elif tk == Tk.EQ:
+                left_exp = self.parse_infix_expression(left_exp)
+            elif tk == Tk.NOT_EQ:
+                left_exp = self.parse_infix_expression(left_exp)
+            elif tk == Tk.LT:
+                left_exp = self.parse_infix_expression(left_exp)
+            elif tk == Tk.GT:
+                left_exp = self.parse_infix_expression(left_exp)
+            elif tk == Tk.LPAREN:
+                left_exp = self.parse_call_expression(left_exp)
+            elif tk == Tk.LBRACKET:
+                left_exp = self.parse_index_expression(left_exp)
+            else:
+                return left_exp
+
+        return left_exp
