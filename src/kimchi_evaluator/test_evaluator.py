@@ -4,68 +4,6 @@ from src.kimchi_evaluator import eval
 from src.kimchi_lexer import Lexer
 from src.kimchi_parser import Parser
 
-
-# def test_puts():
-#     source = """
-#     puts("Hello World!");
-#     """
-#     evaluated = eval_test(source)
-#     assert isinstance(evaluated, obj.Null)
-
-# def test_hash_index_expressions():
-#     tests = [
-#         ("{\"foo\": 5}[\"foo\"]", 5),
-#         ("{\"foo\": 5}[\"bar\"]", None),
-#         ("let key = \"foo\"; {\"foo\": 5}[key]", 5),
-#         ("{}[\"foo\"]", None),
-#         ("{5: 5}[5]", 5),
-#         ("{true: 5}[true]", 5),
-#         ("{false: 5}[false]", 5),
-#     ]
-#     for t in tests:
-#         evaluated = eval_test(t[0])
-#         if t[1] is None:
-#             assert_null_object(evaluated)
-#         else:
-#             assert_integer_object(evaluated, t[1])
-
-
-# def test_hash_str():
-#     source = """
-#         { "a":1, true: 2, "b": "kimchi"};
-#     """
-#     evaluated = eval_test(source)
-#     assert str(evaluated) == "{a : 1, True : 2, b : kimchi}"
-
-
-# def test_hash_literals():
-#     source = """
-#     let two = "two";
-#     {
-#       "one": 10 - 9,
-#       two: 1 + 1,
-#       "thr" + "ee": 6 / 2,
-#       4: 4,
-#       true: 5,
-#       false: 6
-#     }
-#     """
-#     evaluated = eval_test(source)
-#     assert isinstance(evaluated, obj.Hash)
-#     expected = {
-#         obj.String("one").hash_key(): 1,
-#         obj.String("two").hash_key(): 2,
-#         obj.String("three").hash_key(): 3,
-#         obj.Integer(4).hash_key(): 4,
-#         obj.Boolean(True).hash_key(): 5,
-#         obj.Boolean(False).hash_key(): 6
-#     }
-#     assert len(evaluated.pairs) == len(expected)
-#     for expected_key, expected_value in expected.items():
-#         pair = evaluated.pairs[expected_key]
-#         assert_integer_object(pair.value, expected[expected_key])
-
-
 def test_function_calls():
     source = """
     let fibonacci = fn(x) { 
@@ -343,3 +281,63 @@ def assert_boolean_object(obj, expected):
 #         else:
 #             assert isinstance(evaluated, obj.Error)
 #             assert evaluated.message == t[1]
+
+# def test_puts():
+#     source = """
+#     puts("Hello World!");
+#     """
+#     evaluated = eval_test(source)
+#     assert isinstance(evaluated, obj.Null)
+
+# def test_hash_index_expressions():
+#     tests = [
+#         ("{\"foo\": 5}[\"foo\"]", 5),
+#         ("{\"foo\": 5}[\"bar\"]", None),
+#         ("let key = \"foo\"; {\"foo\": 5}[key]", 5),
+#         ("{}[\"foo\"]", None),
+#         ("{5: 5}[5]", 5),
+#         ("{true: 5}[true]", 5),
+#         ("{false: 5}[false]", 5),
+#     ]
+#     for t in tests:
+#         evaluated = eval_test(t[0])
+#         if t[1] is None:
+#             assert_null_object(evaluated)
+#         else:
+#             assert_integer_object(evaluated, t[1])
+
+
+# def test_hash_str():
+#     source = """
+#         { "a":1, true: 2, "b": "kimchi"};
+#     """
+#     evaluated = eval_test(source)
+#     assert str(evaluated) == "{a : 1, True : 2, b : kimchi}"
+
+
+# def test_hash_literals():
+#     source = """
+#     let two = "two";
+#     {
+#       "one": 10 - 9,
+#       two: 1 + 1,
+#       "thr" + "ee": 6 / 2,
+#       4: 4,
+#       true: 5,
+#       false: 6
+#     }
+#     """
+#     evaluated = eval_test(source)
+#     assert isinstance(evaluated, obj.Hash)
+#     expected = {
+#         obj.String("one").hash_key(): 1,
+#         obj.String("two").hash_key(): 2,
+#         obj.String("three").hash_key(): 3,
+#         obj.Integer(4).hash_key(): 4,
+#         obj.Boolean(True).hash_key(): 5,
+#         obj.Boolean(False).hash_key(): 6
+#     }
+#     assert len(evaluated.pairs) == len(expected)
+#     for expected_key, expected_value in expected.items():
+#         pair = evaluated.pairs[expected_key]
+#         assert_integer_object(pair.value, expected[expected_key])
