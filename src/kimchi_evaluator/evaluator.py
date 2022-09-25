@@ -1,5 +1,9 @@
+from rpython.jit.codewriter.policy import JitPolicy
+from rpython.rlib.jit import JitDriver
+
 import src.kimchi_ast as ast
 import src.kimchi_object as obj
+from src.config import createEnv
 from src.kimchi_evaluator.const import TRUE, FALSE, NULL
 from src.kimchi_io import print_line
 
@@ -13,7 +17,15 @@ builtins = {
 }
 
 
+def jitpolicy(driver):
+    return JitPolicy()
+
+
+jitdriver = JitDriver(greens=["node"], reds=["env"])
+
+
 def eval(node, env):
+    jitdriver.jit_merge_point(node=node, env=env)
     if isinstance(node, ast.Program):
         return eval_program(node, env)
     elif isinstance(node, ast.HashLiteral):
@@ -132,7 +144,7 @@ def unwrap_return_value(wrapper):
 
 
 def extend_function_env(fn, args):
-    env = obj.Environment(fn.env)
+    env = createEnv(fn.env)
 
     for param_idx, param in enumerate(fn.parameters):
         env.set(param.value, args[param_idx])

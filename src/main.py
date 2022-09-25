@@ -1,6 +1,6 @@
+from src.config import createEnv
 from src.kimchi_evaluator import eval
 from src.kimchi_lexer import Lexer
-from src.kimchi_object import Environment
 from src.kimchi_parser.parser import Parser
 
 
@@ -8,7 +8,7 @@ def run(program_contents):
     lexer = Lexer(program_contents)
     parser = Parser(lexer)
     program = parser.parse_program()
-    eval(program, Environment())
+    eval(program, createEnv(None))
 
 
 def entry_point(argv):

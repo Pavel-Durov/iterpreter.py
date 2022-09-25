@@ -1,12 +1,12 @@
+from src.config import createEnv
 from src.kimchi_evaluator import eval
 from src.kimchi_io import print_line
 from src.kimchi_lexer import Lexer
-from src.kimchi_object import Environment
 from src.kimchi_parser import Parser
 
 
 def main():
-    env = Environment()
+    env = createEnv(None)
 
     while True:
         s = raw_input("> ")

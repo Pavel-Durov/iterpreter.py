@@ -1,5 +1,5 @@
 PYTHONPATH=${PWD}:${PWD}/src/:${PWD}/.pypy/
-VERSION := 0.2.0
+VERSION := 0.3.0
 PYPY_VERSION_ARTIFACT := pypy2.7-v7.3.9-src
 
 .PHONY: test src
@@ -25,16 +25,13 @@ clean-env:
 repl:
 	PYTHONPATH=$(PYTHONPATH) python ./src/repl.py
 
-translate:
-	PYTHONPATH=$(PYTHONPATH) python .pypy/rpython/translator/goal/translate.py ${PWD}/src/main.py
-
 get-pypy:
 	wget https://downloads.python.org/pypy/$(PYPY_VERSION_ARTIFACT).tar.bz2
 	tar -xvf $(PYPY_VERSION_ARTIFACT).tar.bz2 && mv ./$(PYPY_VERSION_ARTIFACT) .pypy && rm $(PYPY_VERSION_ARTIFACT).tar.bz2
 
 pypy-translate:
+	./scripts/translate_and_store.sh ${VERSION} ./src/main.py jit
 	./scripts/translate_and_store.sh ${VERSION} ./src/main.py
-	# ./scripts/translate_and_store.sh ${VERSION} ./src/main.py jit
 	
 git-lfs:
 	git lfs track ./bin/**/*

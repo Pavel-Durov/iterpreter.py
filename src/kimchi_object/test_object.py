@@ -1,5 +1,6 @@
 from src.kimchi_object.string import String
 
+
 def test_string_hash_key():
     hello1 = String("Hello World")
     hello2 = String("Hello World")

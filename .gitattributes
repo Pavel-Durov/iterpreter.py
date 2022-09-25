@@ -1,1 +1,2 @@
 bin/0.2.0/0.2.0_1b97a5e28ed7d8f765b079dfd14cb96cdb071bcd_main-c filter=lfs diff=lfs merge=lfs -text
+bin/0.3.0/0.3.0_5c9790ce5b966f874e65f9b0e7d2a346540e1223_main-c filter=lfs diff=lfs merge=lfs -text
