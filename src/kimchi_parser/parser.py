@@ -82,50 +82,50 @@ class Parser:
 
     def parse_infix_token_exist(self, tk, left):
         if tk == Tk.PLUS:
-          return True
+            return True
         elif tk == Tk.MINUS:
-          return True
+            return True
         elif tk == Tk.SLASH:
-          return True
+            return True
         elif tk == Tk.ASTERISK:
-          return True
+            return True
         elif tk == Tk.EQ:
-          return True
+            return True
         elif tk == Tk.NOT_EQ:
-          return True
+            return True
         elif tk == Tk.LT:
-          return True
+            return True
         elif tk == Tk.GT:
-          return True
+            return True
         elif tk == Tk.LPAREN:
-          return True
+            return True
         elif tk == Tk.LBRACKET:
-          return True
+            return True
         return False
 
     def parse_infix_token(self, tk, left):
         if tk == Tk.PLUS:
-          return self.parse_infix_expression(left)
+            return self.parse_infix_expression(left)
         elif tk == Tk.MINUS:
-          return self.parse_infix_expression(left)
+            return self.parse_infix_expression(left)
         elif tk == Tk.SLASH:
-          return self.parse_infix_expression(left)
+            return self.parse_infix_expression(left)
         elif tk == Tk.ASTERISK:
-          return self.parse_infix_expression(left)
+            return self.parse_infix_expression(left)
         elif tk == Tk.EQ:
-          return self.parse_infix_expression(left)
+            return self.parse_infix_expression(left)
         elif tk == Tk.NOT_EQ:
-          return self.parse_infix_expression(left)
+            return self.parse_infix_expression(left)
         elif tk == Tk.LT:
-          return self.parse_infix_expression(left)
+            return self.parse_infix_expression(left)
         elif tk == Tk.GT:
-          return self.parse_infix_expression(left)
+            return self.parse_infix_expression(left)
         elif tk == Tk.LPAREN:
-          return self.parse_call_expression(left)
+            return self.parse_call_expression(left)
         elif tk == Tk.LBRACKET:
-          return self.parse_index_expression(left)
+            return self.parse_index_expression(left)
         return None
-        
+
     def parse_hash_literal(self):
         pairs = {}
         while not self.peek_token_is(Tk.RBRACE):
@@ -353,8 +353,6 @@ class Parser:
             return self.precedences[self.cur_token.type]
         return self.LOWEST
 
-    
-
     def parse_integer_literal(self):
         value = 0
         try:
@@ -395,7 +393,6 @@ class Parser:
             self.peek_error(token_type)
             return False
 
-
     def parse_expression(self, precedence):
         tk = self.cur_token.type
         left_exp = None
@@ -426,26 +423,26 @@ class Parser:
             tk = self.peek_token.type
             self.next_token()
             if tk == Tk.PLUS:
-              left_exp = self.parse_infix_expression(left_exp)
+                left_exp = self.parse_infix_expression(left_exp)
             elif tk == Tk.MINUS:
-              left_exp = self.parse_infix_expression(left_exp)
+                left_exp = self.parse_infix_expression(left_exp)
             elif tk == Tk.SLASH:
-              left_exp = self.parse_infix_expression(left_exp)
+                left_exp = self.parse_infix_expression(left_exp)
             elif tk == Tk.ASTERISK:
-              left_exp = self.parse_infix_expression(left_exp)
+                left_exp = self.parse_infix_expression(left_exp)
             elif tk == Tk.EQ:
-              left_exp = self.parse_infix_expression(left_exp)
+                left_exp = self.parse_infix_expression(left_exp)
             elif tk == Tk.NOT_EQ:
-              left_exp = self.parse_infix_expression(left_exp)
+                left_exp = self.parse_infix_expression(left_exp)
             elif tk == Tk.LT:
-              left_exp = self.parse_infix_expression(left_exp)
+                left_exp = self.parse_infix_expression(left_exp)
             elif tk == Tk.GT:
-              left_exp = self.parse_infix_expression(left_exp)
+                left_exp = self.parse_infix_expression(left_exp)
             elif tk == Tk.LPAREN:
-              left_exp = self.parse_call_expression(left_exp)
+                left_exp = self.parse_call_expression(left_exp)
             elif tk == Tk.LBRACKET:
-              left_exp = self.parse_index_expression(left_exp)
+                left_exp = self.parse_index_expression(left_exp)
             else:
-              return left_exp
+                return left_exp
 
         return left_exp

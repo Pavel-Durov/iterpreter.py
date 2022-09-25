@@ -1,5 +1,6 @@
 from src.kimchi_object import Object
 
+
 class Function(Object):
     def __init__(self, parameters, body, env):
         self.parameters = parameters
@@ -11,8 +12,11 @@ class Function(Object):
 
     def inspect(self):
         out = "fn("
-        out += ", ".join(self.parameters)
+        for p in self.parameters:
+            if p is not None:
+                out += ", " + str(p)
         out += ") {\n"
-        out += str(self.body)
+        if self.body is not None:
+            out += str(self.body)
         out += "\n}"
         return out

@@ -10,11 +10,12 @@ class Object():
     ARRAY_OBJ = "ARRAY"
     HASH_OBJ = "HASH"
 
-    def type():
+    def type(self):
         pass
 
-    def inspect():
+    def inspect(self):
         pass
+
 
 class HashableObject(Object):
     def hash_key(self):

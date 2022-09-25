@@ -4,6 +4,7 @@ from src.kimchi_evaluator import eval
 from src.kimchi_lexer import Lexer
 from src.kimchi_parser import Parser
 
+
 def test_function_calls():
     source = """
     let fibonacci = fn(x) { 
@@ -51,6 +52,7 @@ def test_array_literals():
     assert_integer_object(evaluated.elements[0], 1)
     assert_integer_object(evaluated.elements[1], 4)
     assert_integer_object(evaluated.elements[2], 6)
+
 
 def test_string_concat():
     input = """
@@ -117,6 +119,7 @@ def test_let_statements():
     for tt in tests:
         evaluated = eval_test(tt[0])
         assert_integer_object(evaluated, tt[1])
+
 
 def test_return_statements():
     tests = [
@@ -242,6 +245,38 @@ def assert_boolean_object(obj, expected):
     assert obj.value == expected
     assert obj.type() == "BOOLEAN"
 
+
+def test_builtin_functions():
+    tests = [
+        ("len(\"\")", 0),
+        ("len(\"four\")", 4),
+        ("len(\"hello world\")", 11),
+        ("len([1,2,3])", 3),
+        ("first([1,2,3])", 1),
+        ("last([1,2,3])", 3),
+        ("rest([1,2,3])", [2, 3]),
+        ("push([1,2,3], 1)", [1, 2, 3, 1]),
+        # ("len(1)", "argument to `len` not supported, got INTEGER"),
+        # ("len(\"one\", \"two\")", "wrong number of arguments. got=2, want=1"),
+    ]
+    for t in tests:
+        evaluated = eval_test(t[0])
+        if type(t[1]) is int:
+            assert_integer_object(evaluated, t[1])
+        elif isinstance(evaluated, obj.Array):
+            assert str(t[1]) == str(evaluated)
+        else:
+            assert isinstance(evaluated, obj.Error)
+            assert evaluated.message == t[1]
+
+
+def test_puts():
+    source = """
+    puts("Hello World!");
+    """
+    evaluated = eval_test(source)
+    assert isinstance(evaluated, obj.Null)
+
 # def test_error_handling():
 #     tests = [
 #         ("5 + true;", "type mismatch: INTEGER + BOOLEAN"),
@@ -266,28 +301,6 @@ def assert_boolean_object(obj, expected):
 #         assert isinstance(evaluated, obj.Error)
 #         assert evaluated.message == tt[1]
 
-# def test_builtin_functions():
-#     tests = [
-#         ("len(\"\")", 0),
-#         ("len(\"four\")", 4),
-#         ("len(\"hello world\")", 11),
-#         ("len(1)", "argument to `len` not supported, got INTEGER"),
-#         ("len(\"one\", \"two\")", "wrong number of arguments. got=2, want=1"),
-#     ]
-#     for t in tests:
-#         evaluated = eval_test(t[0])
-#         if type(t[1]) is int:
-#             assert_integer_object(evaluated, t[1])
-#         else:
-#             assert isinstance(evaluated, obj.Error)
-#             assert evaluated.message == t[1]
-
-# def test_puts():
-#     source = """
-#     puts("Hello World!");
-#     """
-#     evaluated = eval_test(source)
-#     assert isinstance(evaluated, obj.Null)
 
 # def test_hash_index_expressions():
 #     tests = [

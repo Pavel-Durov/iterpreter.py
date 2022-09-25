@@ -1,5 +1,6 @@
 from src.kimchi_object import Object
 
+
 class Null(Object):
     def __init__(self):
         pass

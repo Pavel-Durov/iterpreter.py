@@ -1,6 +1,7 @@
 from src.kimchi_object import HashableObject, Object
 from .hash_key import HashKey
 
+
 class Integer(HashableObject):
     def __init__(self, value):
         self.value = value

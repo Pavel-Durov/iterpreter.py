@@ -1,5 +1,6 @@
 from src.kimchi_object import Object
 
+
 class ReturnValue(Object):
     def __init__(self, value):
         self.value = value

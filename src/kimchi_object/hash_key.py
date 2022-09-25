@@ -1,6 +1,6 @@
-
-from src.kimchi_object import Object 
+from src.kimchi_object import Object
 from .kimchi_hash import kimchi_hash
+
 
 class HashKey(Object):
     def __init__(self, type, value):
@@ -10,7 +10,7 @@ class HashKey(Object):
     def __eq__(self, other):
         if self.t == Object.INTEGER_OBJ or self.t == Object.BOOLEAN_OBJ or self.t == Object.STRING_OBJ:
             return self.value == other.value
-        
+
         if self.t != other.type:
             return False
         # if self.t == Object.INTEGER_OBJ:

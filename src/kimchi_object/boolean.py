@@ -1,4 +1,6 @@
-from src.kimchi_object import HashableObject, Object, HashKey
+from src.kimchi_object.hash_key import HashKey
+from src.kimchi_object.object import HashableObject, Object
+
 
 class Boolean(HashableObject):
     def __init__(self, value):

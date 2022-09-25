@@ -1,6 +1,3 @@
-import src.kimchi_object as obj
-
-
 # def test_string_hash_key():
 #     hello1 = obj.String("Hello World")
 #     hello2 = obj.String("Hello World")

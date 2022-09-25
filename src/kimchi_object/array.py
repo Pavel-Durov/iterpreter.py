@@ -1,4 +1,5 @@
-from src.kimchi_object import Object
+from src.kimchi_object.object import Object
+
 
 class Array(Object):
     def __init__(self, elements):

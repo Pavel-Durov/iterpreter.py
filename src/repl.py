@@ -1,10 +1,9 @@
-import os
-
 from src.kimchi_evaluator import eval
+from src.kimchi_io import print_line
 from src.kimchi_lexer import Lexer
 from src.kimchi_object import Environment
 from src.kimchi_parser import Parser
-from src.kimchi_io import print_line
+
 
 def main():
     env = Environment()

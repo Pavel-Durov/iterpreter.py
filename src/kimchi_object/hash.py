@@ -2,7 +2,6 @@ from src.kimchi_object import Object, HashKey, HashableObject
 from src.kimchi_object.kimchi_hash import kimchi_hash
 
 
-
 class Hash(HashableObject):
     def __init__(self, pairs):
         self.pairs = pairs

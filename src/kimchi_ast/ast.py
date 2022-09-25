@@ -6,7 +6,7 @@ class Node:
         pass
 
     # def __eq__(self, obj):
-        # self.token_literal() == obj.token_literal()
+    # self.token_literal() == obj.token_literal()
 
 
 class Statement(Node):

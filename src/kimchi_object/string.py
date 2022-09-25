@@ -1,5 +1,5 @@
-from src.kimchi_object import HashableObject, Object, HashKey
-from src.kimchi_object.kimchi_hash import kimchi_hash
+from src.kimchi_object import HashableObject, Object
+
 
 class String(HashableObject):
     def __init__(self, value):

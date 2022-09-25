@@ -138,7 +138,7 @@ def test_let_expressions():
         assert_no_parser_errors(p.errors)
 
         assert len(prog.statements) == 1
-        
+
         stmt = prog.statements[0]
         assert isinstance(stmt, LetStatement)
         assert_literal_expression(stmt.value, tt[2])
@@ -209,7 +209,7 @@ def test_parsing_prefix_expressions():
         assert_no_parser_errors(p.errors)
         assert len(prog.statements) == 1
         assert isinstance(prog.statements[0], ExpressionStatement)
-        
+
         assert isinstance(prog.statements[0].expression, Expression)
         assert prog.statements[0].expression.operator == t[1]
         assert_literal_expression(prog.statements[0].expression.right, t[2])
@@ -304,7 +304,7 @@ def test_boolean_expressions():
         prog = p.parse_program()
         assert_no_parser_errors(p.errors)
         assert len(prog.statements) == 1
-        
+
         stmt = prog.statements[0]
         assert isinstance(stmt, ExpressionStatement)
         assert isinstance(stmt.expression, Expression)
@@ -318,7 +318,7 @@ def test_if_expression():
     assert_no_parser_errors(p.errors)
     assert len(prog.statements) == 1
     assert isinstance(prog.statements[0], ExpressionStatement)
-    
+
     assert isinstance(prog.statements[0].expression, IfExpression)
     assert_infix_expression(prog.statements[0].expression.condition, "x", "<", "y")
     assert len(prog.statements[0].expression.consequence.statements) == 1
@@ -390,7 +390,7 @@ def test_call_expression():
     stmt = prog.statements[0]
     assert isinstance(stmt, ExpressionStatement)
     assert isinstance(stmt.expression, CallExpression)
-    
+
     assert_identifier(stmt.expression.function, "add")
     assert len(stmt.expression.arguments) == 3
     assert_literal_expression(stmt.expression.arguments[0], 1)
@@ -433,7 +433,7 @@ def assert_no_parser_errors(errors):
         print("parser has %f errors" % (len(errors)))
         for err in errors:
             print("parser error: %s" % (err))
-        assert False        
+        assert False
 
 
 def assert_integer_literal(exp, value):
