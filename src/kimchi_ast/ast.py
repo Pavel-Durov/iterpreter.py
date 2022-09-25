@@ -283,6 +283,7 @@ class IndexExpression(Expression):
     def __str__(self):
         return "(" + str(self.left) + "[" + str(self.index) + "])"
 
+
 class ArrayLiteral(Expression):
     def __init__(self, token, elements):
         self.token = token
@@ -300,3 +301,20 @@ class ArrayLiteral(Expression):
             elements.append(str(e))
         return "[" + ", ".join(elements) + "]"
 
+
+class HashLiteral(Expression):
+    def __init__(self, token, pairs):
+        self.token = token
+        self.pairs = pairs
+
+    def expression_node(self):
+        pass
+
+    def token_literal(self):
+        return self.token.literal
+
+    def __str__(self):
+        pairs = []
+        for key, value in self.pairs.items():
+            pairs.append(str(key) + ":" + str(value))
+        return "{" + ", ".join(pairs) + "}"

@@ -9,6 +9,7 @@ class Tk:
     IDENT = "IDENT"  # add, foobar, x, y, ...
     INT = "INT"
 
+    COLON = ":"
     # Operators
     ASSIGN = "="
     PLUS = "+"

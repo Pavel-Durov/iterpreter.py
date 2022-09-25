@@ -27,6 +27,8 @@ class Lexer:
 
         if self.ch == ";":
             tok = Tk(Tk.SEMICOLON, self.ch)
+        elif self.ch == ":":
+            tok = Tk(Tk.COLON, self.ch)
         elif self.ch == "(":
             tok = Tk(Tk.LPAREN, self.ch)
         elif self.ch == ")":

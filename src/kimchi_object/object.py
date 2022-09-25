@@ -5,9 +5,10 @@ class Object():
     RETURN_VALUE_OBJ = "RETURN_VALUE"
     ERROR_OBJ = "ERROR"
     FUNCTION_OBJ = "FUNCTION"
-    STRING_OBJECT = "STRING"
+    STRING_OBJ = "STRING"
     BUILTIN_OBJ = "BUILTIN"
     ARRAY_OBJ = "ARRAY"
+    HASH_OBJ = "HASH"
 
     def type():
         pass
@@ -16,7 +17,12 @@ class Object():
         pass
 
 
-class Integer(Object):
+class HashableObject(Object):
+    def hash_key():
+        pass
+
+
+class Integer(HashableObject):
     def __init__(self, value):
         self.value = value
 
@@ -29,8 +35,11 @@ class Integer(Object):
     def __str__(self):
         return self.inspect()
 
+    def hash_key(self):
+        return HashKey(self.type(), self.value)
 
-class Boolean(Object):
+
+class Boolean(HashableObject):
     def __init__(self, value):
         self.value = value
 
@@ -42,6 +51,29 @@ class Boolean(Object):
 
     def __str__(self):
         return self.inspect()
+
+    def hash_key(self):
+        if self.value:
+            return HashKey(self.type(), 1)
+        else:
+            return HashKey(self.type(), 0)
+
+
+class String(HashableObject):
+    def __init__(self, value):
+        self.value = value
+
+    def type(self):
+        return Object.STRING_OBJ
+
+    def inspect(self):
+        return self.value
+
+    def __str__(self):
+        return self.inspect()
+
+    def hash_key(self):
+        return HashKey(self.type(), hash(self.value))
 
 
 class Null(Object):
@@ -101,20 +133,6 @@ class Function(Object):
         return out
 
 
-class String(Object):
-    def __init__(self, value):
-        self.value = value
-
-    def type(self):
-        return Object.STRING_OBJ
-
-    def inspect(self):
-        return self.value
-
-    def __str__(self):
-        return self.inspect()
-
-
 class Builtin(Object):
     def __init__(self, fn):
         self.fn = fn
@@ -144,3 +162,57 @@ class Array(Object):
 
     def __str__(self):
         return self.inspect()
+
+
+class HashKey(Object):
+    def __init__(self, type, value):
+        self.type = type
+        self.value = value
+
+    def __eq__(self, other):
+        if self.type != other.type:
+            return False
+        if self.type == Object.INTEGER_OBJ:
+            return self.value == other.value
+        if self.type == Object.STRING_OBJ:
+            return self.value == other.value
+        if self.type == Object.BOOLEAN_OBJ:
+            return self.value == other.value
+        raise Exception("uncomparable type: " + self.type)
+
+    def __hash__(self):
+        if self.type == Object.INTEGER_OBJ or self.type == Object.BOOLEAN_OBJ or self.type == Object.STRING_OBJ:
+            return hash(self.value)
+        raise Exception("unhashable type: " + self.type)
+
+    def __str__(self):
+        return str(self.value)
+
+
+class HashPair(Object):
+    def __init__(self, key, value):
+        self.key = key
+        self.value = value
+
+    def __str__(self):
+        return str(self.key) + ": " + str(self.value)
+
+
+class Hash(Object):
+    def __init__(self, pairs):
+        self.pairs = pairs
+
+    def type(self):
+        return Object.HASH_OBJ
+
+    def inspect(self):
+        out = "{"
+        out += ", ".join([str(self.pairs[p].key) + " : " + str(self.pairs[p].value) for p in self.pairs])
+        out += "}"
+        return out
+
+    def __str__(self):
+        return self.inspect()
+
+    def hash_key(self):
+        return HashKey(self.type(), hash(self.pairs))

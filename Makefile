@@ -1,5 +1,5 @@
 PYTHONPATH=${PWD}:${PWD}/src/:${PWD}/.pypy/
-VERSION := 0.0.3
+VERSION := 0.1.0
 PYPY_VERSION_ARTIFACT := pypy2.7-v7.3.9-src
 
 .PHONY: test src

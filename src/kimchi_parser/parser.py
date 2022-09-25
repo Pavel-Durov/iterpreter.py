@@ -14,7 +14,8 @@ from src.kimchi_ast.ast import (
     ReturnStatement,
     ArrayLiteral,
     StringLiteral,
-    IndexExpression
+    IndexExpression,
+    HashLiteral
 )
 
 from src.kimchi_tk import Tk
@@ -62,6 +63,7 @@ class Parser:
         self.reg_prefix(token_type=Tk.FUNCTION, fn=self.parse_function_literal)
         self.reg_prefix(token_type=Tk.STRING, fn=self.parse_string_literal)
         self.reg_prefix(token_type=Tk.LBRACKET, fn=self.parse_array_literal)
+        self.reg_prefix(token_type=Tk.LBRACE, fn=self.parse_hash_literal)
 
         self.infixParseFns = {}
 
@@ -75,9 +77,25 @@ class Parser:
         self.reg_infix(token_type=Tk.GT, fn=self.parse_infix_expression)
         self.reg_infix(token_type=Tk.LPAREN, fn=self.parse_call_expression)
         self.reg_infix(token_type=Tk.LBRACKET, fn=self.parse_index_expression)
-        # Read two tokens, so curToken and peekToken are both set
+        # Read two tokens, so cur_token and peek_token are both set
         self.next_token()
         self.next_token()
+
+    def parse_hash_literal(self):
+        pairs = {}
+        while not self.peek_token_is(Tk.RBRACE):
+            self.next_token()
+            key = self.parse_expression(self.LOWEST)
+            if not self.expect_peek(Tk.COLON):
+                return None
+            self.next_token()
+            value = self.parse_expression(self.LOWEST)
+            pairs[key] = value
+            if not self.peek_token_is(Tk.RBRACE) and not self.expect_peek(Tk.COMMA):
+                return None
+        if not self.expect_peek(Tk.RBRACE):
+            return None
+        return HashLiteral(self.cur_token, pairs)
 
     def parse_index_expression(self, left):
         self.next_token()

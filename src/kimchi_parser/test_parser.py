@@ -3,6 +3,7 @@ from src.kimchi_ast.ast import (
     CallExpression,
     ExpressionStatement,
     FunctionLiteral,
+    HashLiteral,
     Identifier,
     IfExpression,
     InfixExpression,
@@ -18,9 +19,51 @@ from src.kimchi_lexer import Lexer
 from src.kimchi_parser import Parser
 
 
-def test_parsing_index_expression():
-    input = "myArray[1 + 1];"
+def test_parsing_hash_literal_with_expressions():
+    input = "{\"one\": 0 + 1, \"two\": 10 - 8, \"three\": 15 / 5}"
     p = Parser(Lexer(input))
+    prog = p.parse_program()
+    assert_no_parser_errors(p.errors)
+    assert isinstance(prog.statements[0], ExpressionStatement)
+    assert isinstance(prog.statements[0].expression, HashLiteral)
+    assert len(prog.statements[0].expression.pairs) == 3
+    tests = {
+        "one": lambda exp: assert_infix_expression(exp, 0, "+", 1),
+        "two": lambda exp: assert_infix_expression(exp, 10, "-", 8),
+        "three": lambda exp: assert_infix_expression(exp, 15, "/", 5),
+    }
+    for key in prog.statements[0].expression.pairs:
+        tests[str(key)](prog.statements[0].expression.pairs[key])
+
+
+def test_parsing_empty_hash_literal():
+    input = "{}"
+    p = Parser(Lexer(input))
+    prog = p.parse_program()
+    assert_no_parser_errors(p.errors)
+    assert isinstance(prog.statements[0], ExpressionStatement)
+    assert isinstance(prog.statements[0].expression, HashLiteral)
+    assert len(prog.statements[0].expression.pairs) == 0
+
+
+def test_parsing_hash_literal_string_keys():
+    input = "{\"one\": 1, \"two\": 2, \"three\": 3}"
+    p = Parser(Lexer(input))
+    prog = p.parse_program()
+    assert_no_parser_errors(p.errors)
+    assert isinstance(prog.statements[0], ExpressionStatement)
+    assert isinstance(prog.statements[0].expression, HashLiteral)
+    assert len(prog.statements[0].expression.pairs) == 3
+    expected = {"one": 1, "two": 2, "three": 3}
+    exp = prog.statements[0].expression
+    for key in exp.pairs:
+        assert isinstance(key, StringLiteral)
+        assert key.value in expected
+        assert_integer_literal(exp.pairs[key], expected[key.value])
+
+
+def test_parsing_index_expression():
+    p = Parser(Lexer("myArray[1 + 1];"))
     prog = p.parse_program()
     assert_no_parser_errors(p.errors)
     assert isinstance(prog.statements[0], ExpressionStatement)

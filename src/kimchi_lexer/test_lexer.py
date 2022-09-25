@@ -23,6 +23,7 @@ def test_next_token():
     "some-string-here"
     "another-string-there"
     [1, 2];
+    {"foo": "bar"};
    """
     tests = [
         (Tk.LET, "let"),
@@ -100,11 +101,19 @@ def test_next_token():
         (Tk.SEMICOLON, ";"),
         (Tk.STRING, "some-string-here"),
         (Tk.STRING, "another-string-there"),
+        # array
         (Tk.LBRACKET, "["),
         (Tk.INT, "1"),
         (Tk.COMMA, ","),
         (Tk.INT, "2"),
         (Tk.RBRACKET, "]"),
+        (Tk.SEMICOLON, ";"),
+        # hashmap
+        (Tk.LBRACE, "{"),
+        (Tk.STRING, "foo"),
+        (Tk.COLON, ":"),
+        (Tk.STRING, "bar"),
+        (Tk.RBRACE, "}"),
         (Tk.SEMICOLON, ";"),
         (Tk.EOF, ""),
     ]
