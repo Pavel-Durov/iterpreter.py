@@ -3,6 +3,15 @@ import src.kimchi_object as obj
 from src.kimchi_evaluator.const import TRUE, FALSE, NULL
 from src.kimchi_io import print_line
 
+builtins = {
+    "len": True,
+    "first": True,
+    "last": True,
+    "rest": True,
+    "push": True,
+    "puts": True,
+}
+
 
 def eval(node, env):
     if isinstance(node, ast.Program):
@@ -92,8 +101,8 @@ def eval_hash_literal(node, env):
 
 
 def eval_hash_index_expression(hash, index):
-    # if not isinstance(index, obj.HashableObject):
-    # return obj.Error("unusable as hash key: %s" % (index.type()))
+    if not isinstance(index, obj.HashableObject):
+        return obj.Error("unusable as hash key: %s" % (index.type()))
     pair = hash.pairs.get(index.hash_key())
     if pair:
         return pair.value
@@ -105,7 +114,7 @@ def eval_index_expression(left, index):
         return eval_array_index_expression(left, index)
     elif isinstance(left, obj.Hash):
         return eval_hash_index_expression(left, index)
-    # return obj.Error("index operator not supported: %s" %(left.type()))
+    return obj.Error("index operator not supported: %s" % (left.type()))
 
 
 def eval_array_index_expression(array, index):
@@ -136,20 +145,13 @@ def apply_function(fn, args):
         extended_env = extend_function_env(fn, args)
         evaluated = eval(fn.body, extended_env)
         return unwrap_return_value(evaluated)
-    # TODO: enable builtins
-    # elif isinstance(fn, obj.Builtin):
-    # if type(args) is list:
-    #     return fn.fn(args)
-    # else:
-    #     return fn.fn([args])
-    # list_args = []
-    # if not isinstance(args, list):
-    #     args = [args]
     if args is None:
         return None
     if fn.name == "len":
         if isinstance(args, list) and len(args) == 1:
             return builtin_len(args[0])
+        else:
+            return obj.Error("wrong number of arguments. got=%d, want=1" % (len(args)))
     elif fn.name == "puts":
         return builtin_puts(args)
     elif fn.name == "first":
@@ -160,10 +162,7 @@ def apply_function(fn, args):
         return builtin_rest(args)
     elif fn.name == "push":
         return builtin_push(args)
-
-    return None
-
-    # return obj.Error("not a function: %s" % (fn.type()))
+    return obj.Error("not a function: %s" % (fn.type()))
 
 
 def eval_expressions(args, env):
@@ -180,10 +179,9 @@ def eval_identifier(node, env):
     val = env.get(node.value)
     if val:
         return val
-    # if node.value in builtins:
-    return obj.Builtin(node.value)
-    # get_builtin(node.value)
-    # return obj.Error("identifier not found: %s" % (node.value))
+    if node.value in builtins:
+        return obj.Builtin(node.value)
+    return obj.Error("identifier not found: %s" % (node.value))
 
 
 def eval_block_statement(block, env):
@@ -249,7 +247,8 @@ def eval_integer_infix_expression(operator, left, right):
         return native_bool_to_boolean_object(left_val == right_val)
     elif operator == "!=":
         return native_bool_to_boolean_object(left_val != right_val)
-    # return obj.Error("unknown operator: %s %s %s" % (left.type(), operator, right.type))
+
+    return obj.Error("unknown operator: %s %s %s" % (str(left.type()), str(operator), str(right.type())))
 
 
 def eval_infix_expression(operator, left, right):
@@ -261,14 +260,14 @@ def eval_infix_expression(operator, left, right):
         return native_bool_to_boolean_object(left != right)
     elif isinstance(left, obj.String) and isinstance(right, obj.String):
         return eval_string_infix_expression(left, right, operator)
-    # elif left.type() != right.type():
-    # return obj.Error("type mismatch: %s %s %s" % (left.type(), operator, right.type()))
-    # return obj.Error("unknown operator: %s %s %s" % (left.type(), operator, right.type()))
+    elif left.type() != right.type():
+        return obj.Error("type mismatch: %s %s %s" % (left.type(), operator, right.type()))
+    return obj.Error("unknown operator: %s %s %s" % (left.type(), operator, right.type()))
 
 
 def eval_string_infix_expression(left, right, operator):
-    # if operator != "+":
-    #     return obj.Error("Unknown operator: %s %s %s" % (left.type(), operator, right.type()))
+    if operator != "+":
+        return obj.Error("Unknown operator: %s %s %s" % (left.type(), operator, right.type()))
     return obj.String(left.value + right.value)
 
 
@@ -283,12 +282,10 @@ def eval_bang_operator_expression(right):
 
 
 def eval_minus_prefix_operator_expression(right):
-    # if not isinstance(right, obj.Integer):
-    # return obj.Error("unknown operator: -%s" % (right.type()))
     if isinstance(right, obj.Integer):
         return obj.Integer(-right.value)
-    return None
-    # return NULL
+
+    return obj.Error("unknown operator: -%s" % (right.type()))
 
 
 def eval_prefix_expression(operator, right):
@@ -296,7 +293,7 @@ def eval_prefix_expression(operator, right):
         return eval_bang_operator_expression(right)
     elif operator == "-":
         return eval_minus_prefix_operator_expression(right)
-    # return obj.Error("unknown operator: %s" % (operator, right.type()))
+    return obj.Error("unknown operator: %s" % (operator, right.type()))
 
 
 def native_bool_to_boolean_object(input):
@@ -310,23 +307,16 @@ def builtin_len(arg):
         return obj.Integer(len(arg.value))
     elif isinstance(arg, obj.Array):
         return obj.Integer(len(arg.elements))
-    # if len(args) != 1:
-    #     return obj.Error("wrong number of arguments. got=%d, want=1" % (len(args)))
-    # arg = args[0]
-    # if isinstance(arg, obj.String):
-    #     return obj.Integer(len(arg.value))
-    # elif isinstance(arg, obj.Array):
-    #     return obj.Integer(len(arg.value))
-    # else:
-    #     return obj.Error("argument to `len` not supported, got %s" % (arg.type()))
+    else:
+        return obj.Error("argument to `len` not supported, got %s" % (arg.type()))
 
 
 def builtin_first(args):
-    # if len(args) != 1:
-    #     return obj.Error("wrong number of arguments. got=%d, want=1" % (len(args)))
+    if len(args) != 1:
+        return obj.Error("wrong number of arguments. got=%d, want=1" % (len(args)))
     arg = args[0]
-    # if not isinstance(arg, obj.Array):
-    #     return obj.Error("argument to `first` must be ARRAY, got %s" % (arg.type()))
+    if not isinstance(arg, obj.Array):
+        return obj.Error("argument to `first` must be ARRAY, got %s" % (arg.type()))
     if len(arg.elements) > 0:
         return arg.elements[0]
     else:
@@ -334,11 +324,11 @@ def builtin_first(args):
 
 
 def builtin_last(args):
-    # if len(args) != 1:
-    #     return obj.Error("wrong number of arguments. got=%d, want=1" % (len(args)))
+    if len(args) != 1:
+        return obj.Error("wrong number of arguments. got=%d, want=1" % (len(args)))
     arg = args[0]
-    # if not isinstance(arg, obj.Array):
-    #     return obj.Error("argument to `last` must be ARRAY, got %s" % (arg.type()))
+    if not isinstance(arg, obj.Array):
+        return obj.Error("argument to `last` must be ARRAY, got %s" % (arg.type()))
     if len(arg.elements) > 0:
         return arg.elements[-1]
     else:
@@ -346,11 +336,11 @@ def builtin_last(args):
 
 
 def builtin_rest(args):
-    # if len(args) != 1:
-    #     return obj.Error("wrong number of arguments. got=%d, want=1" % (len(args)))
+    if len(args) != 1:
+        return obj.Error("wrong number of arguments. got=%d, want=1" % (len(args)))
     arg = args[0]
-    # if not isinstance(arg, obj.Array):
-    #     return obj.Error("argument to `rest` must be ARRAY, got %s" % (arg.type()))
+    if not isinstance(arg, obj.Array):
+        return obj.Error("argument to `rest` must be ARRAY, got %s" % (arg.type()))
     if len(arg.elements) > 0:
         return obj.Array(arg.elements[1:])
     else:
@@ -358,11 +348,11 @@ def builtin_rest(args):
 
 
 def builtin_push(args):
-    # if len(args) != 2:
-    #     return obj.Error("wrong number of arguments. got=%d, want=2" % len(args))
+    if len(args) != 2:
+        return obj.Error("wrong number of arguments. got=%d, want=2" % len(args))
     arg = args[0]
-    # if not isinstance(arg, obj.Array):
-    #     return obj.Error("argument to `push` must be ARRAY, got %s" % s(arg.type()))
+    if not isinstance(arg, obj.Array):
+        return obj.Error("argument to `push` must be ARRAY, got %s" % (arg.type()))
     new_element = args[1]
     new_elements = arg.elements + [new_element]
     return obj.Array(new_elements)

@@ -277,30 +277,30 @@ def test_puts():
     evaluated = eval_test(source)
     assert isinstance(evaluated, obj.Null)
 
-# def test_error_handling():
-#     tests = [
-#         ("5 + true;", "type mismatch: INTEGER + BOOLEAN"),
-#         ("5 + true; 5;", "type mismatch: INTEGER + BOOLEAN"),
-#         ("-true", "unknown operator: -BOOLEAN"),
-#         ("true + false;", "unknown operator: BOOLEAN + BOOLEAN"),
-#         ("5; true + false; 5", "unknown operator: BOOLEAN + BOOLEAN"),
-#         ("if (10 > 1) { true + false; }", "unknown operator: BOOLEAN + BOOLEAN"),
-#         ("""if (10 > 1) {
-#           if (10 > 1) {
-#             return true + false;
-#           }
-#         return 1; }""", "unknown operator: BOOLEAN + BOOLEAN"),
-#         ("foobar", "identifier not found: foobar"),
-#         ("\"Hello\" - \"World\"", "Unknown operator: STRING - STRING"),
-#         # TODO: fix no error on unusable as hash
-#         # ('{"name": "Monkey"}[fn(x) { x }];', "unusable as hash key: FUNCTION"),
-#     ]  #
 
-#     for tt in tests:
-#         evaluated = eval_test(tt[0])
-#         assert isinstance(evaluated, obj.Error)
-#         assert evaluated.message == tt[1]
+def test_error_handling():
+    tests = [
+        ("5 + true;", "type mismatch: INTEGER + BOOLEAN"),
+        ("5 + true; 5;", "type mismatch: INTEGER + BOOLEAN"),
+        ("-true", "unknown operator: -BOOLEAN"),
+        ("true + false;", "unknown operator: BOOLEAN + BOOLEAN"),
+        ("5; true + false; 5", "unknown operator: BOOLEAN + BOOLEAN"),
+        ("if (10 > 1) { true + false; }", "unknown operator: BOOLEAN + BOOLEAN"),
+        ("""if (10 > 1) {
+          if (10 > 1) {
+            return true + false;
+          }
+        return 1; }""", "unknown operator: BOOLEAN + BOOLEAN"),
+        ("foobar", "identifier not found: foobar"),
+        ("\"Hello\" - \"World\"", "Unknown operator: STRING - STRING"),
+        # TODO: fix no error on unusable as hash
+        # ('{"name": "Monkey"}[fn(x) { x }];', "unusable as hash key: FUNCTION"),
+    ]  #
 
+    for tt in tests:
+        evaluated = eval_test(tt[0])
+        assert isinstance(evaluated, obj.Error)
+        assert evaluated.message == tt[1]
 
 # def test_hash_index_expressions():
 #     tests = [

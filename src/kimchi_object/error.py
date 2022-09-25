@@ -9,10 +9,9 @@ class Error(Object):
         return Object.ERROR_OBJ
 
     def inspect(self):
-        return "ERROR"
-        # if self.message is None:
-        #     return "ERROR"
-        # return "ERROR: " + self.message
+        if self.message is None:
+            return "ERROR"
+        return "ERROR: " + self.message
 
     def __str__(self):
         return self.inspect()
