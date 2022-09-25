@@ -1,4 +1,5 @@
 import src.kimchi_object.object as obj
+from src.kimchi_evaluator.const import NULL
 
 
 def builtin_len(*args):
