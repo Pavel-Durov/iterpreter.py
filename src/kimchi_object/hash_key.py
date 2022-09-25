@@ -15,7 +15,7 @@ class HashKey(Object):
 
     def __hash__(self):
         if self.t == Object.INTEGER_OBJ or self.t == Object.BOOLEAN_OBJ or self.t == Object.STRING_OBJ:
-            return kimchi_hash(self.value)
+            return kimchi_hash(str(self.value))
         raise Exception("unhashable type: " + self.t)
 
     def __str__(self):

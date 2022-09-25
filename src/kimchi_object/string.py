@@ -1,4 +1,5 @@
-from src.kimchi_object import HashableObject, Object
+from src.kimchi_object import HashableObject, Object, kimchi_hash
+from src.kimchi_object.hash_key import HashKey
 
 
 class String(HashableObject):
@@ -14,5 +15,5 @@ class String(HashableObject):
     def __str__(self):
         return self.inspect()
 
-    # def hash_key(self):
-    #     return HashKey(Object.STRING_OBJ, kimchi_hash(self.value))
+    def hash_key(self):
+        return HashKey(Object.STRING_OBJ, kimchi_hash(str(self.value)))

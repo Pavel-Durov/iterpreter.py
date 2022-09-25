@@ -1,5 +1,4 @@
 from src.kimchi_object import Object, HashKey, HashableObject
-from src.kimchi_object.kimchi_hash import kimchi_hash
 
 
 class Hash(HashableObject):
@@ -19,4 +18,6 @@ class Hash(HashableObject):
         return self.inspect()
 
     def hash_key(self):
-        return HashKey(Object.HASH_OBJ, kimchi_hash(self.pairs))
+        # TODO: add hash of pairs
+        # return HashKey(Object.HASH_OBJ, str(self.pairs))
+        return HashKey(Object.HASH_OBJ, 1)
