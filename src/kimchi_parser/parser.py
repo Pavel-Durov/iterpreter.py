@@ -50,33 +50,6 @@ class Parser:
         self.peek_token = None
         self.errors = []
 
-        # self.prefixParseFns = {}
-        # self.reg_prefix(token_type=Tk.IDENT, fn=self.parse_identifier)
-        # self.reg_prefix(token_type=Tk.INT, fn=self.parse_integer_literal)
-        # self.reg_prefix(token_type=Tk.BANG, fn=self.parse_prefix_expression)
-        # self.reg_prefix(token_type=Tk.MINUS, fn=self.parse_prefix_expression)
-        # self.reg_prefix(token_type=Tk.TRUE, fn=self.parse_boolean)
-        # self.reg_prefix(token_type=Tk.FALSE, fn=self.parse_boolean)
-        # self.reg_prefix(token_type=Tk.LPAREN, fn=self.parse_grouped_expression)
-        # self.reg_prefix(token_type=Tk.IF, fn=self.parse_if_expression)
-        # self.reg_prefix(token_type=Tk.FUNCTION, fn=self.parse_function_literal)
-        # self.reg_prefix(token_type=Tk.STRING, fn=self.parse_string_literal)
-        # self.reg_prefix(token_type=Tk.LBRACKET, fn=self.parse_array_literal)
-        # self.reg_prefix(token_type=Tk.LBRACE, fn=self.parse_hash_literal)
-
-        # self.infixParseFns = {}
-
-        # self.reg_infix(token_type=Tk.PLUS, fn=self.parse_infix_expression)
-        # self.reg_infix(token_type=Tk.MINUS, fn=self.parse_infix_expression)
-        # self.reg_infix(token_type=Tk.SLASH, fn=self.parse_infix_expression)
-        # self.reg_infix(token_type=Tk.ASTERISK, fn=self.parse_infix_expression)
-        # self.reg_infix(token_type=Tk.EQ, fn=self.parse_infix_expression)
-        # self.reg_infix(token_type=Tk.NOT_EQ, fn=self.parse_infix_expression)
-        # self.reg_infix(token_type=Tk.LT, fn=self.parse_infix_expression)
-        # self.reg_infix(token_type=Tk.GT, fn=self.parse_infix_expression)
-        # self.reg_infix(token_type=Tk.LPAREN, fn=self.parse_call_expression)
-        # self.reg_infix(token_type=Tk.LBRACKET, fn=self.parse_index_expression)
-        # Read two tokens, so cur_token and peek_token are both set
         self.next_token()
         self.next_token()
 
@@ -275,12 +248,6 @@ class Parser:
 
     def parse_identifier(self):
         return Identifier(self.cur_token, self.cur_token.literal)
-
-    # def reg_prefix(self, token_type, fn):
-    #     self.prefixParseFns[token_type] = fn
-
-    # def reg_infix(self, token_type, fn):
-    #     self.infixParseFns[token_type] = fn
 
     def peek_error(self, token_type):
         msg = "expected next token to be %s, got %s instead" % (
