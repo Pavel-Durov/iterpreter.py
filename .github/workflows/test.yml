@@ -27,4 +27,4 @@ jobs:
     - name: Test with pytest
       run: |
         conda install pytest
-        source .envrc && make test
+        source .envrc && PYTHONPATH=${PWD}:${PWD}/src/:${PWD}/.pypy/ pytest ./src
