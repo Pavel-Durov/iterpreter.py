@@ -33,14 +33,14 @@ def eval(node, env):
         return obj.ReturnValue(val)
     elif isinstance(node, ast.BlockStatement):
         return eval_block_statement(node, env)
-    # elif isinstance(node, ast.CallExpression):
-    #     func = eval(node.function, env)
-    #     if isinstance(func, obj.Error):
-    #         return func
-    #     args = eval_expressions(node.arguments, env)
-    #     if len(args) == 1 and isinstance(args[0], obj.Error):
-    #         return args[0]
-    #     return apply_function(func, args)
+    elif isinstance(node, ast.CallExpression):
+        func = eval(node.function, env)
+        if isinstance(func, obj.Error):
+            return func
+        args = eval_expressions(node.arguments, env)
+        if len(args) == 1 and isinstance(args[0], obj.Error):
+            return args[0]
+        return apply_function(func, args)
     elif isinstance(node, ast.FunctionLiteral):
         return obj.Function(node.parameters, node.body, env)
     elif isinstance(node, ast.IntegerLiteral):
@@ -131,16 +131,17 @@ def extend_function_env(fn, args):
     return env
 
 
-# def apply_function(fn, args):
-#     if isinstance(fn, obj.Function):
-#         extended_env = extend_function_env(fn, args)
-#         evaluated = eval(fn.body, extended_env)
-#         return unwrap_return_value(evaluated)
-#     elif isinstance(fn, obj.Builtin):
-#         if type(args) is list:
-#             return fn.fn(args)
-#         else:
-#             return fn.fn([args])
+def apply_function(fn, args):
+    if isinstance(fn, obj.Function):
+        extended_env = extend_function_env(fn, args)
+        evaluated = eval(fn.body, extended_env)
+        return unwrap_return_value(evaluated)
+    # TODO: enable builtins
+    # elif isinstance(fn, obj.Builtin):
+    #     if type(args) is list:
+    #         return fn.fn(args)
+    #     else:
+    #         return fn.fn([args])
 
     # return obj.Error("not a function: %s" % (fn.type()))
 

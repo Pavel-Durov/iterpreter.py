@@ -66,23 +66,23 @@ from src.kimchi_parser import Parser
 #         assert_integer_object(pair.value, expected[expected_key])
 
 
-# def test_function_calls():
-#     source = """
-#     let fibonacci = fn(x) { 
-#       if (x < 2) {
-#         return x;
-#       }
-#       return fibonacci(x-1) + fibonacci(x-2);
-#     }; 
+def test_function_calls():
+    source = """
+    let fibonacci = fn(x) { 
+      if (x < 2) {
+        return x;
+      }
+      return fibonacci(x-1) + fibonacci(x-2);
+    }; 
     
-#     let getOne = fn(){
-#       return 1;
-#     };
-#     getOne() + fibonacci(7);
-#     """
-#     evaluated = eval_test(source)
-#     assert isinstance(evaluated, obj.Integer)
-#     assert evaluated.value == 13 + 1
+    let getOne = fn(){
+      return 1;
+    };
+    getOne() + fibonacci(7);
+    """
+    evaluated = eval_test(source)
+    assert isinstance(evaluated, obj.Integer)
+    assert evaluated.value == 13 + 1
 
 
 def test_array_index_expressions():
@@ -114,24 +114,6 @@ def test_array_literals():
     assert_integer_object(evaluated.elements[1], 4)
     assert_integer_object(evaluated.elements[2], 6)
 
-
-# def test_builtin_functions():
-#     tests = [
-#         ("len(\"\")", 0),
-#         ("len(\"four\")", 4),
-#         ("len(\"hello world\")", 11),
-#         ("len(1)", "argument to `len` not supported, got INTEGER"),
-#         ("len(\"one\", \"two\")", "wrong number of arguments. got=2, want=1"),
-#     ]
-#     for t in tests:
-#         evaluated = eval_test(t[0])
-#         if type(t[1]) is int:
-#             assert_integer_object(evaluated, t[1])
-#         else:
-#             assert isinstance(evaluated, obj.Error)
-#             assert evaluated.message == t[1]
-
-
 def test_string_concat():
     input = """
       "Hello" + " " + "World!"
@@ -150,31 +132,31 @@ def test_string_literal_expression():
     assert evaluated.value == "Hello World!"
 
 
-# def test_closure():
-#     input = """
-#     let add = fn(x) {
-#       fn(y) { x + y };
-#     };
-#     let addTwo = add(2);
-#     addTwo(3);
-#     """
-#     evaluated = eval_test(input)
-#     assert_integer_object(evaluated, 5)
+def test_closure():
+    input = """
+    let add = fn(x) {
+      fn(y) { x + y };
+    };
+    let addTwo = add(2);
+    addTwo(3);
+    """
+    evaluated = eval_test(input)
+    assert_integer_object(evaluated, 5)
 
 
-# def test_function_application():
-#     tests = [
-#         ("let identity = fn(x) { x; }; identity(5);", 5),
-#         ("let identity = fn(x) { return x; }; identity(5);", 5),
-#         ("let double = fn(x) { x * 2; }; double(5);", 10),
-#         ("let add = fn(x, y) { x + y; }; add(5, 5);", 10),
-#         ("let add = fn(x, y) { x + y; }; add(5 + 5, add(5, 5));", 20),
-#         # ("fn(x) { x } (5) ", 5),
-#     ]
+def test_function_application():
+    tests = [
+        ("let identity = fn(x) { x; }; identity(5);", 5),
+        ("let identity = fn(x) { return x; }; identity(5);", 5),
+        ("let double = fn(x) { x * 2; }; double(5);", 10),
+        ("let add = fn(x, y) { x + y; }; add(5, 5);", 10),
+        ("let add = fn(x, y) { x + y; }; add(5 + 5, add(5, 5));", 20),
+        # ("fn(x) { x } (5) ", 5),
+    ]
 
-#     for tt in tests:
-#         evaluated = eval_test(tt[0])
-#         assert_integer_object(evaluated, tt[1])
+    for tt in tests:
+        evaluated = eval_test(tt[0])
+        assert_integer_object(evaluated, tt[1])
 
 
 def test_function_object():
@@ -197,32 +179,6 @@ def test_let_statements():
     for tt in tests:
         evaluated = eval_test(tt[0])
         assert_integer_object(evaluated, tt[1])
-
-
-# def test_error_handling():
-#     tests = [
-#         ("5 + true;", "type mismatch: INTEGER + BOOLEAN"),
-#         ("5 + true; 5;", "type mismatch: INTEGER + BOOLEAN"),
-#         ("-true", "unknown operator: -BOOLEAN"),
-#         ("true + false;", "unknown operator: BOOLEAN + BOOLEAN"),
-#         ("5; true + false; 5", "unknown operator: BOOLEAN + BOOLEAN"),
-#         ("if (10 > 1) { true + false; }", "unknown operator: BOOLEAN + BOOLEAN"),
-#         ("""if (10 > 1) {
-#           if (10 > 1) {
-#             return true + false;
-#           }
-#         return 1; }""", "unknown operator: BOOLEAN + BOOLEAN"),
-#         ("foobar", "identifier not found: foobar"),
-#         ("\"Hello\" - \"World\"", "Unknown operator: STRING - STRING"),
-#         # TODO: fix no error on unusable as hash
-#         # ('{"name": "Monkey"}[fn(x) { x }];', "unusable as hash key: FUNCTION"),
-#     ]  #
-
-#     for tt in tests:
-#         evaluated = eval_test(tt[0])
-#         assert isinstance(evaluated, obj.Error)
-#         assert evaluated.message == tt[1]
-
 
 def test_return_statements():
     tests = [
@@ -347,3 +303,43 @@ def assert_integer_object(obj, expected):
 def assert_boolean_object(obj, expected):
     assert obj.value == expected
     assert obj.type() == "BOOLEAN"
+
+# def test_error_handling():
+#     tests = [
+#         ("5 + true;", "type mismatch: INTEGER + BOOLEAN"),
+#         ("5 + true; 5;", "type mismatch: INTEGER + BOOLEAN"),
+#         ("-true", "unknown operator: -BOOLEAN"),
+#         ("true + false;", "unknown operator: BOOLEAN + BOOLEAN"),
+#         ("5; true + false; 5", "unknown operator: BOOLEAN + BOOLEAN"),
+#         ("if (10 > 1) { true + false; }", "unknown operator: BOOLEAN + BOOLEAN"),
+#         ("""if (10 > 1) {
+#           if (10 > 1) {
+#             return true + false;
+#           }
+#         return 1; }""", "unknown operator: BOOLEAN + BOOLEAN"),
+#         ("foobar", "identifier not found: foobar"),
+#         ("\"Hello\" - \"World\"", "Unknown operator: STRING - STRING"),
+#         # TODO: fix no error on unusable as hash
+#         # ('{"name": "Monkey"}[fn(x) { x }];', "unusable as hash key: FUNCTION"),
+#     ]  #
+
+#     for tt in tests:
+#         evaluated = eval_test(tt[0])
+#         assert isinstance(evaluated, obj.Error)
+#         assert evaluated.message == tt[1]
+
+# def test_builtin_functions():
+#     tests = [
+#         ("len(\"\")", 0),
+#         ("len(\"four\")", 4),
+#         ("len(\"hello world\")", 11),
+#         ("len(1)", "argument to `len` not supported, got INTEGER"),
+#         ("len(\"one\", \"two\")", "wrong number of arguments. got=2, want=1"),
+#     ]
+#     for t in tests:
+#         evaluated = eval_test(t[0])
+#         if type(t[1]) is int:
+#             assert_integer_object(evaluated, t[1])
+#         else:
+#             assert isinstance(evaluated, obj.Error)
+#             assert evaluated.message == t[1]
