@@ -24,7 +24,7 @@ jobs:
     - name: Download PyPy
       run: make get-pypy
     - name: RPython Translate
-      run: make translate
+      run: make pypy-translate
     - name: Upload artifact
       uses: actions/upload-artifact@v3
       with:
