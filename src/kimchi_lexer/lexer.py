@@ -121,6 +121,6 @@ class Lexer:
 
     def peek_char(self):
         if self.read_position > len(self.input):
-            return 0
+            return ""
         else:
             return self.input[self.read_position]

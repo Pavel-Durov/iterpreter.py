@@ -33,14 +33,14 @@ def eval(node, env):
         return obj.ReturnValue(val)
     elif isinstance(node, ast.BlockStatement):
         return eval_block_statement(node, env)
-    elif isinstance(node, ast.CallExpression):
-        func = eval(node.function, env)
-        if isinstance(func, obj.Error):
-            return func
-        args = eval_expressions(node.arguments, env)
-        if len(args) == 1 and isinstance(args[0], obj.Error):
-            return args[0]
-        return apply_function(func, args)
+    # elif isinstance(node, ast.CallExpression):
+    #     func = eval(node.function, env)
+    #     if isinstance(func, obj.Error):
+    #         return func
+    #     args = eval_expressions(node.arguments, env)
+    #     if len(args) == 1 and isinstance(args[0], obj.Error):
+    #         return args[0]
+    #     return apply_function(func, args)
     elif isinstance(node, ast.FunctionLiteral):
         return obj.Function(node.parameters, node.body, env)
     elif isinstance(node, ast.IntegerLiteral):
@@ -84,15 +84,16 @@ def eval_hash_literal(node, env):
         value = eval(value_node, env)
         if isinstance(value, obj.Error):
             return value
-        hashed = key.hash_key()
-        pairs[hashed] = obj.HashPair(key, value)
+        if isinstance(value, obj.HashableObject):
+          hashed = key.hash_key()
+          pairs[hashed] = obj.HashPair(key, value)
 
     return obj.Hash(pairs)
 
 
 def eval_hash_index_expression(hash, index):
-    if not isinstance(index, obj.HashableObject):
-        return obj.Error("unusable as hash key: {}".format(index.type()))
+    # if not isinstance(index, obj.HashableObject):
+        # return obj.Error("unusable as hash key: %s" % (index.type()))
     pair = hash.pairs.get(index.hash_key())
     if pair:
         return pair.value
@@ -104,7 +105,7 @@ def eval_index_expression(left, index):
         return eval_array_index_expression(left, index)
     elif isinstance(left, obj.Hash):
         return eval_hash_index_expression(left, index)
-    return obj.Error("index operator not supported: {}".format(left.type()))
+    # return obj.Error("index operator not supported: %s" %(left.type()))
 
 
 def eval_array_index_expression(array, index):
@@ -130,15 +131,18 @@ def extend_function_env(fn, args):
     return env
 
 
-def apply_function(fn, args):
-    if isinstance(fn, obj.Function):
-        extended_env = extend_function_env(fn, args)
-        evaluated = eval(fn.body, extended_env)
-        return unwrap_return_value(evaluated)
-    elif isinstance(fn, obj.Builtin):
-        return fn.fn(*args)
+# def apply_function(fn, args):
+#     if isinstance(fn, obj.Function):
+#         extended_env = extend_function_env(fn, args)
+#         evaluated = eval(fn.body, extended_env)
+#         return unwrap_return_value(evaluated)
+#     elif isinstance(fn, obj.Builtin):
+#         if type(args) is list:
+#             return fn.fn(args)
+#         else:
+#             return fn.fn([args])
 
-    return obj.Error("not a function: {}".format(fn.type()))
+    # return obj.Error("not a function: %s" % (fn.type()))
 
 
 def eval_expressions(args, env):
@@ -157,7 +161,7 @@ def eval_identifier(node, env):
         return val
     if node.value in builtins:
         return builtins[node.value]
-    return obj.Error("identifier not found: {}".format(node.value))
+    # return obj.Error("identifier not found: %s" % (node.value))
 
 
 def eval_block_statement(block, env):
@@ -223,7 +227,7 @@ def eval_integer_infix_expression(operator, left, right):
         return native_bool_to_boolean_object(left_val == right_val)
     elif operator == "!=":
         return native_bool_to_boolean_object(left_val != right_val)
-    return obj.Error("unknown operator: {} {} {}".format(left.type(), operator, right.type))
+    # return obj.Error("unknown operator: %s %s %s" % (left.type(), operator, right.type))
 
 
 def eval_infix_expression(operator, left, right):
@@ -235,14 +239,14 @@ def eval_infix_expression(operator, left, right):
         return native_bool_to_boolean_object(left != right)
     elif isinstance(left, obj.String) and isinstance(right, obj.String):
         return eval_string_infix_expression(left, right, operator)
-    elif left.type() != right.type():
-        return obj.Error("type mismatch: {} {} {}".format(left.type(), operator, right.type()))
-    return obj.Error("unknown operator: {} {} {}".format(left.type(), operator, right.type()))
+    # elif left.type() != right.type():
+        # return obj.Error("type mismatch: %s %s %s" % (left.type(), operator, right.type()))
+    # return obj.Error("unknown operator: %s %s %s" % (left.type(), operator, right.type()))
 
 
 def eval_string_infix_expression(left, right, operator):
-    if operator != "+":
-        return obj.Error("Unknown operator: {} {} {}".format(left.type(), operator, right.type()))
+    # if operator != "+":
+    #     return obj.Error("Unknown operator: %s %s %s" % (left.type(), operator, right.type()))
     return obj.String(left.value + right.value)
 
 
@@ -257,17 +261,21 @@ def eval_bang_operator_expression(right):
 
 
 def eval_minus_prefix_operator_expression(right):
-    if not isinstance(right, obj.Integer):
-        return obj.Error("unknown operator: -{}".format(right.type()))
-    return obj.Integer(-right.value)
+    # if not isinstance(right, obj.Integer):
+        # return obj.Error("unknown operator: -%s" % (right.type()))
+    if isinstance(right, obj.Integer):
+        return obj.Integer(-right.value)
+    return None
+    # return NULL
+
 
 
 def eval_prefix_expression(operator, right):
     if operator == "!":
         return eval_bang_operator_expression(right)
     elif operator == "-":
-        return eval_minus_prefix_operator_expression(right)
-    return obj.Error("unknown operator: {}{}".format(operator, right.type()))
+      return eval_minus_prefix_operator_expression(right)
+    # return obj.Error("unknown operator: %s" % (operator, right.type()))
 
 
 def native_bool_to_boolean_object(input):

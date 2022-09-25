@@ -1,0 +1,10 @@
+let memo = fn() {
+  let padding = 10;
+  return fn(y) { 
+    return y + padding;
+  };
+};
+
+let addTwo = memo();
+
+puts(addTwo(2));

@@ -4,7 +4,7 @@ from src.kimchi_evaluator import eval
 from src.kimchi_lexer import Lexer
 from src.kimchi_object import Environment
 from src.kimchi_parser import Parser
-
+from src.kimchi_io import print_line
 
 def main():
     env = Environment()
@@ -24,14 +24,13 @@ def main():
 
         evaluated = eval(prog, env)
         if evaluated != None:
-            os.write(1, evaluated.inspect())
-            os.write(1, "\n")
+            print_line(evaluated.inspect())
 
 
 def print_parse_errors(errors):
-    os.write(1, str("Woops! We ran into some errors here! Parser errors: \n"))
+    print_line("Woops! We ran into some errors here! Parser errors:")
     for error in errors:
-        os.write(1, str(error + "\n"))
+        print_line(str(error))
 
 
 if __name__ == "__main__":
