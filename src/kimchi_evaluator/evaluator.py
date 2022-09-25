@@ -1,10 +1,7 @@
 import src.kimchi_ast as ast
 import src.kimchi_object as obj
 from src.kimchi_evaluator.builtins import builtins
-
-TRUE = obj.Boolean(True)
-FALSE = obj.Boolean(False)
-NULL = obj.Null()
+from src.kimchi_evaluator.const import TRUE, FALSE, NULL
 
 
 def eval(node, env):
