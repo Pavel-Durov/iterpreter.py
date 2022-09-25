@@ -295,7 +295,7 @@ def test_error_handling():
         ("\"Hello\" - \"World\"", "Unknown operator: STRING - STRING"),
         # TODO: fix no error on unusable as hash
         # ('{"name": "Monkey"}[fn(x) { x }];', "unusable as hash key: FUNCTION"),
-    ]  #
+    ]
 
     for tt in tests:
         evaluated = eval_test(tt[0])

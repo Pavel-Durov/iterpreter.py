@@ -9,6 +9,4 @@ let result = fibo(7);
 
 puts("result: ", result);
 
-
-
 let fibo = fn(x) { if (x < 2) { return x; } return x + 2; }; 
