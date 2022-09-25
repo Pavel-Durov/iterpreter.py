@@ -7,6 +7,8 @@ from src.kimchi_evaluator.const import TRUE, FALSE, NULL
 def eval(node, env):
     if isinstance(node, ast.Program):
         return eval_program(node, env)
+    elif isinstance(node, ast.HashLiteral):
+        return eval_hash_literal(node, env)
     elif isinstance(node, ast.IndexExpression):
         left = eval(node.left, env)
         if isinstance(left, obj.Error):
@@ -72,11 +74,36 @@ def eval(node, env):
     return None
 
 
+def eval_hash_literal(node, env):
+    pairs = {}
+
+    for key_node, value_node in node.pairs.items():
+        key = eval(key_node, env)
+        if isinstance(key, obj.Error):
+            return key
+        value = eval(value_node, env)
+        if isinstance(value, obj.Error):
+            return value
+        hashed = key.hash_key()
+        pairs[hashed] = obj.HashPair(key, value)
+
+    return obj.Hash(pairs)
+
+
+def eval_hash_index_expression(hash, index):
+    if not isinstance(index, obj.HashableObject):
+        return obj.Error("unusable as hash key: {}".format(index.type()))
+    pair = hash.pairs.get(index.hash_key())
+    if pair:
+        return pair.value
+    return NULL
+
+
 def eval_index_expression(left, index):
     if isinstance(left, obj.Array) and isinstance(index, obj.Integer):
         return eval_array_index_expression(left, index)
-    # elif isinstance(left, obj.Hash):
-    #     return eval_hash_index_expression(left, index)
+    elif isinstance(left, obj.Hash):
+        return eval_hash_index_expression(left, index)
     return obj.Error("index operator not supported: {}".format(left.type()))
 
 
