@@ -1,4 +1,9 @@
 def kimchi_hash(str_obj):
+    """
+    This function is kind of weird.
+    Main reason for this function is to convert a string to a number
+    The problem is that we cant use hash() in RPython :(
+    """
     one_and_zeros = ""
     if str == '':
         return 1
@@ -18,11 +23,3 @@ def get_num(s):
     if s in numbers:
         return str(numbers.index(s))
     return '0'
-# TODO: cant use hash() in RPython
-# arr = bytearray(str_obj)
-# i = 0
-# while i < len(arr):
-#   one_and_zeros += str(format(arr[i]',' '08b')')
-#   i+=1
-# for i in bytearray(str_obj):
-#     one_and_zeros += str(format(i, '08b'))
