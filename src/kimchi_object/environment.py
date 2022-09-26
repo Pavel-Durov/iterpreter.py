@@ -64,9 +64,3 @@ class SelfLikeObjEnvironment(Environment):
         self.map = map.new_map_with_additional_attribute(name)
         self.storage.append(value)
 
-    def __str__(self):
-        result = "AWKObject(%s) fields\n" % self.name
-        for key in self.fields.attribute_indexes:
-            result += "  %s: %s" % (key, self.get_field(key))
-        result += "\n"
-        return result

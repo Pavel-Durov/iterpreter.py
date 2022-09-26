@@ -11,7 +11,10 @@ def jitpolicy(driver):
     return JitPolicy()
 
 
-jitdriver = JitDriver(greens=["node", "self"], reds=["env"])
+def get_location(pc, stmt, self, statements):
+    return "[KIMCHI] evaluating %s " % (str(statements[pc]))
+
+jitdriver = JitDriver(greens=["pc", "stmt", "self", "statements"], reds=["env", "result"], get_printable_location=get_location)
 
 
 class Evaluator():
@@ -29,11 +32,26 @@ class Evaluator():
 
     def create_env(self, env):
         return self.ioc.create_env(env)
+  
+    def eval_program(self, statements, env):
+        result = None
+        pc = 0
+        while pc < len(statements):
+            stmt = statements[pc]
+            jitdriver.jit_merge_point(pc=pc, stmt=stmt, statements=statements, result=result, env=env, self=self)
+            
+            result = self.eval(stmt, env)
+            if isinstance(result, obj.ReturnValue):
+                return result.value
+            elif isinstance(result, obj.Error):
+                return result
+            pc += 1
 
+        return result
+    
     def eval(self, node, env):
-        jitdriver.jit_merge_point(node=node, env=env, self=self)
         if isinstance(node, ast.Program):
-            return self.eval_program(node, env)
+            return self.eval_program(node.statements, env)
         elif isinstance(node, ast.HashLiteral):
             return self.eval_hash_literal(node, env)
         elif isinstance(node, ast.IndexExpression):
@@ -73,6 +91,11 @@ class Evaluator():
         elif isinstance(node, ast.IntegerLiteral):
             return obj.Integer(node.value)
         elif isinstance(node, ast.LetStatement):
+            val = self.eval(node.value, env)
+            if isinstance(val, obj.Error):
+                return val
+            env.set(node.name.value, val)
+        elif isinstance(node, ast.AssignStatement):
             val = self.eval(node.value, env)
             if isinstance(val, obj.Error):
                 return val
@@ -202,18 +225,6 @@ class Evaluator():
             if result is not None:
                 if isinstance(result, obj.ReturnValue) or isinstance(result, obj.Error):
                     return result
-        return result
-
-    def eval_program(self, prog, env):
-        result = None
-
-        for statement in prog.statements:
-            result = self.eval(statement, env)
-            if isinstance(result, obj.ReturnValue):
-                return result.value
-            elif isinstance(result, obj.Error):
-                return result
-
         return result
 
     def is_truthy(self, obj):

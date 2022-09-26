@@ -8,31 +8,38 @@ from src.kimchi_parser import Parser
 def test_return_literal_value():
     source = """
         let b = 9;
+        b = 1984;
         b;
     """
     evaluated = eval_test(source)
     assert isinstance(evaluated, obj.Integer)
     self_like_eval = eval_test(source, True)
-    assert evaluated.value == self_like_eval.value == 9
+    assert evaluated.value == self_like_eval.value == 1984
 
 
 def test_while_program():
     source = """
-        let a = 0;
-        
-        while (a < 5){
-           let a = a + 1;
+      let i = 0;
+      let j = 0;
+      let x = 0;
+      let y = 1;
+
+      let count = 99999;
+
+      while (i < 100){ 
+        x = x + 1;
+        while (j < 100){ 
+          x = x + 1;
+          j = j + 1;
         };
-        let b = 0;
-        while (b < 5){
-           let b = b + a;
-        };
-        b;
+        i = i + 1;
+      };
+      x;
     """
     evaluated = eval_test(source)
     assert isinstance(evaluated, obj.Integer)
     self_like_eval = eval_test(source, True)
-    assert evaluated.value == self_like_eval.value == 5
+    assert evaluated.value == self_like_eval.value == 200
 
 
 def test_function_calls():

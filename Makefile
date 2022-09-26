@@ -1,5 +1,5 @@
 PYTHONPATH=${PWD}:${PWD}/src/:${PWD}/.pypy/
-VERSION := 0.3.0
+VERSION := 0.4.0
 PYPY_VERSION_ARTIFACT := pypy2.7-v7.3.9-src
 
 .PHONY: test src
@@ -31,7 +31,7 @@ get-pypy:
 
 pypy-translate:
 	./scripts/translate_and_store.sh ${VERSION} ./src/main.py jit
-	./scripts/translate_and_store.sh ${VERSION} ./src/main.py
+	# ./scripts/translate_and_store.sh ${VERSION} ./src/main.py
 	
 run-jit-logs:
 	PYPYLOG=jit-log-opt:./bin/0.3.0/0.3.0_5525e8cc7f90b423da45f17f34996553f874e8ab_main-jit_fibo_-c.logfile ./bin/0.3.0/0.3.0_5525e8cc7f90b423da45f17f34996553f874e8ab_main-jit-c ./programs/fibo.ki self-like

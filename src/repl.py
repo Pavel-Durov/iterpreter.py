@@ -1,14 +1,14 @@
-from src.config import IOC
+from src.kimchi_ioc import IOC
 
-from src.kimchi_evaluator import eval
+from src.kimchi_evaluator.evaluator import Evaluator
 from src.kimchi_io import print_line
 from src.kimchi_lexer import Lexer
 from src.kimchi_parser import Parser
 
 
 def main():
-    ioc = IOC()
-    env = ioc.create_env()
+    evaluator = Evaluator(IOC())
+    env = evaluator.create_env(None)
 
     while True:
         s = raw_input("> ")
@@ -23,8 +23,9 @@ def main():
             print_parse_errors(p.errors)
             continue
 
-        evaluated = eval(prog, env)
-        if evaluated != None:
+        evaluated = evaluator.eval(prog, env)
+
+        if evaluated is not None:
             print_line(evaluated.inspect())
 
 
