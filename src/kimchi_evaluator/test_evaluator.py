@@ -1,6 +1,6 @@
 import src.kimchi_object as obj
-import src.kimchi_object.environment as env
-from src.kimchi_evaluator import eval
+from src.kimchi_evaluator.evaluator import Evaluator
+from src.kimchi_ioc import IOC
 from src.kimchi_lexer import Lexer
 from src.kimchi_parser import Parser
 
@@ -201,8 +201,10 @@ def test_bang_operator():
 def eval_test(str):
     lexer = Lexer(str)
     parser = Parser(lexer)
+
+    e = Evaluator(IOC(self_like=False))
     program = parser.parse_program()
-    return eval(program, env.Environment())
+    return e.eval(program, e.create_env(None))
 
 
 def assert_integer_object(obj, expected):

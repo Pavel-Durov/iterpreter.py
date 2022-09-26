@@ -1,6 +1,6 @@
+import src.kimchi_ioc as ioc
 import src.kimchi_object as obj
-import src.kimchi_object.environment as env
-from src.kimchi_evaluator import eval
+from src.kimchi_evaluator.evaluator import Evaluator
 from src.kimchi_lexer import Lexer
 from src.kimchi_parser import Parser
 
@@ -41,6 +41,9 @@ def eval_test(str, self_like=False):
     lexer = Lexer(str)
     parser = Parser(lexer)
     program = parser.parse_program()
+
     if self_like:
-        return eval(program, env.SelfLikeObjEnvironment())
-    return eval(program, env.Environment())
+        e = Evaluator(ioc.IOC(self_like=True))
+        return e.eval(program, e.create_env(None))
+    e = Evaluator(ioc.IOC(self_like=False))
+    return e.eval(program, e.create_env(None))

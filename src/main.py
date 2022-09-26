@@ -1,8 +1,8 @@
-from src.ioc import IOC
-from src.kimchi_evaluator import Evaluator
+from src.kimchi_evaluator.evaluator import Evaluator
+from src.kimchi_io import print_line
+from src.kimchi_ioc import IOC
 from src.kimchi_lexer import Lexer
 from src.kimchi_parser.parser import Parser
-from src.kimchi_io import print_line
 
 
 def run(program_contents, ioc):
@@ -19,18 +19,16 @@ def entry_point(argv):
     except IndexError:
         print_line("You must supply a filename")
         return 1
-    
+
     ioc = IOC()
     if len(argv) > 2:
-        opt = argv[2]
-        if opt is not None and opt == 'self-like':
-            ioc.set_self_like(True)
-   
-   
+        self_like_opt = argv[2]
+        ioc.set_self_like(self_like_opt == 'self-like')
 
     with open(fp, "r") as f:
         program_contents = f.read()
 
+    ioc.print_config()
     run(program_contents, ioc)
     return 0
 

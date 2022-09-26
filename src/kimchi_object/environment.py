@@ -40,7 +40,7 @@ class SelfLikeMap(object):
 EMPTY_MAP = SelfLikeMap()
 
 
-class SelfLikeObjEnvironment(object):
+class SelfLikeObjEnvironment(Environment):
     def __init__(self, outer=None):
         self.outer = outer
         self.map = EMPTY_MAP

@@ -30,7 +30,7 @@ get-pypy:
 	tar -xvf $(PYPY_VERSION_ARTIFACT).tar.bz2 && mv ./$(PYPY_VERSION_ARTIFACT) .pypy && rm $(PYPY_VERSION_ARTIFACT).tar.bz2
 
 pypy-translate:
-	./scripts/translate_and_store.sh ${VERSION} ./src/main.py jit
+	# ./scripts/translate_and_store.sh ${VERSION} ./src/main.py jit
 	./scripts/translate_and_store.sh ${VERSION} ./src/main.py
 	
 git-lfs:
