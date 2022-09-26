@@ -78,14 +78,14 @@ $ make translate # translate ./src RPython to c
 ./main-c programs/loops.ki # runs program with no optimisations
 ./main-c programs/loops.ki self-like # runs program with SELF-like optimisation
 
-export BIN='bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-jit-c'
+export BIN='bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-c'
 PYPYLOG=jit-log-opt:${BIN}.logfile ${BIN} ./programs/loops.ki
 PYPYLOG=jit-log-opt:${BIN}-self-like.logfile ${BIN} ./programs/loops.ki self-like
 ```
 
 ### Benchmarking
 ```shell
-export BIN='bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-jit-c'
+export BIN='bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-c'
 hyperfine --warmup 10 "${BIN} ./programs/loops.ki" "${BIN} ./programs/loops.ki self-like"
 hyperfine "${BIN} ./programs/loops.ki" "${BIN} ./programs/loops.ki self-like"
 ```
