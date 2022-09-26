@@ -1,6 +1,7 @@
 PYTHONPATH=${PWD}:${PWD}/src/:${PWD}/.pypy/
 VERSION := 0.4.0
 PYPY_VERSION_ARTIFACT := pypy2.7-v7.3.9-src
+BENCH_BIN=./bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-jit-c
 
 .PHONY: test src
 
@@ -34,11 +35,11 @@ pypy-translate:
 	./scripts/translate_and_store.sh ${VERSION} ./src/main.py
 	
 run-jit-logs:
-	PYPYLOG=jit-log-opt:./bin/0.3.0/0.3.0_5525e8cc7f90b423da45f17f34996553f874e8ab_main-jit_fibo_-c.logfile ./bin/0.3.0/0.3.0_5525e8cc7f90b423da45f17f34996553f874e8ab_main-jit-c ./programs/fibo.ki self-like
-	PYPYLOG=jit-log-opt:./bin/0.3.0/0.3.0_5525e8cc7f90b423da45f17f34996553f874e8ab_main-self-like-jit_fibo_-c.logfile ./bin/0.3.0/0.3.0_5525e8cc7f90b423da45f17f34996553f874e8ab_main-jit-c ./programs/fibo.ki
+	PYPYLOG=jit-log-opt:${BENCH_BIN}.logfile ${BENCH_BIN} ./programs/fibo.ki self-like
+	PYPYLOG=jit-log-opt:${BENCH_BIN}.logfile ${BENCH_BIN} ./programs/fibo.ki
 
 hyperfine:
-	hyperfine './bin/0.3.0/0.3.0_5525e8cc7f90b423da45f17f34996553f874e8ab_main-jit-c ./programs/bench.ki self-like' './bin/0.3.0/0.3.0_5525e8cc7f90b423da45f17f34996553f874e8ab_main-jit-c ./programs/bench.ki'
+	hyperfine './bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-jit-c ./programs/bench.ki self-like' './bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-jit-c ./programs/bench.ki'
 
 git-lfs:
 	git lfs track ./bin/**/*-c
