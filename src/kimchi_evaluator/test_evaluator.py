@@ -1,27 +1,8 @@
 import src.kimchi_object as obj
-import src.kimchi_object.environment as env
-from src.kimchi_evaluator import eval
+from src.kimchi_evaluator.evaluator import Evaluator
+from src.kimchi_ioc import IOC
 from src.kimchi_lexer import Lexer
 from src.kimchi_parser import Parser
-
-
-def test_function_calls():
-    source = """
-    let fibonacci = fn(x) { 
-      if (x < 2) {
-        return x;
-      }
-      return fibonacci(x-1) + fibonacci(x-2);
-    }; 
-    
-    let getOne = fn(){
-      return 1;
-    };
-    getOne() + fibonacci(7);
-    """
-    evaluated = eval_test(source)
-    assert isinstance(evaluated, obj.Integer)
-    assert evaluated.value == 13 + 1
 
 
 def test_array_index_expressions():
@@ -70,18 +51,6 @@ def test_string_literal_expression():
     evaluated = eval_test(input)
     assert isinstance(evaluated, obj.String)
     assert evaluated.value == "Hello World!"
-
-
-def test_closure():
-    input = """
-    let add = fn(x) {
-      fn(y) { x + y };
-    };
-    let addTwo = add(2);
-    addTwo(3);
-    """
-    evaluated = eval_test(input)
-    assert_integer_object(evaluated, 5)
 
 
 def test_function_application():
@@ -232,8 +201,10 @@ def test_bang_operator():
 def eval_test(str):
     lexer = Lexer(str)
     parser = Parser(lexer)
+
+    e = Evaluator(IOC(self_like=False))
     program = parser.parse_program()
-    return eval(program, env.Environment())
+    return e.eval(program, e.create_env(None))
 
 
 def assert_integer_object(obj, expected):

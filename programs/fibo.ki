@@ -5,8 +5,7 @@ let fibo = fn(x) {
   return fibo(x-1) + fibo(x-2);
 }; 
 
-let result = fibo(7);
+let result = fibo(35);
 
-puts("result: ", result);
+puts("result:", result);
 
-let fibo = fn(x) { if (x < 2) { return x; } return x + 2; }; 

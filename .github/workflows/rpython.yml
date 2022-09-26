@@ -4,29 +4,13 @@ on: [push]
 
 jobs:
   rpython-no-jit:
-    name: PYPY translate (no jit)
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        shell: bash -l {0}
-    strategy:
-      max-parallel: 5
+    container:  
+      image: iamkimchi/pypy-trace:latest
     steps:
     - uses: actions/checkout@v3
-    - uses: conda-incubator/setup-miniconda@v2
-      with:
-        activate-environment: interpreter-py
-        environment-file: environment.yml
-        python-version: 2.7.18
-        auto-activate-base: false
-    - name: Add conda to system path
-      run: echo $CONDA/bin >> $GITHUB_PATH
     - name: Download PyPy
       run: make get-pypy
     - name: RPython Translate
-      run: make translate
-    - name: Upload artifact
-      uses: actions/upload-artifact@v3
-      with:
-        name: kimnchi-c-no-jit
-        path: ./kimnchi-c
+      run: PYTHONPATH=${PWD}:${PWD}/src/:${PWD}/.pypy/ bash ./scripts/translate_and_store.sh $(make version) ./src/main.py
+

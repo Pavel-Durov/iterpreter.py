@@ -1,12 +1,14 @@
+from src.config import IOC
+
 from src.kimchi_evaluator import eval
 from src.kimchi_io import print_line
 from src.kimchi_lexer import Lexer
-from src.kimchi_object import Environment
 from src.kimchi_parser import Parser
 
 
 def main():
-    env = Environment()
+    ioc = IOC()
+    env = ioc.create_env()
 
     while True:
         s = raw_input("> ")

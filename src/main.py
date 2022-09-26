@@ -1,27 +1,35 @@
-from src.kimchi_evaluator import eval
+from src.kimchi_evaluator.evaluator import Evaluator
+from src.kimchi_io import print_line
+from src.kimchi_ioc import IOC
 from src.kimchi_lexer import Lexer
-from src.kimchi_object import Environment
 from src.kimchi_parser.parser import Parser
 
 
-def run(program_contents):
+def run(program_contents, ioc):
     lexer = Lexer(program_contents)
     parser = Parser(lexer)
     program = parser.parse_program()
-    eval(program, Environment())
+    e = Evaluator(ioc)
+    e.eval(program, ioc.create_env())
 
 
 def entry_point(argv):
     try:
         fp = argv[1]
     except IndexError:
-        print("You must supply a filename")
+        print_line("You must supply a filename")
         return 1
+
+    ioc = IOC()
+    if len(argv) > 2:
+        self_like_opt = argv[2]
+        ioc.set_self_like(self_like_opt == 'self-like')
 
     with open(fp, "r") as f:
         program_contents = f.read()
 
-    run(program_contents)
+    ioc.print_config()
+    run(program_contents, ioc)
     return 0
 
 
