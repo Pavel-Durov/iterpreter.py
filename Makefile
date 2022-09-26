@@ -41,4 +41,4 @@ hyperfine:
 	hyperfine './bin/0.3.0/0.3.0_5525e8cc7f90b423da45f17f34996553f874e8ab_main-jit-c ./programs/bench.ki self-like' './bin/0.3.0/0.3.0_5525e8cc7f90b423da45f17f34996553f874e8ab_main-jit-c ./programs/bench.ki'
 
 git-lfs:
-	git lfs track ./bin/**/*
+	git lfs track ./bin/**/*-c

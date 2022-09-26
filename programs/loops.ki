@@ -7,7 +7,7 @@ let z = 2;
 let q = 3;
 let m = 3;
 
-let count = 30000;
+let count = 1000000;
 let values = [];
 
 while (i < count){ 
