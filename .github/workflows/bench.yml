@@ -1,0 +1,31 @@
+name: Bench
+
+on: [push]
+
+jobs:
+  traanslate:
+    name: Bench
+    runs-on: ubuntu-latest
+    env:
+      BIN_v0_4_0='bin/0.4.0/0.4.0_cacecbe01872bb0f7c5f05865cc2b1cb03b6a24e_main-jit-c'
+    container:  
+      image: iamkimchi/pypy-trace:latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Download PyPy
+      run: make get-pypy
+    - name: lfs install
+      run: git lfs install
+    - name: lfs pull
+      run: git lfs pull
+    - name: Bench 0.0.4
+      run: |
+        hyperfine --warmup 10 "${BIN_v0_4_0} ./programs/loops.ki" "${BIN_v0_4_0} ./programs/loops.ki self-like"
+        hyperfine -m 100 -M 100 "${BIN_v0_4_0} ./programs/loops.ki" "${BIN_v0_4_0} ./programs/loops.ki self-like"
+    - name: Run & Logs (Self-Like)
+        PYPYLOG=jit-log-opt:${BIN_v0_4_0}-self-like.logfile ${BIN_v0_4_0} ./programs/loops.ki self-like
+        cat ${BIN_v0_4_0}-self-like.logfile
+    - name: Run & Logs
+        PYPYLOG=jit-log-opt:${BIN_v0_4_0}.logfile ${BIN_v0_4_0} ./programs/loops.ki
+        cat ${BIN_v0_4_0}.logfile
+    

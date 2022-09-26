@@ -1,0 +1,967 @@
+[56742cde2e6e] {jit-log-opt-loop
+# Loop 1 ((jitdriver: no get_printable_location)) : entry bridge with 36 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++306: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++317: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f5c52e80128>) [p0, p2]
++326: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '(jitdriver: no get_printable_location)')
++451: p6 = call_assembler_r(p0, descr=<Loop-1>)
++628: guard_not_forced(descr=<Guard0x7f5c52e80180>) [p0, p6]
++639: guard_no_exception(descr=<Guard0x7f5c52e88020>) [p0, p6]
++659: leave_portal_frame(0)
++659: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f5c52e801d8>) [p0, p6]
++677: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++695: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f5c52e88060>) [p0, p6]
++704: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '(jitdriver: no get_printable_location)')
++829: p14 = call_assembler_r(p0, descr=<Loop-1>)
++1006: guard_not_forced(descr=<Guard0x7f5c52e80230>) [p6, p14]
++1017: guard_no_exception(descr=<Guard0x7f5c52e880a0>) [p6, p14]
++1037: leave_portal_frame(0)
++1037: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f5c52e80288>) [p6, p14]
++1055: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1066: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1077: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1081: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1108: guard_false(i23, descr=<Guard0x7f5c52e802e0>) [i19, i20, i23, p18]
++1117: i26 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 45, descr=<Calli 8 ri EF=0 OS=30>)
++1138: guard_false(i26, descr=<Guard0x7f5c52e80338>) [i19, i20, i26, p18]
++1147: i29 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 42, descr=<Calli 8 ri EF=0 OS=30>)
++1168: guard_false(i29, descr=<Guard0x7f5c52e80390>) [i19, i20, i29, p18]
++1177: i32 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 47, descr=<Calli 8 ri EF=0 OS=30>)
++1198: guard_false(i32, descr=<Guard0x7f5c52e803e8>) [i19, i20, i32, p18]
++1207: i35 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 60, descr=<Calli 8 ri EF=0 OS=30>)
++1228: guard_true(i35, descr=<Guard0x7f5c52e80440>) [i19, i20, i35, p18]
++1237: i36 = int_lt(i19, i20)
++1240: guard_true(i36, descr=<Guard0x7f5c52e880e0>) [i19, i20, i35, p18]
++1246: leave_portal_frame(0)
++1253: finish(ConstPtr(ptr38), descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++1376: --end of the loop--
+[56742ce17c50] jit-log-opt-loop}
+[56742cebaa7e] {jit-log-opt-loop
+# Loop 2 ((jitdriver: no get_printable_location)) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++210: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++214: guard_class(p0, 93971728808080, descr=<Guard0x7f5c52e804f0>) [p0, p2]
++233: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.Environment.inst_store 16>)
++237: guard_nonnull(p2, descr=<Guard0x7f5c52e88120>) [p0, p2]
++246: i5 = strhash(p2)
++250: i7 = cond_call_value_i(i5, ConstClass(_ll_strhash__rpy_stringPtr), p2, descr=<Calli 8 r EF=2>)
++259: i10 = call_i(ConstClass(ll_call_lookup_function_trampoline__v134___simple_call__function_l), p4, p2, i7, 0, descr=<Calli 8 rrii EF=5 OS=4>)
++349: guard_no_exception(descr=<Guard0x7f5c52e80548>) [i10, p2, p0]
++363: i12 = int_ge(i10, 0)
++367: guard_true(i12, descr=<Guard0x7f5c52e88160>) [i10, p2, p0]
++373: i13 = strhash(p2)
++373: p14 = getfield_gc_r(p4, descr=<FieldP dicttable.entries 48>)
++391: p15 = getinteriorfield_gc_r(p14, i10, descr=<InteriorFieldDescr <FieldP odictentry.value 8>>)
++396: guard_nonnull(p15, descr=<Guard0x7f5c52e881a0>) [i10, p2, p0]
++405: leave_portal_frame(0)
++405: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++512: --end of the loop--
+[56742cecb2dc] jit-log-opt-loop}
+[56742cf4f45a] {jit-log-opt-loop
+# Loop 3 ((jitdriver: no get_printable_location)) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++210: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++214: guard_class(p0, 93971728808080, descr=<Guard0x7f5c52e805f8>) [p0, p2]
++233: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.Environment.inst_store 16>)
++237: guard_nonnull(p2, descr=<Guard0x7f5c52e881e0>) [p0, p2]
++246: i5 = strhash(p2)
++250: i7 = cond_call_value_i(i5, ConstClass(_ll_strhash__rpy_stringPtr), p2, descr=<Calli 8 r EF=2>)
++259: i10 = call_i(ConstClass(ll_call_lookup_function_trampoline__v134___simple_call__function_l), p4, p2, i7, 0, descr=<Calli 8 rrii EF=5 OS=4>)
++349: guard_no_exception(descr=<Guard0x7f5c52e80650>) [i10, p2, p0]
++363: i12 = int_ge(i10, 0)
++367: guard_true(i12, descr=<Guard0x7f5c52e88220>) [i10, p2, p0]
++373: i13 = strhash(p2)
++373: p14 = getfield_gc_r(p4, descr=<FieldP dicttable.entries 48>)
++391: p15 = getinteriorfield_gc_r(p14, i10, descr=<InteriorFieldDescr <FieldP odictentry.value 8>>)
++396: guard_nonnull(p15, descr=<Guard0x7f5c52e88260>) [i10, p2, p0]
++405: leave_portal_frame(0)
++405: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++512: --end of the loop--
+[56742cf5ea96] jit-log-opt-loop}
+[56742cfb3c42] {jit-log-opt-loop
+# Loop 4 ((jitdriver: no get_printable_location)) : entry bridge with 6 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++201: p4 = call_may_force_r(ConstClass(Evaluator.eval_block_statement), ConstPtr(ptr2), ConstPtr(ptr3), p0, descr=<Callr 8 rrr EF=7>)
++281: guard_not_forced(descr=<Guard0x7f5c52e80700>) [p4]
++292: guard_no_exception(descr=<Guard0x7f5c52e882a0>) [p4]
++306: leave_portal_frame(0)
++306: finish(p4, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++416: --end of the loop--
+[56742cfb9fee] jit-log-opt-loop}
+[56742d0726fe] {jit-log-opt-loop
+# Loop 5 ((jitdriver: no get_printable_location)) : entry bridge with 23 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++242: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.AssignStatement.inst_value 24>)
++253: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f5c52e80808>) [p0, p2]
++262: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '(jitdriver: no get_printable_location)')
++387: p6 = call_assembler_r(p0, descr=<Loop-1>)
++564: guard_not_forced(descr=<Guard0x7f5c52e80860>) [p0, p6]
++575: guard_no_exception(descr=<Guard0x7f5c52e882e0>) [p0, p6]
++595: leave_portal_frame(0)
++595: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f5c52e808b8>) [p0, p6]
++613: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.AssignStatement.inst_name 8>)
++624: p11 = getfield_gc_r(p10, descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++628: guard_class(p0, 93971728808080, descr=<Guard0x7f5c52e88320>) [p0, p6]
++647: p13 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.Environment.inst_store 16>)
++651: guard_nonnull(p11, descr=<Guard0x7f5c52e88360>) [p0, p6]
++660: i14 = strhash(p11)
++664: i16 = cond_call_value_i(i14, ConstClass(_ll_strhash__rpy_stringPtr), p11, descr=<Calli 8 r EF=2>)
++673: i19 = call_i(ConstClass(ll_call_lookup_function_trampoline__v134___simple_call__function_l), p13, p11, i16, 1, descr=<Calli 8 rrii EF=5 OS=4>)
++767: guard_no_exception(descr=<Guard0x7f5c52e80910>) [i16, i19, p6, p11, p13]
++781: call_n(ConstClass(_ll_dict_setitem_lookup_done_trampoline__v228___simple_call__function__), p13, p11, p6, i16, i19, descr=<Callv 0 rrrii EF=5>)
++870: guard_no_exception(descr=<Guard0x7f5c52e80968>) [p6]
++884: leave_portal_frame(0)
++884: finish(ConstPtr(null), descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++1008: --end of the loop--
+[56742d086c22] jit-log-opt-loop}
+[56742d161038] {jit-log-opt-loop
+# Loop 6 ((jitdriver: no get_printable_location)) : entry bridge with 29 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f5c52e80ac8>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '(jitdriver: no get_printable_location)')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f5c52e80b20>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f5c52e883a0>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f5c52e80b78>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++647: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f5c52e883e0>) [p0, p6]
++656: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '(jitdriver: no get_printable_location)')
++781: p14 = call_assembler_r(p0, descr=<Loop-1>)
++958: guard_not_forced(descr=<Guard0x7f5c52e80bd0>) [p6, p14]
++969: guard_no_exception(descr=<Guard0x7f5c52e88420>) [p6, p14]
++989: leave_portal_frame(0)
++989: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f5c52e80c28>) [p6, p14]
++1007: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1018: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1029: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1033: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1060: guard_true(i23, descr=<Guard0x7f5c52e80c80>) [i19, i20, i23, p18]
++1069: i24 = int_add(i19, i20)
++1072: leave_portal_frame(0)
++1072: p26 = new_with_vtable(descr=<SizeDescr 24>)
++1109: setfield_gc(p26, i24, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1121: finish(p26, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++1232: --end of the loop--
+[56742d177b10] jit-log-opt-loop}
+[56742d253d6a] {jit-log-opt-loop
+# Loop 7 ((jitdriver: no get_printable_location)) : entry bridge with 29 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f5c52e80de0>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '(jitdriver: no get_printable_location)')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f5c52e80e38>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f5c52e88460>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f5c52e80e90>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++647: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f5c52e884a0>) [p0, p6]
++656: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '(jitdriver: no get_printable_location)')
++781: p14 = call_assembler_r(p0, descr=<Loop-1>)
++958: guard_not_forced(descr=<Guard0x7f5c52e80ee8>) [p6, p14]
++969: guard_no_exception(descr=<Guard0x7f5c52e884e0>) [p6, p14]
++989: leave_portal_frame(0)
++989: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f5c52e80f40>) [p6, p14]
++1007: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1018: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1029: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1033: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1060: guard_true(i23, descr=<Guard0x7f5c52e80f98>) [i19, i20, i23, p18]
++1069: i24 = int_add(i19, i20)
++1072: leave_portal_frame(0)
++1072: p26 = new_with_vtable(descr=<SizeDescr 24>)
++1109: setfield_gc(p26, i24, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1121: finish(p26, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++1232: --end of the loop--
+[56742d26918a] jit-log-opt-loop}
+[56742d34b724] {jit-log-opt-loop
+# Loop 8 ((jitdriver: no get_printable_location)) : entry bridge with 29 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f5c52e810f8>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '(jitdriver: no get_printable_location)')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f5c52e81150>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f5c52e88520>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f5c52e811a8>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++647: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f5c52e88560>) [p0, p6]
++656: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '(jitdriver: no get_printable_location)')
++781: p14 = call_assembler_r(p0, descr=<Loop-1>)
++958: guard_not_forced(descr=<Guard0x7f5c52e81200>) [p6, p14]
++969: guard_no_exception(descr=<Guard0x7f5c52e885a0>) [p6, p14]
++989: leave_portal_frame(0)
++989: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f5c52e81258>) [p6, p14]
++1007: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1018: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1029: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1033: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1060: guard_true(i23, descr=<Guard0x7f5c52e812b0>) [i19, i20, i23, p18]
++1069: i24 = int_add(i19, i20)
++1072: leave_portal_frame(0)
++1072: p26 = new_with_vtable(descr=<SizeDescr 24>)
++1109: setfield_gc(p26, i24, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1121: finish(p26, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++1232: --end of the loop--
+[56742d365570] jit-log-opt-loop}
+[56742d4446f6] {jit-log-opt-loop
+# Loop 9 ((jitdriver: no get_printable_location)) : entry bridge with 29 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f5c52e81410>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '(jitdriver: no get_printable_location)')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f5c52e81468>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f5c52e885e0>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f5c52e814c0>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++647: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f5c52e88620>) [p0, p6]
++656: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '(jitdriver: no get_printable_location)')
++781: p14 = call_assembler_r(p0, descr=<Loop-1>)
++958: guard_not_forced(descr=<Guard0x7f5c52e81518>) [p6, p14]
++969: guard_no_exception(descr=<Guard0x7f5c52e88660>) [p6, p14]
++989: leave_portal_frame(0)
++989: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f5c52e81570>) [p6, p14]
++1007: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1018: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1029: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1033: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1060: guard_true(i23, descr=<Guard0x7f5c52e815c8>) [i19, i20, i23, p18]
++1069: i24 = int_add(i19, i20)
++1072: leave_portal_frame(0)
++1072: p26 = new_with_vtable(descr=<SizeDescr 24>)
++1109: setfield_gc(p26, i24, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1121: finish(p26, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++1232: --end of the loop--
+[56742d4598d0] jit-log-opt-loop}
+[56742d4ed706] {jit-log-opt-loop
+# Loop 10 ((jitdriver: no get_printable_location)) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++210: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++214: guard_class(p0, 93971728808080, descr=<Guard0x7f5c52e81678>) [p0, p2]
++233: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.Environment.inst_store 16>)
++237: guard_nonnull(p2, descr=<Guard0x7f5c52e886a0>) [p0, p2]
++246: i5 = strhash(p2)
++250: i7 = cond_call_value_i(i5, ConstClass(_ll_strhash__rpy_stringPtr), p2, descr=<Calli 8 r EF=2>)
++259: i10 = call_i(ConstClass(ll_call_lookup_function_trampoline__v134___simple_call__function_l), p4, p2, i7, 0, descr=<Calli 8 rrii EF=5 OS=4>)
++349: guard_no_exception(descr=<Guard0x7f5c52e816d0>) [i10, p2, p0]
++363: i12 = int_ge(i10, 0)
++367: guard_true(i12, descr=<Guard0x7f5c52e886e0>) [i10, p2, p0]
++373: i13 = strhash(p2)
++373: p14 = getfield_gc_r(p4, descr=<FieldP dicttable.entries 48>)
++391: p15 = getinteriorfield_gc_r(p14, i10, descr=<InteriorFieldDescr <FieldP odictentry.value 8>>)
++396: guard_nonnull(p15, descr=<Guard0x7f5c52e88720>) [i10, p2, p0]
++405: leave_portal_frame(0)
++405: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++512: --end of the loop--
+[56742d4fd2a4] jit-log-opt-loop}
+[56742d58741c] {jit-log-opt-loop
+# Loop 11 ((jitdriver: no get_printable_location)) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++210: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++214: guard_class(p0, 93971728808080, descr=<Guard0x7f5c52e81780>) [p0, p2]
++233: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.Environment.inst_store 16>)
++237: guard_nonnull(p2, descr=<Guard0x7f5c52e88760>) [p0, p2]
++246: i5 = strhash(p2)
++250: i7 = cond_call_value_i(i5, ConstClass(_ll_strhash__rpy_stringPtr), p2, descr=<Calli 8 r EF=2>)
++259: i10 = call_i(ConstClass(ll_call_lookup_function_trampoline__v134___simple_call__function_l), p4, p2, i7, 0, descr=<Calli 8 rrii EF=5 OS=4>)
++349: guard_no_exception(descr=<Guard0x7f5c52e817d8>) [i10, p2, p0]
++363: i12 = int_ge(i10, 0)
++367: guard_true(i12, descr=<Guard0x7f5c52e887a0>) [i10, p2, p0]
++373: i13 = strhash(p2)
++373: p14 = getfield_gc_r(p4, descr=<FieldP dicttable.entries 48>)
++391: p15 = getinteriorfield_gc_r(p14, i10, descr=<InteriorFieldDescr <FieldP odictentry.value 8>>)
++396: guard_nonnull(p15, descr=<Guard0x7f5c52e887e0>) [i10, p2, p0]
++405: leave_portal_frame(0)
++405: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++512: --end of the loop--
+[56742d5960dc] jit-log-opt-loop}
+[56742d61fe1a] {jit-log-opt-loop
+# Loop 12 ((jitdriver: no get_printable_location)) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++210: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++214: guard_class(p0, 93971728808080, descr=<Guard0x7f5c52e81888>) [p0, p2]
++233: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.Environment.inst_store 16>)
++237: guard_nonnull(p2, descr=<Guard0x7f5c52e88820>) [p0, p2]
++246: i5 = strhash(p2)
++250: i7 = cond_call_value_i(i5, ConstClass(_ll_strhash__rpy_stringPtr), p2, descr=<Calli 8 r EF=2>)
++259: i10 = call_i(ConstClass(ll_call_lookup_function_trampoline__v134___simple_call__function_l), p4, p2, i7, 0, descr=<Calli 8 rrii EF=5 OS=4>)
++349: guard_no_exception(descr=<Guard0x7f5c52e818e0>) [i10, p2, p0]
++363: i12 = int_ge(i10, 0)
++367: guard_true(i12, descr=<Guard0x7f5c52e88860>) [i10, p2, p0]
++373: i13 = strhash(p2)
++373: p14 = getfield_gc_r(p4, descr=<FieldP dicttable.entries 48>)
++391: p15 = getinteriorfield_gc_r(p14, i10, descr=<InteriorFieldDescr <FieldP odictentry.value 8>>)
++396: guard_nonnull(p15, descr=<Guard0x7f5c52e888a0>) [i10, p2, p0]
++405: leave_portal_frame(0)
++405: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++512: --end of the loop--
+[56742d62de24] jit-log-opt-loop}
+[56742d6e0b16] {jit-log-opt-loop
+# Loop 13 ((jitdriver: no get_printable_location)) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++210: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++214: guard_class(p0, 93971728808080, descr=<Guard0x7f5c52e81990>) [p0, p2]
++233: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.Environment.inst_store 16>)
++237: guard_nonnull(p2, descr=<Guard0x7f5c52e888e0>) [p0, p2]
++246: i5 = strhash(p2)
++250: i7 = cond_call_value_i(i5, ConstClass(_ll_strhash__rpy_stringPtr), p2, descr=<Calli 8 r EF=2>)
++259: i10 = call_i(ConstClass(ll_call_lookup_function_trampoline__v134___simple_call__function_l), p4, p2, i7, 0, descr=<Calli 8 rrii EF=5 OS=4>)
++349: guard_no_exception(descr=<Guard0x7f5c52e819e8>) [i10, p2, p0]
++363: i12 = int_ge(i10, 0)
++367: guard_true(i12, descr=<Guard0x7f5c52e88920>) [i10, p2, p0]
++373: i13 = strhash(p2)
++373: p14 = getfield_gc_r(p4, descr=<FieldP dicttable.entries 48>)
++391: p15 = getinteriorfield_gc_r(p14, i10, descr=<InteriorFieldDescr <FieldP odictentry.value 8>>)
++396: guard_nonnull(p15, descr=<Guard0x7f5c52e88960>) [i10, p2, p0]
++405: leave_portal_frame(0)
++405: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++512: --end of the loop--
+[56742d6eee62] jit-log-opt-loop}
+[56742d776482] {jit-log-opt-loop
+# Loop 14 ((jitdriver: no get_printable_location)) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++210: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++214: guard_class(p0, 93971728808080, descr=<Guard0x7f5c52e81a98>) [p0, p2]
++233: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.Environment.inst_store 16>)
++237: guard_nonnull(p2, descr=<Guard0x7f5c52e889a0>) [p0, p2]
++246: i5 = strhash(p2)
++250: i7 = cond_call_value_i(i5, ConstClass(_ll_strhash__rpy_stringPtr), p2, descr=<Calli 8 r EF=2>)
++259: i10 = call_i(ConstClass(ll_call_lookup_function_trampoline__v134___simple_call__function_l), p4, p2, i7, 0, descr=<Calli 8 rrii EF=5 OS=4>)
++349: guard_no_exception(descr=<Guard0x7f5c52e81af0>) [i10, p2, p0]
++363: i12 = int_ge(i10, 0)
++367: guard_true(i12, descr=<Guard0x7f5c52e889e0>) [i10, p2, p0]
++373: i13 = strhash(p2)
++373: p14 = getfield_gc_r(p4, descr=<FieldP dicttable.entries 48>)
++391: p15 = getinteriorfield_gc_r(p14, i10, descr=<InteriorFieldDescr <FieldP odictentry.value 8>>)
++396: guard_nonnull(p15, descr=<Guard0x7f5c52e88a20>) [i10, p2, p0]
++405: leave_portal_frame(0)
++405: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++512: --end of the loop--
+[56742d78596a] jit-log-opt-loop}
+[56742d8638ca] {jit-log-opt-loop
+# Loop 15 ((jitdriver: no get_printable_location)) : entry bridge with 23 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++242: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.AssignStatement.inst_value 24>)
++253: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f5c52e81bf8>) [p0, p2]
++262: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '(jitdriver: no get_printable_location)')
++387: p6 = call_assembler_r(p0, descr=<Loop-1>)
++564: guard_not_forced(descr=<Guard0x7f5c52e81c50>) [p0, p6]
++575: guard_no_exception(descr=<Guard0x7f5c52e88a60>) [p0, p6]
++595: leave_portal_frame(0)
++595: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f5c52e81ca8>) [p0, p6]
++613: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.AssignStatement.inst_name 8>)
++624: p11 = getfield_gc_r(p10, descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++628: guard_class(p0, 93971728808080, descr=<Guard0x7f5c52e88aa0>) [p0, p6]
++647: p13 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.Environment.inst_store 16>)
++651: guard_nonnull(p11, descr=<Guard0x7f5c52e88ae0>) [p0, p6]
++660: i14 = strhash(p11)
++664: i16 = cond_call_value_i(i14, ConstClass(_ll_strhash__rpy_stringPtr), p11, descr=<Calli 8 r EF=2>)
++673: i19 = call_i(ConstClass(ll_call_lookup_function_trampoline__v134___simple_call__function_l), p13, p11, i16, 1, descr=<Calli 8 rrii EF=5 OS=4>)
++767: guard_no_exception(descr=<Guard0x7f5c52e81d00>) [i16, i19, p6, p11, p13]
++781: call_n(ConstClass(_ll_dict_setitem_lookup_done_trampoline__v228___simple_call__function__), p13, p11, p6, i16, i19, descr=<Callv 0 rrrii EF=5>)
++870: guard_no_exception(descr=<Guard0x7f5c52e81d58>) [p6]
++884: leave_portal_frame(0)
++884: finish(ConstPtr(null), descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++1008: --end of the loop--
+[56742d8877b6] jit-log-opt-loop}
+[56742d99eef4] {jit-log-opt-loop
+# Loop 16 ((jitdriver: no get_printable_location)) : entry bridge with 29 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f5c52e81eb8>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '(jitdriver: no get_printable_location)')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f5c52e81f10>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f5c52e88b20>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f5c52e81f68>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++647: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f5c52e88b60>) [p0, p6]
++656: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '(jitdriver: no get_printable_location)')
++781: p14 = call_assembler_r(p0, descr=<Loop-1>)
++958: guard_not_forced(descr=<Guard0x7f5c52e8e020>) [p6, p14]
++969: guard_no_exception(descr=<Guard0x7f5c52e88ba0>) [p6, p14]
++989: leave_portal_frame(0)
++989: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f5c52e8e078>) [p6, p14]
++1007: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1018: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1029: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1033: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1060: guard_true(i23, descr=<Guard0x7f5c52e8e0d0>) [i19, i20, i23, p18]
++1069: i24 = int_add(i19, i20)
++1072: leave_portal_frame(0)
++1072: p26 = new_with_vtable(descr=<SizeDescr 24>)
++1109: setfield_gc(p26, i24, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1121: finish(p26, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++1232: --end of the loop--
+[56742d9b4ca0] jit-log-opt-loop}
+[56742da44774] {jit-log-opt-loop
+# Loop 17 ((jitdriver: no get_printable_location)) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++210: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++214: guard_class(p0, 93971728808080, descr=<Guard0x7f5c52e8e180>) [p0, p2]
++233: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.Environment.inst_store 16>)
++237: guard_nonnull(p2, descr=<Guard0x7f5c52e88be0>) [p0, p2]
++246: i5 = strhash(p2)
++250: i7 = cond_call_value_i(i5, ConstClass(_ll_strhash__rpy_stringPtr), p2, descr=<Calli 8 r EF=2>)
++259: i10 = call_i(ConstClass(ll_call_lookup_function_trampoline__v134___simple_call__function_l), p4, p2, i7, 0, descr=<Calli 8 rrii EF=5 OS=4>)
++349: guard_no_exception(descr=<Guard0x7f5c52e8e1d8>) [i10, p2, p0]
++363: i12 = int_ge(i10, 0)
++367: guard_true(i12, descr=<Guard0x7f5c52e88c20>) [i10, p2, p0]
++373: i13 = strhash(p2)
++373: p14 = getfield_gc_r(p4, descr=<FieldP dicttable.entries 48>)
++391: p15 = getinteriorfield_gc_r(p14, i10, descr=<InteriorFieldDescr <FieldP odictentry.value 8>>)
++396: guard_nonnull(p15, descr=<Guard0x7f5c52e88c60>) [i10, p2, p0]
++405: leave_portal_frame(0)
++405: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++512: --end of the loop--
+[56742da52a52] jit-log-opt-loop}
+[56742dab547e] {jit-log-opt-loop
+# Loop 18 ((jitdriver: no get_printable_location)) : entry bridge with 6 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++162: i2 = getfield_gc_i(ConstPtr(ptr1), descr=<FieldS src.kimchi_ast.ast.IntegerLiteral.inst_value 16>)
++166: leave_portal_frame(0)
++166: p4 = new_with_vtable(descr=<SizeDescr 24>)
++203: setfield_gc(p4, i2, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++215: finish(p4, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++336: --end of the loop--
+[56742dabc6b0] jit-log-opt-loop}
+[56743298db6e] {jit-log-opt-bridge
+# bridge out of Guard 0x7f5c52e880e0 with 5 ops
+[i0, i1, i2, p3]
++46: guard_true(i2, descr=<Guard0x7f5c52e8e288>) [i0, i1, i2, p3]
++55: i4 = int_lt(i0, i1)
++58: guard_false(i4, descr=<Guard0x7f5c52e88ca0>) [i0, i1, i2, p3]
++64: leave_portal_frame(0)
++71: finish(ConstPtr(ptr6), descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++192: --end of the loop--
+[567432995de8] jit-log-opt-bridge}
+[567432b648f2] {jit-log-opt-loop
+# Loop 20 ((jitdriver: no get_printable_location)) : entry bridge with 23 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++242: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.AssignStatement.inst_value 24>)
++253: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f5c52e8e390>) [p0, p2]
++262: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '(jitdriver: no get_printable_location)')
++387: p6 = call_assembler_r(p0, descr=<Loop-1>)
++564: guard_not_forced(descr=<Guard0x7f5c52e8e3e8>) [p0, p6]
++575: guard_no_exception(descr=<Guard0x7f5c52e88ce0>) [p0, p6]
++595: leave_portal_frame(0)
++595: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f5c52e8e440>) [p0, p6]
++613: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.AssignStatement.inst_name 8>)
++624: p11 = getfield_gc_r(p10, descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++628: guard_class(p0, 93971728808080, descr=<Guard0x7f5c52e88d20>) [p0, p6]
++647: p13 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.Environment.inst_store 16>)
++651: guard_nonnull(p11, descr=<Guard0x7f5c52e88d60>) [p0, p6]
++660: i14 = strhash(p11)
++664: i16 = cond_call_value_i(i14, ConstClass(_ll_strhash__rpy_stringPtr), p11, descr=<Calli 8 r EF=2>)
++673: i19 = call_i(ConstClass(ll_call_lookup_function_trampoline__v134___simple_call__function_l), p13, p11, i16, 1, descr=<Calli 8 rrii EF=5 OS=4>)
++767: guard_no_exception(descr=<Guard0x7f5c52e8e498>) [i16, i19, p6, p11, p13]
++781: call_n(ConstClass(_ll_dict_setitem_lookup_done_trampoline__v228___simple_call__function__), p13, p11, p6, i16, i19, descr=<Callv 0 rrrii EF=5>)
++870: guard_no_exception(descr=<Guard0x7f5c52e8e4f0>) [p6]
++884: leave_portal_frame(0)
++884: finish(ConstPtr(null), descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++1008: --end of the loop--
+[567432b76b14] jit-log-opt-loop}
+[567432c2b53e] {jit-log-opt-loop
+# Loop 21 ((jitdriver: no get_printable_location)) : entry bridge with 36 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++306: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++317: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f5c52e8e650>) [p0, p2]
++326: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '(jitdriver: no get_printable_location)')
++451: p6 = call_assembler_r(p0, descr=<Loop-1>)
++628: guard_not_forced(descr=<Guard0x7f5c52e8e6a8>) [p0, p6]
++639: guard_no_exception(descr=<Guard0x7f5c52e88da0>) [p0, p6]
++659: leave_portal_frame(0)
++659: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f5c52e8e700>) [p0, p6]
++677: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++695: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f5c52e88de0>) [p0, p6]
++704: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '(jitdriver: no get_printable_location)')
++829: p14 = call_assembler_r(p0, descr=<Loop-1>)
++1006: guard_not_forced(descr=<Guard0x7f5c52e8e758>) [p6, p14]
++1017: guard_no_exception(descr=<Guard0x7f5c52e88e20>) [p6, p14]
++1037: leave_portal_frame(0)
++1037: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f5c52e8e7b0>) [p6, p14]
++1055: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1066: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1077: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1081: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1108: guard_false(i23, descr=<Guard0x7f5c52e8e808>) [i19, i20, i23, p18]
++1117: i26 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 45, descr=<Calli 8 ri EF=0 OS=30>)
++1138: guard_false(i26, descr=<Guard0x7f5c52e8e860>) [i19, i20, i26, p18]
++1147: i29 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 42, descr=<Calli 8 ri EF=0 OS=30>)
++1168: guard_false(i29, descr=<Guard0x7f5c52e8e8b8>) [i19, i20, i29, p18]
++1177: i32 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 47, descr=<Calli 8 ri EF=0 OS=30>)
++1198: guard_false(i32, descr=<Guard0x7f5c52e8e910>) [i19, i20, i32, p18]
++1207: i35 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 60, descr=<Calli 8 ri EF=0 OS=30>)
++1228: guard_true(i35, descr=<Guard0x7f5c52e8e968>) [i19, i20, i35, p18]
++1237: i36 = int_lt(i19, i20)
++1240: guard_true(i36, descr=<Guard0x7f5c52e88e60>) [i19, i20, i35, p18]
++1246: leave_portal_frame(0)
++1253: finish(ConstPtr(ptr38), descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++1376: --end of the loop--
+[567432c3ead0] jit-log-opt-loop}
+[567432cb1908] {jit-log-opt-loop
+# Loop 22 ((jitdriver: no get_printable_location)) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++210: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++214: guard_class(p0, 93971728808080, descr=<Guard0x7f5c52e8ea18>) [p0, p2]
++233: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.Environment.inst_store 16>)
++237: guard_nonnull(p2, descr=<Guard0x7f5c52e88ea0>) [p0, p2]
++246: i5 = strhash(p2)
++250: i7 = cond_call_value_i(i5, ConstClass(_ll_strhash__rpy_stringPtr), p2, descr=<Calli 8 r EF=2>)
++259: i10 = call_i(ConstClass(ll_call_lookup_function_trampoline__v134___simple_call__function_l), p4, p2, i7, 0, descr=<Calli 8 rrii EF=5 OS=4>)
++349: guard_no_exception(descr=<Guard0x7f5c52e8ea70>) [i10, p2, p0]
++363: i12 = int_ge(i10, 0)
++367: guard_true(i12, descr=<Guard0x7f5c52e88ee0>) [i10, p2, p0]
++373: i13 = strhash(p2)
++373: p14 = getfield_gc_r(p4, descr=<FieldP dicttable.entries 48>)
++391: p15 = getinteriorfield_gc_r(p14, i10, descr=<InteriorFieldDescr <FieldP odictentry.value 8>>)
++396: guard_nonnull(p15, descr=<Guard0x7f5c52e88f20>) [i10, p2, p0]
++405: leave_portal_frame(0)
++405: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++512: --end of the loop--
+[567432cbcbda] jit-log-opt-loop}
+[567432d73be2] {jit-log-opt-loop
+# Loop 23 ((jitdriver: no get_printable_location)) : entry bridge with 29 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f5c52e8ebd0>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '(jitdriver: no get_printable_location)')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f5c52e8ec28>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f5c52e88f60>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f5c52e8ec80>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++647: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f5c52e88fa0>) [p0, p6]
++656: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '(jitdriver: no get_printable_location)')
++781: p14 = call_assembler_r(p0, descr=<Loop-1>)
++958: guard_not_forced(descr=<Guard0x7f5c52e8ecd8>) [p6, p14]
++969: guard_no_exception(descr=<Guard0x7f5c52e88fe0>) [p6, p14]
++989: leave_portal_frame(0)
++989: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f5c52e8ed30>) [p6, p14]
++1007: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1018: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1029: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1033: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1060: guard_true(i23, descr=<Guard0x7f5c52e8ed88>) [i19, i20, i23, p18]
++1069: i24 = int_add(i19, i20)
++1072: leave_portal_frame(0)
++1072: p26 = new_with_vtable(descr=<SizeDescr 24>)
++1109: setfield_gc(p26, i24, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1121: finish(p26, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++1232: --end of the loop--
+[567432d83560] jit-log-opt-loop}
+[567432dea332] {jit-log-opt-loop
+# Loop 24 ((jitdriver: no get_printable_location)) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++210: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++214: guard_class(p0, 93971728808080, descr=<Guard0x7f5c52e8ee38>) [p0, p2]
++233: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.Environment.inst_store 16>)
++237: guard_nonnull(p2, descr=<Guard0x7f5c52e89020>) [p0, p2]
++246: i5 = strhash(p2)
++250: i7 = cond_call_value_i(i5, ConstClass(_ll_strhash__rpy_stringPtr), p2, descr=<Calli 8 r EF=2>)
++259: i10 = call_i(ConstClass(ll_call_lookup_function_trampoline__v134___simple_call__function_l), p4, p2, i7, 0, descr=<Calli 8 rrii EF=5 OS=4>)
++349: guard_no_exception(descr=<Guard0x7f5c52e8ee90>) [i10, p2, p0]
++363: i12 = int_ge(i10, 0)
++367: guard_true(i12, descr=<Guard0x7f5c52e89060>) [i10, p2, p0]
++373: i13 = strhash(p2)
++373: p14 = getfield_gc_r(p4, descr=<FieldP dicttable.entries 48>)
++391: p15 = getinteriorfield_gc_r(p14, i10, descr=<InteriorFieldDescr <FieldP odictentry.value 8>>)
++396: guard_nonnull(p15, descr=<Guard0x7f5c52e890a0>) [i10, p2, p0]
++405: leave_portal_frame(0)
++405: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++512: --end of the loop--
+[567432df765c] jit-log-opt-loop}
+[567432e35de0] {jit-log-opt-loop
+# Loop 25 ((jitdriver: no get_printable_location)) : entry bridge with 6 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++201: p4 = call_may_force_r(ConstClass(Evaluator.eval_block_statement), ConstPtr(ptr2), ConstPtr(ptr3), p0, descr=<Callr 8 rrr EF=7>)
++281: guard_not_forced(descr=<Guard0x7f5c52e8ef40>) [p4]
++292: guard_no_exception(descr=<Guard0x7f5c52e890e0>) [p4]
++306: leave_portal_frame(0)
++306: finish(p4, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++416: --end of the loop--
+[567432e3ad9e] jit-log-opt-loop}
+[567432e98bde] {jit-log-opt-loop
+# Loop 26 ((jitdriver: no get_printable_location)) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++210: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++214: guard_class(p0, 93971728808080, descr=<Guard0x7f5c52e8eff0>) [p0, p2]
++233: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.Environment.inst_store 16>)
++237: guard_nonnull(p2, descr=<Guard0x7f5c52e89120>) [p0, p2]
++246: i5 = strhash(p2)
++250: i7 = cond_call_value_i(i5, ConstClass(_ll_strhash__rpy_stringPtr), p2, descr=<Calli 8 r EF=2>)
++259: i10 = call_i(ConstClass(ll_call_lookup_function_trampoline__v134___simple_call__function_l), p4, p2, i7, 0, descr=<Calli 8 rrii EF=5 OS=4>)
++349: guard_no_exception(descr=<Guard0x7f5c52e8f048>) [i10, p2, p0]
++363: i12 = int_ge(i10, 0)
++367: guard_true(i12, descr=<Guard0x7f5c52e89160>) [i10, p2, p0]
++373: i13 = strhash(p2)
++373: p14 = getfield_gc_r(p4, descr=<FieldP dicttable.entries 48>)
++391: p15 = getinteriorfield_gc_r(p14, i10, descr=<InteriorFieldDescr <FieldP odictentry.value 8>>)
++396: guard_nonnull(p15, descr=<Guard0x7f5c52e891a0>) [i10, p2, p0]
++405: leave_portal_frame(0)
++405: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++512: --end of the loop--
+[567432ea5540] jit-log-opt-loop}
+[567432ee4c7e] {jit-log-opt-loop
+# Loop 27 ((jitdriver: no get_printable_location)) : entry bridge with 6 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++162: i2 = getfield_gc_i(ConstPtr(ptr1), descr=<FieldS src.kimchi_ast.ast.IntegerLiteral.inst_value 16>)
++166: leave_portal_frame(0)
++166: p4 = new_with_vtable(descr=<SizeDescr 24>)
++203: setfield_gc(p4, i2, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++215: finish(p4, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++336: --end of the loop--
+[567432ee936a] jit-log-opt-loop}
+[567432f6f094] {jit-log-opt-loop
+# Loop 28 ((jitdriver: no get_printable_location)) : entry bridge with 23 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++242: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.AssignStatement.inst_value 24>)
++253: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f5c52e8f1a8>) [p0, p2]
++262: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '(jitdriver: no get_printable_location)')
++387: p6 = call_assembler_r(p0, descr=<Loop-1>)
++564: guard_not_forced(descr=<Guard0x7f5c52e8f200>) [p0, p6]
++575: guard_no_exception(descr=<Guard0x7f5c52e891e0>) [p0, p6]
++595: leave_portal_frame(0)
++595: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f5c52e8f258>) [p0, p6]
++613: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.AssignStatement.inst_name 8>)
++624: p11 = getfield_gc_r(p10, descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++628: guard_class(p0, 93971728808080, descr=<Guard0x7f5c52e89220>) [p0, p6]
++647: p13 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.Environment.inst_store 16>)
++651: guard_nonnull(p11, descr=<Guard0x7f5c52e89260>) [p0, p6]
++660: i14 = strhash(p11)
++664: i16 = cond_call_value_i(i14, ConstClass(_ll_strhash__rpy_stringPtr), p11, descr=<Calli 8 r EF=2>)
++673: i19 = call_i(ConstClass(ll_call_lookup_function_trampoline__v134___simple_call__function_l), p13, p11, i16, 1, descr=<Calli 8 rrii EF=5 OS=4>)
++767: guard_no_exception(descr=<Guard0x7f5c52e8f2b0>) [i16, i19, p6, p11, p13]
++781: call_n(ConstClass(_ll_dict_setitem_lookup_done_trampoline__v228___simple_call__function__), p13, p11, p6, i16, i19, descr=<Callv 0 rrrii EF=5>)
++870: guard_no_exception(descr=<Guard0x7f5c52e8f308>) [p6]
++884: leave_portal_frame(0)
++884: finish(ConstPtr(null), descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++1008: --end of the loop--
+[567432f81b0e] jit-log-opt-loop}
+[567433022c02] {jit-log-opt-loop
+# Loop 29 ((jitdriver: no get_printable_location)) : entry bridge with 29 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f5c52e8f468>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '(jitdriver: no get_printable_location)')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f5c52e8f4c0>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f5c52e892a0>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f5c52e8f518>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++647: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f5c52e892e0>) [p0, p6]
++656: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '(jitdriver: no get_printable_location)')
++781: p14 = call_assembler_r(p0, descr=<Loop-1>)
++958: guard_not_forced(descr=<Guard0x7f5c52e8f570>) [p6, p14]
++969: guard_no_exception(descr=<Guard0x7f5c52e89320>) [p6, p14]
++989: leave_portal_frame(0)
++989: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f5c52e8f5c8>) [p6, p14]
++1007: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1018: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1029: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1033: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1060: guard_true(i23, descr=<Guard0x7f5c52e8f620>) [i19, i20, i23, p18]
++1069: i24 = int_add(i19, i20)
++1072: leave_portal_frame(0)
++1072: p26 = new_with_vtable(descr=<SizeDescr 24>)
++1109: setfield_gc(p26, i24, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1121: finish(p26, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++1232: --end of the loop--
+[567433033090] jit-log-opt-loop}
+[5674330d5840] {jit-log-opt-loop
+# Loop 30 ((jitdriver: no get_printable_location)) : entry bridge with 29 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f5c52e8f780>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '(jitdriver: no get_printable_location)')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f5c52e8f7d8>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f5c52e89360>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f5c52e8f830>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++647: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f5c52e893a0>) [p0, p6]
++656: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '(jitdriver: no get_printable_location)')
++781: p14 = call_assembler_r(p0, descr=<Loop-1>)
++958: guard_not_forced(descr=<Guard0x7f5c52e8f888>) [p6, p14]
++969: guard_no_exception(descr=<Guard0x7f5c52e893e0>) [p6, p14]
++989: leave_portal_frame(0)
++989: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f5c52e8f8e0>) [p6, p14]
++1007: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1018: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1029: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1033: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1060: guard_true(i23, descr=<Guard0x7f5c52e8f938>) [i19, i20, i23, p18]
++1069: i24 = int_add(i19, i20)
++1072: leave_portal_frame(0)
++1072: p26 = new_with_vtable(descr=<SizeDescr 24>)
++1109: setfield_gc(p26, i24, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1121: finish(p26, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++1232: --end of the loop--
+[5674330e495c] jit-log-opt-loop}
+[567433185d9c] {jit-log-opt-loop
+# Loop 31 ((jitdriver: no get_printable_location)) : entry bridge with 29 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f5c52e8fa98>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '(jitdriver: no get_printable_location)')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f5c52e8faf0>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f5c52e89420>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f5c52e8fb48>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++647: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f5c52e89460>) [p0, p6]
++656: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '(jitdriver: no get_printable_location)')
++781: p14 = call_assembler_r(p0, descr=<Loop-1>)
++958: guard_not_forced(descr=<Guard0x7f5c52e8fba0>) [p6, p14]
++969: guard_no_exception(descr=<Guard0x7f5c52e894a0>) [p6, p14]
++989: leave_portal_frame(0)
++989: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f5c52e8fbf8>) [p6, p14]
++1007: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1018: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1029: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1033: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1060: guard_true(i23, descr=<Guard0x7f5c52e8fc50>) [i19, i20, i23, p18]
++1069: i24 = int_add(i19, i20)
++1072: leave_portal_frame(0)
++1072: p26 = new_with_vtable(descr=<SizeDescr 24>)
++1109: setfield_gc(p26, i24, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1121: finish(p26, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++1232: --end of the loop--
+[567433195608] jit-log-opt-loop}
+[567433245708] {jit-log-opt-loop
+# Loop 32 ((jitdriver: no get_printable_location)) : entry bridge with 29 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f5c52e8fdb0>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '(jitdriver: no get_printable_location)')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f5c52e8fe08>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f5c52e894e0>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f5c52e8fe60>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++647: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f5c52e89520>) [p0, p6]
++656: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '(jitdriver: no get_printable_location)')
++781: p14 = call_assembler_r(p0, descr=<Loop-1>)
++958: guard_not_forced(descr=<Guard0x7f5c52e8feb8>) [p6, p14]
++969: guard_no_exception(descr=<Guard0x7f5c52e89560>) [p6, p14]
++989: leave_portal_frame(0)
++989: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f5c52e8ff10>) [p6, p14]
++1007: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1018: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1029: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1033: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1060: guard_true(i23, descr=<Guard0x7f5c52e8ff68>) [i19, i20, i23, p18]
++1069: i24 = int_add(i19, i20)
++1072: leave_portal_frame(0)
++1072: p26 = new_with_vtable(descr=<SizeDescr 24>)
++1109: setfield_gc(p26, i24, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1121: finish(p26, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++1232: --end of the loop--
+[567433255614] jit-log-opt-loop}
+[5674332bd0f8] {jit-log-opt-loop
+# Loop 33 ((jitdriver: no get_printable_location)) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++210: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++214: guard_class(p0, 93971728808080, descr=<Guard0x7f5c52ea8078>) [p0, p2]
++233: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.Environment.inst_store 16>)
++237: guard_nonnull(p2, descr=<Guard0x7f5c52e895a0>) [p0, p2]
++246: i5 = strhash(p2)
++250: i7 = cond_call_value_i(i5, ConstClass(_ll_strhash__rpy_stringPtr), p2, descr=<Calli 8 r EF=2>)
++259: i10 = call_i(ConstClass(ll_call_lookup_function_trampoline__v134___simple_call__function_l), p4, p2, i7, 0, descr=<Calli 8 rrii EF=5 OS=4>)
++349: guard_no_exception(descr=<Guard0x7f5c52ea80d0>) [i10, p2, p0]
++363: i12 = int_ge(i10, 0)
++367: guard_true(i12, descr=<Guard0x7f5c52e895e0>) [i10, p2, p0]
++373: i13 = strhash(p2)
++373: p14 = getfield_gc_r(p4, descr=<FieldP dicttable.entries 48>)
++391: p15 = getinteriorfield_gc_r(p14, i10, descr=<InteriorFieldDescr <FieldP odictentry.value 8>>)
++396: guard_nonnull(p15, descr=<Guard0x7f5c52e89620>) [i10, p2, p0]
++405: leave_portal_frame(0)
++405: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++512: --end of the loop--
+[5674332c8a74] jit-log-opt-loop}
+[567433331e32] {jit-log-opt-loop
+# Loop 34 ((jitdriver: no get_printable_location)) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++210: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++214: guard_class(p0, 93971728808080, descr=<Guard0x7f5c52ea8180>) [p0, p2]
++233: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.Environment.inst_store 16>)
++237: guard_nonnull(p2, descr=<Guard0x7f5c52e89660>) [p0, p2]
++246: i5 = strhash(p2)
++250: i7 = cond_call_value_i(i5, ConstClass(_ll_strhash__rpy_stringPtr), p2, descr=<Calli 8 r EF=2>)
++259: i10 = call_i(ConstClass(ll_call_lookup_function_trampoline__v134___simple_call__function_l), p4, p2, i7, 0, descr=<Calli 8 rrii EF=5 OS=4>)
++349: guard_no_exception(descr=<Guard0x7f5c52ea81d8>) [i10, p2, p0]
++363: i12 = int_ge(i10, 0)
++367: guard_true(i12, descr=<Guard0x7f5c52e896a0>) [i10, p2, p0]
++373: i13 = strhash(p2)
++373: p14 = getfield_gc_r(p4, descr=<FieldP dicttable.entries 48>)
++391: p15 = getinteriorfield_gc_r(p14, i10, descr=<InteriorFieldDescr <FieldP odictentry.value 8>>)
++396: guard_nonnull(p15, descr=<Guard0x7f5c52e896e0>) [i10, p2, p0]
++405: leave_portal_frame(0)
++405: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++512: --end of the loop--
+[56743333d1ec] jit-log-opt-loop}
+[56743339a8e4] {jit-log-opt-loop
+# Loop 35 ((jitdriver: no get_printable_location)) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++210: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++214: guard_class(p0, 93971728808080, descr=<Guard0x7f5c52ea8288>) [p0, p2]
++233: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.Environment.inst_store 16>)
++237: guard_nonnull(p2, descr=<Guard0x7f5c52e89720>) [p0, p2]
++246: i5 = strhash(p2)
++250: i7 = cond_call_value_i(i5, ConstClass(_ll_strhash__rpy_stringPtr), p2, descr=<Calli 8 r EF=2>)
++259: i10 = call_i(ConstClass(ll_call_lookup_function_trampoline__v134___simple_call__function_l), p4, p2, i7, 0, descr=<Calli 8 rrii EF=5 OS=4>)
++349: guard_no_exception(descr=<Guard0x7f5c52ea82e0>) [i10, p2, p0]
++363: i12 = int_ge(i10, 0)
++367: guard_true(i12, descr=<Guard0x7f5c52e89760>) [i10, p2, p0]
++373: i13 = strhash(p2)
++373: p14 = getfield_gc_r(p4, descr=<FieldP dicttable.entries 48>)
++391: p15 = getinteriorfield_gc_r(p14, i10, descr=<InteriorFieldDescr <FieldP odictentry.value 8>>)
++396: guard_nonnull(p15, descr=<Guard0x7f5c52e897a0>) [i10, p2, p0]
++405: leave_portal_frame(0)
++405: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++512: --end of the loop--
+[5674333a5496] jit-log-opt-loop}
+[5674334022d4] {jit-log-opt-loop
+# Loop 36 ((jitdriver: no get_printable_location)) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++210: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++214: guard_class(p0, 93971728808080, descr=<Guard0x7f5c52ea8390>) [p0, p2]
++233: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.Environment.inst_store 16>)
++237: guard_nonnull(p2, descr=<Guard0x7f5c52e897e0>) [p0, p2]
++246: i5 = strhash(p2)
++250: i7 = cond_call_value_i(i5, ConstClass(_ll_strhash__rpy_stringPtr), p2, descr=<Calli 8 r EF=2>)
++259: i10 = call_i(ConstClass(ll_call_lookup_function_trampoline__v134___simple_call__function_l), p4, p2, i7, 0, descr=<Calli 8 rrii EF=5 OS=4>)
++349: guard_no_exception(descr=<Guard0x7f5c52ea83e8>) [i10, p2, p0]
++363: i12 = int_ge(i10, 0)
++367: guard_true(i12, descr=<Guard0x7f5c52e89820>) [i10, p2, p0]
++373: i13 = strhash(p2)
++373: p14 = getfield_gc_r(p4, descr=<FieldP dicttable.entries 48>)
++391: p15 = getinteriorfield_gc_r(p14, i10, descr=<InteriorFieldDescr <FieldP odictentry.value 8>>)
++396: guard_nonnull(p15, descr=<Guard0x7f5c52e89860>) [i10, p2, p0]
++405: leave_portal_frame(0)
++405: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++512: --end of the loop--
+[56743340cbba] jit-log-opt-loop}
+[56743347021a] {jit-log-opt-loop
+# Loop 37 ((jitdriver: no get_printable_location)) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++210: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++214: guard_class(p0, 93971728808080, descr=<Guard0x7f5c52ea8498>) [p0, p2]
++233: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.Environment.inst_store 16>)
++237: guard_nonnull(p2, descr=<Guard0x7f5c52e898a0>) [p0, p2]
++246: i5 = strhash(p2)
++250: i7 = cond_call_value_i(i5, ConstClass(_ll_strhash__rpy_stringPtr), p2, descr=<Calli 8 r EF=2>)
++259: i10 = call_i(ConstClass(ll_call_lookup_function_trampoline__v134___simple_call__function_l), p4, p2, i7, 0, descr=<Calli 8 rrii EF=5 OS=4>)
++349: guard_no_exception(descr=<Guard0x7f5c52ea84f0>) [i10, p2, p0]
++363: i12 = int_ge(i10, 0)
++367: guard_true(i12, descr=<Guard0x7f5c52e898e0>) [i10, p2, p0]
++373: i13 = strhash(p2)
++373: p14 = getfield_gc_r(p4, descr=<FieldP dicttable.entries 48>)
++391: p15 = getinteriorfield_gc_r(p14, i10, descr=<InteriorFieldDescr <FieldP odictentry.value 8>>)
++396: guard_nonnull(p15, descr=<Guard0x7f5c52e89920>) [i10, p2, p0]
++405: leave_portal_frame(0)
++405: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++512: --end of the loop--
+[56743347ada8] jit-log-opt-loop}
+[5674334d827e] {jit-log-opt-loop
+# Loop 38 ((jitdriver: no get_printable_location)) : entry bridge with 11 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++194: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.ExpressionStatement.inst_expression 8>)
++205: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f5c52ea85f8>) [p0, p2]
++214: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '(jitdriver: no get_printable_location)')
++339: p6 = call_assembler_r(p0, descr=<Loop-1>)
++509: guard_not_forced(descr=<Guard0x7f5c52ea8650>) [p6]
++520: guard_no_exception(descr=<Guard0x7f5c52e89960>) [p6]
++540: leave_portal_frame(0)
++540: leave_portal_frame(0)
++540: finish(p6, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++656: --end of the loop--
+[5674334df4d8] jit-log-opt-loop}
+[56743351b7a4] {jit-log-opt-loop
+# Loop 39 ((jitdriver: no get_printable_location)) : entry bridge with 6 ops
+[p0]
+debug_merge_point(0, 0, '(jitdriver: no get_printable_location)')
++201: p4 = call_may_force_r(ConstClass(Evaluator.eval_while_expression), ConstPtr(ptr2), ConstPtr(ptr3), p0, descr=<Callr 8 rrr EF=7>)
++281: guard_not_forced(descr=<Guard0x7f5c52ea8700>) [p4]
++292: guard_no_exception(descr=<Guard0x7f5c52e899a0>) [p4]
++306: leave_portal_frame(0)
++306: finish(p4, descr=<DoneWithThisFrameDescrRef object at 0x55777f8725c0>)
++416: --end of the loop--
+[567433520438] jit-log-opt-loop}
