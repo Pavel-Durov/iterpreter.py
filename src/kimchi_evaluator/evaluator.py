@@ -11,10 +11,10 @@ def jitpolicy(driver):
     return JitPolicy()
 
 
-def get_location(pc, stmt, self, statements):
-    return "[KIMCHI] evaluating %s " % (str(statements[pc]))
+def get_location(node, self):
+    return "[KIMCHI] evaluating %s " % (str(node))
 
-jitdriver = JitDriver(greens=["pc", "stmt", "self", "statements"], reds=["env", "result"], get_printable_location=get_location)
+jitdriver = JitDriver(greens=["node", "self"], reds=["env"], get_printable_location=get_location)
 
 
 class Evaluator():
@@ -38,8 +38,8 @@ class Evaluator():
         pc = 0
         while pc < len(statements):
             stmt = statements[pc]
-            jitdriver.jit_merge_point(pc=pc, stmt=stmt, statements=statements, result=result, env=env, self=self)
-            
+            # In loop merge point doesnt produce logs probably cause for the recursive nature of eval
+            # jitdriver.jit_merge_point(pc=pc, stmt=stmt, statements=statements, result=result, env=env, self=self)
             result = self.eval(stmt, env)
             if isinstance(result, obj.ReturnValue):
                 return result.value
@@ -50,6 +50,7 @@ class Evaluator():
         return result
     
     def eval(self, node, env):
+        jitdriver.jit_merge_point(node=node, env=env, self=self)
         if isinstance(node, ast.Program):
             return self.eval_program(node.statements, env)
         elif isinstance(node, ast.HashLiteral):
