@@ -297,3 +297,4 @@ pypy*-src
 
 # translated artefacts
 *-c
+!bin/**
