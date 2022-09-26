@@ -297,3 +297,5 @@ pypy*-src
 
 # translated artefacts
 *-c
+
+.DS_Store

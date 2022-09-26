@@ -318,3 +318,22 @@ class HashLiteral(Expression):
         for key, value in self.pairs.items():
             pairs.append(str(key) + ":" + str(value))
         return "{" + ", ".join(pairs) + "}"
+
+
+class WhileExpression(Expression):
+    def __init__(self, token=None, condition=None, block=None):
+        self.token = token
+        self.condition = condition
+        self.body = block
+
+    def expression_node(self):
+        pass
+
+    def token_literal(self):
+        return self.token.literal
+
+    def __str__(self):
+        out = "while" + str(self.condition) + " " + str(self.consequence)
+        if self.body != None:
+            out += "else " + str(self.body)
+        return out

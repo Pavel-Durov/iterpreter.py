@@ -46,6 +46,7 @@ class Tk:
     IF = "IF"
     ELSE = "ELSE"
     RETURN = "RETURN"
+    WHILE = "WHILE"
 
     EQ = "=="
     NOT_EQ = "!="
@@ -60,6 +61,7 @@ class Tk:
         "if": IF,
         "else": ELSE,
         "return": RETURN,
+        "while": WHILE,
     }
 
     def __init__(self, type, literal):

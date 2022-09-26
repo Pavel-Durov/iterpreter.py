@@ -13,10 +13,30 @@ from src.kimchi_ast.ast import (
     Expression,
     IndexExpression,
     StringLiteral,
+    WhileExpression,
 )
 
 from src.kimchi_lexer import Lexer
 from src.kimchi_parser import Parser
+
+
+def test_parsing_while_expression():
+    source = """
+      let x = 0;
+      while(x < 10){
+        let x = x + 1;
+        let z = x;
+      }
+    """
+    p = Parser(Lexer(source))
+    prog = p.parse_program()
+    assert_no_parser_errors(p.errors)
+    assert isinstance(prog.statements[0], LetStatement)
+    assert isinstance(prog.statements[1], ExpressionStatement)
+    assert isinstance(prog.statements[1].expression, WhileExpression)
+    while_exp = prog.statements[1].expression
+    assert len(while_exp.body.statements) == 2
+    assert_infix_expression(while_exp.condition, "x", "<", 10)
 
 
 def test_parsing_hash_literal_with_expressions():

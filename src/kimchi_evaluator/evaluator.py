@@ -98,6 +98,9 @@ class Evaluator():
         elif isinstance(node, ast.IfExpression):
             return self.eval_if_expression(node, env)
 
+        elif isinstance(node, ast.WhileExpression):
+            return self.eval_while_expression(node, env)
+
         return None
 
     def eval_hash_literal(self, node, env):
@@ -221,6 +224,18 @@ class Evaluator():
         if obj == FALSE:
             return False
         return True
+
+    def eval_while_expression(self, node, env):
+        result = NULL
+        while True:
+            condition = self.eval(node.condition, env)
+            if isinstance(condition, obj.Error):
+                return condition
+
+            if not self.is_truthy(condition):
+                return result
+
+            result = self.eval(node.body, env)
 
     def eval_if_expression(self, node, env):
         condition = self.eval(node.condition, env)

@@ -15,7 +15,8 @@ from src.kimchi_ast.ast import (
     ArrayLiteral,
     StringLiteral,
     IndexExpression,
-    HashLiteral
+    HashLiteral,
+    WhileExpression
 )
 
 from src.kimchi_tk import Tk
@@ -204,6 +205,19 @@ class Parser:
 
         return identifiers
 
+    def parse_while_expression(self):
+        exp = WhileExpression(token=self.cur_token)
+        if self.expect_peek(Tk.LPAREN) == False:
+            return None
+        self.next_token()
+        exp.condition = self.parse_expression(self.LOWEST)
+        if self.expect_peek(Tk.RPAREN) == False:
+            return None
+        if self.expect_peek(Tk.LBRACE) == False:
+            return None
+        exp.body = self.parse_block_statement()
+        return exp
+
     def parse_if_expression(self):
         exp = IfExpression(token=self.cur_token)
         if self.expect_peek(Tk.LPAREN) == False:
@@ -375,6 +389,8 @@ class Parser:
             left_exp = self.parse_grouped_expression()
         elif tk == Tk.IF:
             left_exp = self.parse_if_expression()
+        elif tk == Tk.WHILE:
+            left_exp = self.parse_while_expression()
         elif tk == Tk.FUNCTION:
             left_exp = self.parse_function_literal()
         elif tk == Tk.STRING:

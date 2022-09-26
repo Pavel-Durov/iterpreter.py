@@ -5,6 +5,36 @@ from src.kimchi_lexer import Lexer
 from src.kimchi_parser import Parser
 
 
+def test_return_literal_value():
+    source = """
+        let b = 9;
+        b;
+    """
+    evaluated = eval_test(source)
+    assert isinstance(evaluated, obj.Integer)
+    self_like_eval = eval_test(source, True)
+    assert evaluated.value == self_like_eval.value == 9
+
+
+def test_while_program():
+    source = """
+        let a = 0;
+        
+        while (a < 5){
+           a = a + 1;
+        };
+        let b = 0;
+        while (b < 5){
+           b = b + a;
+        };
+        b;
+    """
+    evaluated = eval_test(source)
+    assert isinstance(evaluated, obj.Integer)
+    self_like_eval = eval_test(source, True)
+    assert evaluated.value == self_like_eval.value == 5
+
+
 def test_function_calls():
     source = """
     let fibonacci = fn(x) { 
