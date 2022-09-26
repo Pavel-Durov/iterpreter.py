@@ -11,7 +11,7 @@ def jitpolicy(driver):
     return JitPolicy()
 
 
-jitdriver = JitDriver(greens=["node"], reds=["env"])
+jitdriver = JitDriver(greens=["node", "self"], reds=["env"])
 
 
 class Evaluator():
@@ -31,7 +31,7 @@ class Evaluator():
         return self.ioc.create_env(env)
 
     def eval(self, node, env):
-        jitdriver.jit_merge_point(node=node, env=env)
+        jitdriver.jit_merge_point(node=node, env=env, self=self)
         if isinstance(node, ast.Program):
             return self.eval_program(node, env)
         elif isinstance(node, ast.HashLiteral):

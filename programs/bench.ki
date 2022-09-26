@@ -1,0 +1,14 @@
+
+let x = 0;
+let y = 1;
+
+let loop = fn(i, param) { 
+  if (i == 0) {
+    return param;
+  }
+  return loop(i-1, param + y);
+};
+
+let result = loop(100, 0);
+
+puts("result:", result);
