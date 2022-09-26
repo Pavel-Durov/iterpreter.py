@@ -9,9 +9,13 @@ jobs:
     container:  
       image: iamkimchi/pypy-trace:latest
     env:
-      BIN_v0_4_0: bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-c
+      BIN_v0_4_0: ./bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-c
     steps:
     - uses: actions/checkout@v3
+    - name: test fs
+      run: | 
+        ls ./bin/0.4.0 
+        file ./bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-c
     - name: Download PyPy
       run: make get-pypy
     - name: lfs install
