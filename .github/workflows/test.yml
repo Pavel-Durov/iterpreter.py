@@ -27,4 +27,5 @@ jobs:
     - name: Test with pytest
       run: |
         conda install pytest
+        pip install rpython
         source .envrc && PYTHONPATH=${PWD}:${PWD}/src/:${PWD}/.pypy/ pytest ./src
