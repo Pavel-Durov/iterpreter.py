@@ -296,6 +296,8 @@ pypy*.tar.bz2
 pypy*-src
 
 # translated artefacts
-*-c
+
 
 .DS_Store
+*-c
+!bin/**
