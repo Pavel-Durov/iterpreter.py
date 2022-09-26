@@ -17,6 +17,10 @@ jobs:
       run: git lfs install
     - name: lfs pull
       run: git lfs pull
+    - name: fs test
+      run: |
+        file ./bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-jit-c
+        ./bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-jit-c ./programs/helloWorld.ki
     - name: Bench 0.0.4 [loops.ki]
       run: |
         hyperfine -m 100 -M 100 './bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-jit-c ./programs/loops.ki' \
