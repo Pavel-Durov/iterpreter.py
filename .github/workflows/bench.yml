@@ -28,4 +28,3 @@ jobs:
     - name: Run & Logs
         PYPYLOG=jit-log-opt:${BIN_v0_4_0}.logfile ${BIN_v0_4_0} ./programs/loops.ki
         cat ${BIN_v0_4_0}.logfile
-    
