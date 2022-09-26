@@ -23,8 +23,10 @@ jobs:
         hyperfine --warmup 10 "${BIN_v0_4_0} ./programs/loops.ki" "${BIN_v0_4_0} ./programs/loops.ki self-like"
         hyperfine -m 100 -M 100 "${BIN_v0_4_0} ./programs/loops.ki" "${BIN_v0_4_0} ./programs/loops.ki self-like"
     - name: Run & Logs (Self-Like)
+      run: |
         PYPYLOG=jit-log-opt:${BIN_v0_4_0}-self-like.logfile ${BIN_v0_4_0} ./programs/loops.ki self-like
         cat ${BIN_v0_4_0}-self-like.logfile
     - name: Run & Logs
+      run: |
         PYPYLOG=jit-log-opt:${BIN_v0_4_0}.logfile ${BIN_v0_4_0} ./programs/loops.ki
         cat ${BIN_v0_4_0}.logfile
