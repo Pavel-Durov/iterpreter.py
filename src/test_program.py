@@ -21,11 +21,11 @@ def test_while_program():
         let a = 0;
         
         while (a < 5){
-           a = a + 1;
+           let a = a + 1;
         };
         let b = 0;
         while (b < 5){
-           b = b + a;
+           let b = b + a;
         };
         b;
     """
