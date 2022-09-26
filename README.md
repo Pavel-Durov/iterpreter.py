@@ -46,8 +46,10 @@ Hello World
 ```
 
 ## Running kimchi Repl:
+![](./assets/repl.gif)
+
 ```shell
-$ python ./src/repl.py       
+$ make repl
 > let a = {"a": 1, true: 2, 3:4};
 > a["a"] 
 1
