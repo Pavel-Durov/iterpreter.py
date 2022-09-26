@@ -16,6 +16,7 @@ Kimchi Support:
 + Return statements - `let getO = fn() { return 1; }`
 + Functions & Function application & closuers - `(fn(x) { return fn(y) { return x + y; }; };)(1)(2);`
 + Higher-Order functions
++ While Loops - `let a = 0; while (a < 5){ a = a + 1; };`
 
 Supported Data Types:
 
@@ -25,6 +26,13 @@ Supported Data Types:
 + Arrays - `[1, false, "yo"]`
 + Hashes - `{ "kimchi": true, 2022: false }`
 
+Supported Builtin Functions:
++ `len` - returns the length of  a sequence
++ `first` - returns the first element in sequence
++ `last` - returns the last element in sequence
++ `rest` - returns the tails of the sequence
++ `push` - adds element to sequence
++ `put` - prints message to stdout
 
 
 ## Running kimchi sample programs:
@@ -59,9 +67,25 @@ $ direnv allow # setup local shell session
 $ make test
 ```
 
-
 ## Pypy Translate
 ```shell
 $ make get-pypy # downloads and extracts pypy source code
 $ make translate # translate ./src RPython to c
+```
+
+### Running Translated c files
+```shell
+./main-c programs/loops.ki # runs program with no optimisations
+./main-c programs/loops.ki self-like # runs program with SELF-like optimisation
+
+export BIN='bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-c'
+PYPYLOG=jit-log-opt:${BIN}.logfile ${BIN} ./programs/loops.ki
+PYPYLOG=jit-log-opt:${BIN}-self-like.logfile ${BIN} ./programs/loops.ki self-like
+```
+
+### Benchmarking
+```shell
+export BIN='bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-c'
+hyperfine --warmup 10 "${BIN} ./programs/loops.ki" "${BIN} ./programs/loops.ki self-like"
+hyperfine "${BIN} ./programs/loops.ki" "${BIN} ./programs/loops.ki self-like"
 ```

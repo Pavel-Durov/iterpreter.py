@@ -9,13 +9,15 @@ from src.kimchi_ast.ast import (
     InfixExpression,
     IntegerLiteral,
     LetStatement,
+    AssignStatement,
     PrefixExpression,
     Program,
     ReturnStatement,
     ArrayLiteral,
     StringLiteral,
     IndexExpression,
-    HashLiteral
+    HashLiteral,
+    WhileExpression
 )
 
 from src.kimchi_tk import Tk
@@ -33,6 +35,7 @@ class Parser:
 
     precedences = {
         Tk.EQ: EQUALS,
+        Tk.ASSIGN: EQUALS,
         Tk.NOT_EQ: EQUALS,
         Tk.LT: LESSGREATER,
         Tk.GT: LESSGREATER,
@@ -41,7 +44,7 @@ class Parser:
         Tk.SLASH: PRODUCT,
         Tk.ASTERISK: PRODUCT,
         Tk.LPAREN: CALL,
-        Tk.LBRACKET: INDEX
+        Tk.LBRACKET: INDEX,
     }
 
     def __init__(self, lexer):
@@ -204,6 +207,19 @@ class Parser:
 
         return identifiers
 
+    def parse_while_expression(self):
+        exp = WhileExpression(token=self.cur_token)
+        if self.expect_peek(Tk.LPAREN) == False:
+            return None
+        self.next_token()
+        exp.condition = self.parse_expression(self.LOWEST)
+        if self.expect_peek(Tk.RPAREN) == False:
+            return None
+        if self.expect_peek(Tk.LBRACE) == False:
+            return None
+        exp.body = self.parse_block_statement()
+        return exp
+
     def parse_if_expression(self):
         exp = IfExpression(token=self.cur_token)
         if self.expect_peek(Tk.LPAREN) == False:
@@ -283,6 +299,18 @@ class Parser:
         exp.right = self.parse_expression(self.PREFIX)
         return exp
 
+    def parse_assign_statment(self):
+        name = Identifier(self.cur_token, self.cur_token.literal)
+
+        if not self.expect_peek(Tk.ASSIGN):
+            return None
+        stmt = AssignStatement(token=self.cur_token, identifier=name, value_exp=None)
+        self.next_token()
+        stmt.value = self.parse_expression(self.LOWEST)
+        while not self.cur_token_is(Tk.SEMICOLON):
+            self.next_token()
+        return stmt
+
     def parse_let_statement(self):
         stmt = LetStatement(token=self.cur_token, identifier=None, value_exp=None)
         if not self.expect_peek(Tk.IDENT):
@@ -343,6 +371,8 @@ class Parser:
             return self.parse_let_statement()
         elif self.cur_token.type == Tk.RETURN:
             return self.parse_return_statement()
+        elif self.cur_token.type == Tk.IDENT and self.peek_token_is(Tk.ASSIGN):
+            return self.parse_assign_statment()
         else:
             return self.parse_expression_statement()
 
@@ -375,6 +405,8 @@ class Parser:
             left_exp = self.parse_grouped_expression()
         elif tk == Tk.IF:
             left_exp = self.parse_if_expression()
+        elif tk == Tk.WHILE:
+            left_exp = self.parse_while_expression()
         elif tk == Tk.FUNCTION:
             left_exp = self.parse_function_literal()
         elif tk == Tk.STRING:
@@ -409,6 +441,8 @@ class Parser:
                 left_exp = self.parse_call_expression(left_exp)
             elif tk == Tk.LBRACKET:
                 left_exp = self.parse_index_expression(left_exp)
+            elif tk == Tk.ASSIGN:
+                left_exp = self.parse_infix_expression(left_exp)
             else:
                 return left_exp
 

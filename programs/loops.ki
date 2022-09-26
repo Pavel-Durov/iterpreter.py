@@ -1,0 +1,24 @@
+let i = 0;
+let j = 0;
+
+let x = 0;
+let y = 1;
+let z = 2;
+let q = 3;
+let m = 3;
+
+let count = 1000000;
+let values = [];
+
+while (i < count){ 
+  x = x + y + z + q + m;
+  while (j < count){ 
+    x = x + y + z + q + m;
+    j = j + 1;
+  };
+  i = i + 1;
+};
+
+puts("completed loops: ", i*j);
+puts("x value: ", x);
+

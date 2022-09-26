@@ -6,7 +6,7 @@ def test_next_token():
     input = """
      let five = 5;
     let ten = 10;
-      let add = fn(x, y) {
+    let add = fn(x, y) {
         x + y;
     };
     let result = add(five, ten);
@@ -24,6 +24,11 @@ def test_next_token():
     "another-string-there"
     [1, 2];
     {"foo": "bar"};
+   
+    while(true) {
+      return 1;
+    }
+    
    """
     tests = [
         (Tk.LET, "let"),
@@ -74,6 +79,7 @@ def test_next_token():
         (Tk.GT, ">"),
         (Tk.INT, "5"),
         (Tk.SEMICOLON, ";"),
+        # if
         (Tk.IF, "if"),
         (Tk.LPAREN, "("),
         (Tk.INT, "5"),
@@ -115,10 +121,22 @@ def test_next_token():
         (Tk.STRING, "bar"),
         (Tk.RBRACE, "}"),
         (Tk.SEMICOLON, ";"),
+        # while
+        (Tk.WHILE, "while"),
+        (Tk.LPAREN, "("),
+        (Tk.TRUE, "true"),
+        (Tk.RPAREN, ")"),
+        (Tk.LBRACE, "{"),
+        (Tk.RETURN, "return"),
+        (Tk.INT, "1"),
+        (Tk.SEMICOLON, ";"),
+        (Tk.RBRACE, "}"),
+        # fin :)
         (Tk.EOF, ""),
     ]
     lex = Lexer(input)
     for tt in tests:
         tok = lex.next_token()
+        assert tok.type == tt[0]
         assert tok.type == tt[0]
         assert tok.literal == tt[1]

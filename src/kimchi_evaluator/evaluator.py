@@ -11,7 +11,10 @@ def jitpolicy(driver):
     return JitPolicy()
 
 
-jitdriver = JitDriver(greens=["node", "self"], reds=["env"])
+def get_location(node, self):
+    return "[KIMCHI] evaluating %s " % (str(node))
+
+jitdriver = JitDriver(greens=["node", "self"], reds=["env"], get_printable_location=get_location)
 
 
 class Evaluator():
@@ -29,11 +32,27 @@ class Evaluator():
 
     def create_env(self, env):
         return self.ioc.create_env(env)
+  
+    def eval_program(self, statements, env):
+        result = None
+        pc = 0
+        while pc < len(statements):
+            stmt = statements[pc]
+            # In loop merge point doesnt produce logs probably cause for the recursive nature of eval
+            # jitdriver.jit_merge_point(pc=pc, stmt=stmt, statements=statements, result=result, env=env, self=self)
+            result = self.eval(stmt, env)
+            if isinstance(result, obj.ReturnValue):
+                return result.value
+            elif isinstance(result, obj.Error):
+                return result
+            pc += 1
 
+        return result
+    
     def eval(self, node, env):
         jitdriver.jit_merge_point(node=node, env=env, self=self)
         if isinstance(node, ast.Program):
-            return self.eval_program(node, env)
+            return self.eval_program(node.statements, env)
         elif isinstance(node, ast.HashLiteral):
             return self.eval_hash_literal(node, env)
         elif isinstance(node, ast.IndexExpression):
@@ -77,6 +96,11 @@ class Evaluator():
             if isinstance(val, obj.Error):
                 return val
             env.set(node.name.value, val)
+        elif isinstance(node, ast.AssignStatement):
+            val = self.eval(node.value, env)
+            if isinstance(val, obj.Error):
+                return val
+            env.set(node.name.value, val)
         elif isinstance(node, ast.Identifier):
             return self.eval_identifier(node, env)
         elif isinstance(node, ast.Boolean):
@@ -97,6 +121,9 @@ class Evaluator():
 
         elif isinstance(node, ast.IfExpression):
             return self.eval_if_expression(node, env)
+
+        elif isinstance(node, ast.WhileExpression):
+            return self.eval_while_expression(node, env)
 
         return None
 
@@ -201,18 +228,6 @@ class Evaluator():
                     return result
         return result
 
-    def eval_program(self, prog, env):
-        result = None
-
-        for statement in prog.statements:
-            result = self.eval(statement, env)
-            if isinstance(result, obj.ReturnValue):
-                return result.value
-            elif isinstance(result, obj.Error):
-                return result
-
-        return result
-
     def is_truthy(self, obj):
         if obj == NULL:
             return False
@@ -221,6 +236,18 @@ class Evaluator():
         if obj == FALSE:
             return False
         return True
+
+    def eval_while_expression(self, node, env):
+        result = NULL
+        while True:
+            condition = self.eval(node.condition, env)
+            if isinstance(condition, obj.Error):
+                return condition
+
+            if not self.is_truthy(condition):
+                return result
+
+            result = self.eval(node.body, env)
 
     def eval_if_expression(self, node, env):
         condition = self.eval(node.condition, env)

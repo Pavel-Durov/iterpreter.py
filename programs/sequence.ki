@@ -1,0 +1,15 @@
+let i = 0;
+
+let x = 2;
+
+let values = [];
+
+while (i < 100){ 
+  x = x * 2;
+  values = push(values, x);
+  i = i + 1;
+};
+
+puts("completed loops: ", i);
+puts("values: ", values);
+

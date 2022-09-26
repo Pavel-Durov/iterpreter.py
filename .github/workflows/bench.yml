@@ -1,0 +1,28 @@
+name: Bench
+
+on: [push]
+
+jobs:
+  bench:
+    name: Bench
+    runs-on: ubuntu-latest
+    container:  
+      image: iamkimchi/pypy-trace:latest
+    env:
+      BIN_v0_4_0: bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-c
+    steps:
+    - uses: actions/checkout@v3
+    - name: Download PyPy
+      run: make get-pypy
+    - name: lfs install
+      run: git lfs install
+    - name: lfs pull
+      run: git lfs pull
+    - name: Bench 0.0.4 [loops.ki]
+      run: |
+        hyperfine --warmup 10 "${BIN_v0_4_0} ./programs/loops.ki" "${BIN_v0_4_0} ./programs/loops.ki self-like"
+        hyperfine -m 100 -M 100 "${BIN_v0_4_0} ./programs/loops.ki" "${BIN_v0_4_0} ./programs/loops.ki self-like"
+    - name: Bench 0.0.4 [bench.ki]
+      run: |
+        hyperfine --warmup 10 "${BIN_v0_4_0} ./programs/bench.ki" "${BIN_v0_4_0} ./programs/bench.ki self-like"
+        hyperfine -m 100 -M 100 "${BIN_v0_4_0} ./programs/bench.ki" "${BIN_v0_4_0} ./programs/bench.ki self-like"

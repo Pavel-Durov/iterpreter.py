@@ -55,6 +55,26 @@ class LetStatement(Node):
         pass
 
 
+class AssignStatement(Node):
+    def __init__(self, token, identifier, value_exp):
+        self.token = token  # Token.LET
+        self.name = identifier  # Identifier
+        self.value = value_exp  # Expression
+
+    def token_literal(self):
+        return self.token.literal
+
+    def __str__(self):
+        out = self.token_literal() + " " + self.name.value + " = "
+        if self.value != None:
+            out += str(self.value)
+        out += ";"
+        return out
+
+    def statement_node(self):
+        pass
+
+
 class Identifier(Expression):
     def __init__(self, token, value):
         self.token = token
@@ -318,3 +338,22 @@ class HashLiteral(Expression):
         for key, value in self.pairs.items():
             pairs.append(str(key) + ":" + str(value))
         return "{" + ", ".join(pairs) + "}"
+
+
+class WhileExpression(Expression):
+    def __init__(self, token=None, condition=None, block=None):
+        self.token = token
+        self.condition = condition
+        self.body = block
+
+    def expression_node(self):
+        pass
+
+    def token_literal(self):
+        return self.token.literal
+
+    def __str__(self):
+        out = "while" + str(self.condition) + " " + str(self.consequence)
+        if self.body != None:
+            out += "else " + str(self.body)
+        return out
