@@ -37,7 +37,6 @@ for file_name in ./bin/${VERSION}/*-c ; do
   fi
 done
 
-echo "$files_to_bench"
 
 hyperfine --warmup 10 "$files_to_bench"
 hyperfine -m ${MIN} -M ${MAX} ${files_to_bench}
