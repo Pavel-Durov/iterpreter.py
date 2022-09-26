@@ -9,7 +9,7 @@ jobs:
     container:  
       image: iamkimchi/pypy-trace:latest
     env:
-      BIN_v0_4_0: bin/0.4.0/0.4.0_cacecbe01872bb0f7c5f05865cc2b1cb03b6a24e_main-jit-c
+      BIN_v0_4_0: bin/0.4.0/0.4.0_847b3f025db0ee3bd072f00b74641e9d84af89fa_main-jit-c
     steps:
     - uses: actions/checkout@v3
     - name: Download PyPy
