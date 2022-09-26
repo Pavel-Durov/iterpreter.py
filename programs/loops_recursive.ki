@@ -9,6 +9,6 @@ let loop = fn(i, param) {
   return loop(i-1, param + y);
 };
 
-let result = loop(100, 0);
+let result = loop(200, 0);
 
 puts("result:", result);

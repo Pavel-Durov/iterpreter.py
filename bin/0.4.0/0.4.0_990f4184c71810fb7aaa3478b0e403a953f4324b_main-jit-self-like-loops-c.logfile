@@ -1,0 +1,979 @@
+[77815d1cfe76] {jit-log-opt-loop
+# Loop 1 ([KIMCHI] evaluating <InfixExpression object at 0x7f873abd80e8> ) : entry bridge with 36 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abd80e8> ')
++306: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++317: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f873abdc128>) [p0, p2]
++326: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '[KIMCHI] evaluating <Identifier object at 0x7f873abd61e8> ')
++451: p6 = call_assembler_r(p0, descr=<Loop-1>)
++628: guard_not_forced(descr=<Guard0x7f873abdc180>) [p0, p6]
++639: guard_no_exception(descr=<Guard0x7f873abe4020>) [p0, p6]
++659: leave_portal_frame(0)
++659: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f873abdc1d8>) [p0, p6]
++677: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++695: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f873abe4060>) [p0, p6]
++704: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6200> ')
++829: p14 = call_assembler_r(p0, descr=<Loop-1>)
++1006: guard_not_forced(descr=<Guard0x7f873abdc230>) [p6, p14]
++1017: guard_no_exception(descr=<Guard0x7f873abe40a0>) [p6, p14]
++1037: leave_portal_frame(0)
++1037: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f873abdc288>) [p6, p14]
++1055: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1066: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1077: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1081: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1108: guard_false(i23, descr=<Guard0x7f873abdc2e0>) [i19, i20, i23, p18]
++1117: i26 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 45, descr=<Calli 8 ri EF=0 OS=30>)
++1138: guard_false(i26, descr=<Guard0x7f873abdc338>) [i19, i20, i26, p18]
++1147: i29 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 42, descr=<Calli 8 ri EF=0 OS=30>)
++1168: guard_false(i29, descr=<Guard0x7f873abdc390>) [i19, i20, i29, p18]
++1177: i32 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 47, descr=<Calli 8 ri EF=0 OS=30>)
++1198: guard_false(i32, descr=<Guard0x7f873abdc3e8>) [i19, i20, i32, p18]
++1207: i35 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 60, descr=<Calli 8 ri EF=0 OS=30>)
++1228: guard_true(i35, descr=<Guard0x7f873abdc440>) [i19, i20, i35, p18]
++1237: i36 = int_lt(i19, i20)
++1240: guard_true(i36, descr=<Guard0x7f873abe40e0>) [i19, i20, i35, p18]
++1246: leave_portal_frame(0)
++1253: finish(ConstPtr(ptr38), descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++1376: --end of the loop--
+[77815d21777c] jit-log-opt-loop}
+[77815d2f8934] {jit-log-opt-loop
+# Loop 2 ([KIMCHI] evaluating <Identifier object at 0x7f873abd61e8> ) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <Identifier object at 0x7f873abd61e8> ')
++226: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++230: guard_class(p0, 94358595934440, descr=<Guard0x7f873abdc4f0>) [p0, p2]
++249: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_map 24>)
++260: guard_value(p4, ConstPtr(ptr5), descr=<Guard0x7f873abe4120>) [p0, p2]
++269: i8 = call_i(ConstClass(SelfLikeMap.get_index), ConstPtr(ptr7), p2, descr=<Calli 8 rr EF=4>)
++338: guard_no_exception(descr=<Guard0x7f873abdc548>) [i8, p2, p0]
++352: i10 = int_ne(i8, -1)
++356: guard_true(i10, descr=<Guard0x7f873abe4160>) [i8, p2, p0]
++362: p11 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_storage 32>)
++373: i13 = int_lt(i8, 0)
++377: guard_false(i13, descr=<Guard0x7f873abe41a0>) [i8, p2, p0]
++383: p14 = getfield_gc_r(p11, descr=<FieldP list.items 16>)
++388: p15 = getarrayitem_gc_r(p14, i8, descr=<ArrayP 8>)
++393: guard_nonnull(p15, descr=<Guard0x7f873abe41e0>) [i8, p2, p0]
++402: leave_portal_frame(0)
++402: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++512: --end of the loop--
+[77815d310eda] jit-log-opt-loop}
+[77815d3cc584] {jit-log-opt-loop
+# Loop 3 ([KIMCHI] evaluating <Identifier object at 0x7f873abd6200> ) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6200> ')
++226: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++230: guard_class(p0, 94358595934440, descr=<Guard0x7f873abdc5f8>) [p0, p2]
++249: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_map 24>)
++260: guard_value(p4, ConstPtr(ptr5), descr=<Guard0x7f873abe4220>) [p0, p2]
++269: i8 = call_i(ConstClass(SelfLikeMap.get_index), ConstPtr(ptr7), p2, descr=<Calli 8 rr EF=4>)
++338: guard_no_exception(descr=<Guard0x7f873abdc650>) [i8, p2, p0]
++352: i10 = int_ne(i8, -1)
++356: guard_true(i10, descr=<Guard0x7f873abe4260>) [i8, p2, p0]
++362: p11 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_storage 32>)
++373: i13 = int_lt(i8, 0)
++377: guard_false(i13, descr=<Guard0x7f873abe42a0>) [i8, p2, p0]
++383: p14 = getfield_gc_r(p11, descr=<FieldP list.items 16>)
++388: p15 = getarrayitem_gc_r(p14, i8, descr=<ArrayP 8>)
++393: guard_nonnull(p15, descr=<Guard0x7f873abe42e0>) [i8, p2, p0]
++402: leave_portal_frame(0)
++402: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++512: --end of the loop--
+[77815d3e3216] jit-log-opt-loop}
+[77815d460d62] {jit-log-opt-loop
+# Loop 4 ([KIMCHI] evaluating <BlockStatement object at 0x7f873abd6218> ) : entry bridge with 6 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <BlockStatement object at 0x7f873abd6218> ')
++201: p4 = call_may_force_r(ConstClass(Evaluator.eval_block_statement), ConstPtr(ptr2), ConstPtr(ptr3), p0, descr=<Callr 8 rrr EF=7>)
++281: guard_not_forced(descr=<Guard0x7f873abdc700>) [p4]
++292: guard_no_exception(descr=<Guard0x7f873abe4320>) [p4]
++306: leave_portal_frame(0)
++306: finish(p4, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++416: --end of the loop--
+[77815d46afbc] jit-log-opt-loop}
+[77815d594e12] {jit-log-opt-loop
+# Loop 5 ([KIMCHI] evaluating <AssignStatement object at 0x7f873abd41a0> ) : entry bridge with 26 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <AssignStatement object at 0x7f873abd41a0> ')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.AssignStatement.inst_value 24>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f873abdc808>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abd8110> ')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f873abdc860>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f873abe4360>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f873abdc8b8>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.AssignStatement.inst_name 8>)
++640: p11 = getfield_gc_r(p10, descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++644: guard_class(p0, 94358595934440, descr=<Guard0x7f873abe43a0>) [p0, p6]
++663: p13 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_map 24>)
++674: guard_value(p13, ConstPtr(ptr14), descr=<Guard0x7f873abe43e0>) [p0, p6]
++683: i17 = call_i(ConstClass(SelfLikeMap.get_index), ConstPtr(ptr16), p11, descr=<Calli 8 rr EF=4>)
++759: guard_no_exception(descr=<Guard0x7f873abdc910>) [i17, p6, p11, p0]
++773: i19 = int_ne(i17, -1)
++777: guard_true(i19, descr=<Guard0x7f873abe4420>) [i17, p6, p11, p0]
++783: p20 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_storage 32>)
++794: i22 = int_lt(i17, 0)
++798: guard_false(i22, descr=<Guard0x7f873abe4460>) [i17, p6, p11, p0]
++804: p23 = getfield_gc_r(p20, descr=<FieldP list.items 16>)
++819: setarrayitem_gc(p23, i17, p6, descr=<ArrayP 8>)
++831: leave_portal_frame(0)
++831: finish(ConstPtr(null), descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++944: --end of the loop--
+[77815d5b52a4] jit-log-opt-loop}
+[77815d700068] {jit-log-opt-loop
+# Loop 6 ([KIMCHI] evaluating <InfixExpression object at 0x7f873abd8110> ) : entry bridge with 29 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abd8110> ')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f873abdca70>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abd8138> ')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f873abdcac8>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f873abe44a0>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f873abdcb20>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++647: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f873abe44e0>) [p0, p6]
++656: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6290> ')
++781: p14 = call_assembler_r(p0, descr=<Loop-1>)
++958: guard_not_forced(descr=<Guard0x7f873abdcb78>) [p6, p14]
++969: guard_no_exception(descr=<Guard0x7f873abe4520>) [p6, p14]
++989: leave_portal_frame(0)
++989: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f873abdcbd0>) [p6, p14]
++1007: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1018: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1029: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1033: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1060: guard_true(i23, descr=<Guard0x7f873abdcc28>) [i19, i20, i23, p18]
++1069: i24 = int_add(i19, i20)
++1072: leave_portal_frame(0)
++1072: p26 = new_with_vtable(descr=<SizeDescr 24>)
++1109: setfield_gc(p26, i24, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1121: finish(p26, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++1232: --end of the loop--
+[77815d72153c] jit-log-opt-loop}
+[77815d86c32e] {jit-log-opt-loop
+# Loop 7 ([KIMCHI] evaluating <InfixExpression object at 0x7f873abd8138> ) : entry bridge with 29 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abd8138> ')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f873abdcd88>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abd8160> ')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f873abdcde0>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f873abe4560>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f873abdce38>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++647: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f873abe45a0>) [p0, p6]
++656: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6278> ')
++781: p14 = call_assembler_r(p0, descr=<Loop-1>)
++958: guard_not_forced(descr=<Guard0x7f873abdce90>) [p6, p14]
++969: guard_no_exception(descr=<Guard0x7f873abe45e0>) [p6, p14]
++989: leave_portal_frame(0)
++989: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f873abdcee8>) [p6, p14]
++1007: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1018: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1029: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1033: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1060: guard_true(i23, descr=<Guard0x7f873abdcf40>) [i19, i20, i23, p18]
++1069: i24 = int_add(i19, i20)
++1072: leave_portal_frame(0)
++1072: p26 = new_with_vtable(descr=<SizeDescr 24>)
++1109: setfield_gc(p26, i24, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1121: finish(p26, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++1232: --end of the loop--
+[77815d88db0e] jit-log-opt-loop}
+[77815d9e49a0] {jit-log-opt-loop
+# Loop 8 ([KIMCHI] evaluating <InfixExpression object at 0x7f873abd8160> ) : entry bridge with 29 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abd8160> ')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f873abdd0a0>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abd8188> ')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f873abdd0f8>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f873abe4620>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f873abdd150>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++647: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f873abe4660>) [p0, p6]
++656: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6260> ')
++781: p14 = call_assembler_r(p0, descr=<Loop-1>)
++958: guard_not_forced(descr=<Guard0x7f873abdd1a8>) [p6, p14]
++969: guard_no_exception(descr=<Guard0x7f873abe46a0>) [p6, p14]
++989: leave_portal_frame(0)
++989: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f873abdd200>) [p6, p14]
++1007: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1018: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1029: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1033: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1060: guard_true(i23, descr=<Guard0x7f873abdd258>) [i19, i20, i23, p18]
++1069: i24 = int_add(i19, i20)
++1072: leave_portal_frame(0)
++1072: p26 = new_with_vtable(descr=<SizeDescr 24>)
++1109: setfield_gc(p26, i24, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1121: finish(p26, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++1232: --end of the loop--
+[77815da0543c] jit-log-opt-loop}
+[77815db5188a] {jit-log-opt-loop
+# Loop 9 ([KIMCHI] evaluating <InfixExpression object at 0x7f873abd8188> ) : entry bridge with 29 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abd8188> ')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f873abdd3b8>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6230> ')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f873abdd410>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f873abe46e0>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f873abdd468>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++647: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f873abe4720>) [p0, p6]
++656: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6248> ')
++781: p14 = call_assembler_r(p0, descr=<Loop-1>)
++958: guard_not_forced(descr=<Guard0x7f873abdd4c0>) [p6, p14]
++969: guard_no_exception(descr=<Guard0x7f873abe4760>) [p6, p14]
++989: leave_portal_frame(0)
++989: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f873abdd518>) [p6, p14]
++1007: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1018: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1029: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1033: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1060: guard_true(i23, descr=<Guard0x7f873abdd570>) [i19, i20, i23, p18]
++1069: i24 = int_add(i19, i20)
++1072: leave_portal_frame(0)
++1072: p26 = new_with_vtable(descr=<SizeDescr 24>)
++1109: setfield_gc(p26, i24, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1121: finish(p26, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++1232: --end of the loop--
+[77815db77c0e] jit-log-opt-loop}
+[77815dc4f30a] {jit-log-opt-loop
+# Loop 10 ([KIMCHI] evaluating <Identifier object at 0x7f873abd6230> ) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6230> ')
++226: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++230: guard_class(p0, 94358595934440, descr=<Guard0x7f873abdd620>) [p0, p2]
++249: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_map 24>)
++260: guard_value(p4, ConstPtr(ptr5), descr=<Guard0x7f873abe47a0>) [p0, p2]
++269: i8 = call_i(ConstClass(SelfLikeMap.get_index), ConstPtr(ptr7), p2, descr=<Calli 8 rr EF=4>)
++338: guard_no_exception(descr=<Guard0x7f873abdd678>) [i8, p2, p0]
++352: i10 = int_ne(i8, -1)
++356: guard_true(i10, descr=<Guard0x7f873abe47e0>) [i8, p2, p0]
++362: p11 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_storage 32>)
++373: i13 = int_lt(i8, 0)
++377: guard_false(i13, descr=<Guard0x7f873abe4820>) [i8, p2, p0]
++383: p14 = getfield_gc_r(p11, descr=<FieldP list.items 16>)
++388: p15 = getarrayitem_gc_r(p14, i8, descr=<ArrayP 8>)
++393: guard_nonnull(p15, descr=<Guard0x7f873abe4860>) [i8, p2, p0]
++402: leave_portal_frame(0)
++402: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++512: --end of the loop--
+[77815dc6573a] jit-log-opt-loop}
+[77815dd2d5c8] {jit-log-opt-loop
+# Loop 11 ([KIMCHI] evaluating <Identifier object at 0x7f873abd6248> ) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6248> ')
++226: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++230: guard_class(p0, 94358595934440, descr=<Guard0x7f873abdd728>) [p0, p2]
++249: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_map 24>)
++260: guard_value(p4, ConstPtr(ptr5), descr=<Guard0x7f873abe48a0>) [p0, p2]
++269: i8 = call_i(ConstClass(SelfLikeMap.get_index), ConstPtr(ptr7), p2, descr=<Calli 8 rr EF=4>)
++338: guard_no_exception(descr=<Guard0x7f873abdd780>) [i8, p2, p0]
++352: i10 = int_ne(i8, -1)
++356: guard_true(i10, descr=<Guard0x7f873abe48e0>) [i8, p2, p0]
++362: p11 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_storage 32>)
++373: i13 = int_lt(i8, 0)
++377: guard_false(i13, descr=<Guard0x7f873abe4920>) [i8, p2, p0]
++383: p14 = getfield_gc_r(p11, descr=<FieldP list.items 16>)
++388: p15 = getarrayitem_gc_r(p14, i8, descr=<ArrayP 8>)
++393: guard_nonnull(p15, descr=<Guard0x7f873abe4960>) [i8, p2, p0]
++402: leave_portal_frame(0)
++402: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++512: --end of the loop--
+[77815dd428c2] jit-log-opt-loop}
+[77815de0cb3a] {jit-log-opt-loop
+# Loop 12 ([KIMCHI] evaluating <Identifier object at 0x7f873abd6260> ) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6260> ')
++226: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++230: guard_class(p0, 94358595934440, descr=<Guard0x7f873abdd830>) [p0, p2]
++249: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_map 24>)
++260: guard_value(p4, ConstPtr(ptr5), descr=<Guard0x7f873abe49a0>) [p0, p2]
++269: i8 = call_i(ConstClass(SelfLikeMap.get_index), ConstPtr(ptr7), p2, descr=<Calli 8 rr EF=4>)
++338: guard_no_exception(descr=<Guard0x7f873abdd888>) [i8, p2, p0]
++352: i10 = int_ne(i8, -1)
++356: guard_true(i10, descr=<Guard0x7f873abe49e0>) [i8, p2, p0]
++362: p11 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_storage 32>)
++373: i13 = int_lt(i8, 0)
++377: guard_false(i13, descr=<Guard0x7f873abe4a20>) [i8, p2, p0]
++383: p14 = getfield_gc_r(p11, descr=<FieldP list.items 16>)
++388: p15 = getarrayitem_gc_r(p14, i8, descr=<ArrayP 8>)
++393: guard_nonnull(p15, descr=<Guard0x7f873abe4a60>) [i8, p2, p0]
++402: leave_portal_frame(0)
++402: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++512: --end of the loop--
+[77815de21894] jit-log-opt-loop}
+[77815deeae4c] {jit-log-opt-loop
+# Loop 13 ([KIMCHI] evaluating <Identifier object at 0x7f873abd6278> ) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6278> ')
++226: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++230: guard_class(p0, 94358595934440, descr=<Guard0x7f873abdd938>) [p0, p2]
++249: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_map 24>)
++260: guard_value(p4, ConstPtr(ptr5), descr=<Guard0x7f873abe4aa0>) [p0, p2]
++269: i8 = call_i(ConstClass(SelfLikeMap.get_index), ConstPtr(ptr7), p2, descr=<Calli 8 rr EF=4>)
++338: guard_no_exception(descr=<Guard0x7f873abdd990>) [i8, p2, p0]
++352: i10 = int_ne(i8, -1)
++356: guard_true(i10, descr=<Guard0x7f873abe4ae0>) [i8, p2, p0]
++362: p11 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_storage 32>)
++373: i13 = int_lt(i8, 0)
++377: guard_false(i13, descr=<Guard0x7f873abe4b20>) [i8, p2, p0]
++383: p14 = getfield_gc_r(p11, descr=<FieldP list.items 16>)
++388: p15 = getarrayitem_gc_r(p14, i8, descr=<ArrayP 8>)
++393: guard_nonnull(p15, descr=<Guard0x7f873abe4b60>) [i8, p2, p0]
++402: leave_portal_frame(0)
++402: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++512: --end of the loop--
+[77815df0174a] jit-log-opt-loop}
+[77815dfc87a6] {jit-log-opt-loop
+# Loop 14 ([KIMCHI] evaluating <Identifier object at 0x7f873abd6290> ) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6290> ')
++226: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++230: guard_class(p0, 94358595934440, descr=<Guard0x7f873abdda40>) [p0, p2]
++249: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_map 24>)
++260: guard_value(p4, ConstPtr(ptr5), descr=<Guard0x7f873abe4ba0>) [p0, p2]
++269: i8 = call_i(ConstClass(SelfLikeMap.get_index), ConstPtr(ptr7), p2, descr=<Calli 8 rr EF=4>)
++338: guard_no_exception(descr=<Guard0x7f873abdda98>) [i8, p2, p0]
++352: i10 = int_ne(i8, -1)
++356: guard_true(i10, descr=<Guard0x7f873abe4be0>) [i8, p2, p0]
++362: p11 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_storage 32>)
++373: i13 = int_lt(i8, 0)
++377: guard_false(i13, descr=<Guard0x7f873abe4c20>) [i8, p2, p0]
++383: p14 = getfield_gc_r(p11, descr=<FieldP list.items 16>)
++388: p15 = getarrayitem_gc_r(p14, i8, descr=<ArrayP 8>)
++393: guard_nonnull(p15, descr=<Guard0x7f873abe4c60>) [i8, p2, p0]
++402: leave_portal_frame(0)
++402: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++512: --end of the loop--
+[77815dfdd8c0] jit-log-opt-loop}
+[77815e0fc950] {jit-log-opt-loop
+# Loop 15 ([KIMCHI] evaluating <AssignStatement object at 0x7f873abd41c0> ) : entry bridge with 26 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <AssignStatement object at 0x7f873abd41c0> ')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.AssignStatement.inst_value 24>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f873abddba0>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abd81b0> ')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f873abddbf8>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f873abe4ca0>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f873abddc50>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.AssignStatement.inst_name 8>)
++640: p11 = getfield_gc_r(p10, descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++644: guard_class(p0, 94358595934440, descr=<Guard0x7f873abe4ce0>) [p0, p6]
++663: p13 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_map 24>)
++674: guard_value(p13, ConstPtr(ptr14), descr=<Guard0x7f873abe4d20>) [p0, p6]
++683: i17 = call_i(ConstClass(SelfLikeMap.get_index), ConstPtr(ptr16), p11, descr=<Calli 8 rr EF=4>)
++759: guard_no_exception(descr=<Guard0x7f873abddca8>) [i17, p6, p11, p0]
++773: i19 = int_ne(i17, -1)
++777: guard_true(i19, descr=<Guard0x7f873abe4d60>) [i17, p6, p11, p0]
++783: p20 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_storage 32>)
++794: i22 = int_lt(i17, 0)
++798: guard_false(i22, descr=<Guard0x7f873abe4da0>) [i17, p6, p11, p0]
++804: p23 = getfield_gc_r(p20, descr=<FieldP list.items 16>)
++819: setarrayitem_gc(p23, i17, p6, descr=<ArrayP 8>)
++831: leave_portal_frame(0)
++831: finish(ConstPtr(null), descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++944: --end of the loop--
+[77815e11cb32] jit-log-opt-loop}
+[77815e2a1ce0] {jit-log-opt-loop
+# Loop 16 ([KIMCHI] evaluating <InfixExpression object at 0x7f873abd81b0> ) : entry bridge with 29 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abd81b0> ')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f873abdde08>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '[KIMCHI] evaluating <Identifier object at 0x7f873abd62a8> ')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f873abdde60>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f873abe4de0>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f873abddeb8>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++647: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f873abe4e20>) [p0, p6]
++656: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '[KIMCHI] evaluating <IntegerLiteral object at 0x7f873abd62c0> ')
++781: p14 = call_assembler_r(p0, descr=<Loop-1>)
++958: guard_not_forced(descr=<Guard0x7f873abddf10>) [p6, p14]
++969: guard_no_exception(descr=<Guard0x7f873abe4e60>) [p6, p14]
++989: leave_portal_frame(0)
++989: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f873abddf68>) [p6, p14]
++1007: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1018: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1029: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1033: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1060: guard_true(i23, descr=<Guard0x7f873abea020>) [i19, i20, i23, p18]
++1069: i24 = int_add(i19, i20)
++1072: leave_portal_frame(0)
++1072: p26 = new_with_vtable(descr=<SizeDescr 24>)
++1109: setfield_gc(p26, i24, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1121: finish(p26, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++1232: --end of the loop--
+[77815e2c4a6e] jit-log-opt-loop}
+[77815e3b296c] {jit-log-opt-loop
+# Loop 17 ([KIMCHI] evaluating <Identifier object at 0x7f873abd62a8> ) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <Identifier object at 0x7f873abd62a8> ')
++226: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++230: guard_class(p0, 94358595934440, descr=<Guard0x7f873abea0d0>) [p0, p2]
++249: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_map 24>)
++260: guard_value(p4, ConstPtr(ptr5), descr=<Guard0x7f873abe4ea0>) [p0, p2]
++269: i8 = call_i(ConstClass(SelfLikeMap.get_index), ConstPtr(ptr7), p2, descr=<Calli 8 rr EF=4>)
++338: guard_no_exception(descr=<Guard0x7f873abea128>) [i8, p2, p0]
++352: i10 = int_ne(i8, -1)
++356: guard_true(i10, descr=<Guard0x7f873abe4ee0>) [i8, p2, p0]
++362: p11 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_storage 32>)
++373: i13 = int_lt(i8, 0)
++377: guard_false(i13, descr=<Guard0x7f873abe4f20>) [i8, p2, p0]
++383: p14 = getfield_gc_r(p11, descr=<FieldP list.items 16>)
++388: p15 = getarrayitem_gc_r(p14, i8, descr=<ArrayP 8>)
++393: guard_nonnull(p15, descr=<Guard0x7f873abe4f60>) [i8, p2, p0]
++402: leave_portal_frame(0)
++402: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++512: --end of the loop--
+[77815e3c7d0c] jit-log-opt-loop}
+[77815e4595f6] {jit-log-opt-loop
+# Loop 18 ([KIMCHI] evaluating <IntegerLiteral object at 0x7f873abd62c0> ) : entry bridge with 6 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <IntegerLiteral object at 0x7f873abd62c0> ')
++162: i2 = getfield_gc_i(ConstPtr(ptr1), descr=<FieldS src.kimchi_ast.ast.IntegerLiteral.inst_value 16>)
++166: leave_portal_frame(0)
++166: p4 = new_with_vtable(descr=<SizeDescr 24>)
++203: setfield_gc(p4, i2, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++215: finish(p4, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++336: --end of the loop--
+[77815e46158a] jit-log-opt-loop}
+[7781fae7b94e] {jit-log-opt-bridge
+# bridge out of Guard 0x7f873abe40e0 with 5 ops
+[i0, i1, i2, p3]
++46: guard_true(i2, descr=<Guard0x7f873abea1d8>) [i0, i1, i2, p3]
++55: i4 = int_lt(i0, i1)
++58: guard_false(i4, descr=<Guard0x7f873abe4fa0>) [i0, i1, i2, p3]
++64: leave_portal_frame(0)
++71: finish(ConstPtr(ptr6), descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++192: --end of the loop--
+[7781fae87de8] jit-log-opt-bridge}
+[7781fb136b1e] {jit-log-opt-loop
+# Loop 20 ([KIMCHI] evaluating <AssignStatement object at 0x7f873abe7e00> ) : entry bridge with 26 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <AssignStatement object at 0x7f873abe7e00> ')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.AssignStatement.inst_value 24>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f873abea2e0>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abe89f8> ')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f873abea338>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f873abe4fe0>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f873abea390>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.AssignStatement.inst_name 8>)
++640: p11 = getfield_gc_r(p10, descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++644: guard_class(p0, 94358595934440, descr=<Guard0x7f873abe5020>) [p0, p6]
++663: p13 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_map 24>)
++674: guard_value(p13, ConstPtr(ptr14), descr=<Guard0x7f873abe5060>) [p0, p6]
++683: i17 = call_i(ConstClass(SelfLikeMap.get_index), ConstPtr(ptr16), p11, descr=<Calli 8 rr EF=4>)
++759: guard_no_exception(descr=<Guard0x7f873abea3e8>) [i17, p6, p11, p0]
++773: i19 = int_ne(i17, -1)
++777: guard_true(i19, descr=<Guard0x7f873abe50a0>) [i17, p6, p11, p0]
++783: p20 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_storage 32>)
++794: i22 = int_lt(i17, 0)
++798: guard_false(i22, descr=<Guard0x7f873abe50e0>) [i17, p6, p11, p0]
++804: p23 = getfield_gc_r(p20, descr=<FieldP list.items 16>)
++819: setarrayitem_gc(p23, i17, p6, descr=<ArrayP 8>)
++831: leave_portal_frame(0)
++831: finish(ConstPtr(null), descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++944: --end of the loop--
+[7781fb15481a] jit-log-opt-loop}
+[7781fb27ee8c] {jit-log-opt-loop
+# Loop 21 ([KIMCHI] evaluating <InfixExpression object at 0x7f873abd8020> ) : entry bridge with 36 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abd8020> ')
++306: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++317: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f873abea548>) [p0, p2]
++326: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6110> ')
++451: p6 = call_assembler_r(p0, descr=<Loop-1>)
++628: guard_not_forced(descr=<Guard0x7f873abea5a0>) [p0, p6]
++639: guard_no_exception(descr=<Guard0x7f873abe5120>) [p0, p6]
++659: leave_portal_frame(0)
++659: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f873abea5f8>) [p0, p6]
++677: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++695: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f873abe5160>) [p0, p6]
++704: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6128> ')
++829: p14 = call_assembler_r(p0, descr=<Loop-1>)
++1006: guard_not_forced(descr=<Guard0x7f873abea650>) [p6, p14]
++1017: guard_no_exception(descr=<Guard0x7f873abe51a0>) [p6, p14]
++1037: leave_portal_frame(0)
++1037: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f873abea6a8>) [p6, p14]
++1055: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1066: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1077: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1081: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1108: guard_false(i23, descr=<Guard0x7f873abea700>) [i19, i20, i23, p18]
++1117: i26 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 45, descr=<Calli 8 ri EF=0 OS=30>)
++1138: guard_false(i26, descr=<Guard0x7f873abea758>) [i19, i20, i26, p18]
++1147: i29 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 42, descr=<Calli 8 ri EF=0 OS=30>)
++1168: guard_false(i29, descr=<Guard0x7f873abea7b0>) [i19, i20, i29, p18]
++1177: i32 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 47, descr=<Calli 8 ri EF=0 OS=30>)
++1198: guard_false(i32, descr=<Guard0x7f873abea808>) [i19, i20, i32, p18]
++1207: i35 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 60, descr=<Calli 8 ri EF=0 OS=30>)
++1228: guard_true(i35, descr=<Guard0x7f873abea860>) [i19, i20, i35, p18]
++1237: i36 = int_lt(i19, i20)
++1240: guard_true(i36, descr=<Guard0x7f873abe51e0>) [i19, i20, i35, p18]
++1246: leave_portal_frame(0)
++1253: finish(ConstPtr(ptr38), descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++1376: --end of the loop--
+[7781fb29f54c] jit-log-opt-loop}
+[7781fb3ada78] {jit-log-opt-loop
+# Loop 22 ([KIMCHI] evaluating <InfixExpression object at 0x7f873abe89f8> ) : entry bridge with 29 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abe89f8> ')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f873abea9c0>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '[KIMCHI] evaluating <Identifier object at 0x7f873abd7c88> ')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f873abeaa18>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f873abe5220>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f873abeaa70>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++647: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f873abe5260>) [p0, p6]
++656: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '[KIMCHI] evaluating <IntegerLiteral object at 0x7f873abd7ca0> ')
++781: p14 = call_assembler_r(p0, descr=<Loop-1>)
++958: guard_not_forced(descr=<Guard0x7f873abeaac8>) [p6, p14]
++969: guard_no_exception(descr=<Guard0x7f873abe52a0>) [p6, p14]
++989: leave_portal_frame(0)
++989: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f873abeab20>) [p6, p14]
++1007: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1018: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1029: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1033: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1060: guard_true(i23, descr=<Guard0x7f873abeab78>) [i19, i20, i23, p18]
++1069: i24 = int_add(i19, i20)
++1072: leave_portal_frame(0)
++1072: p26 = new_with_vtable(descr=<SizeDescr 24>)
++1109: setfield_gc(p26, i24, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1121: finish(p26, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++1232: --end of the loop--
+[7781fb3c5efa] jit-log-opt-loop}
+[7781fb45f9d2] {jit-log-opt-loop
+# Loop 23 ([KIMCHI] evaluating <Identifier object at 0x7f873abd7c88> ) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <Identifier object at 0x7f873abd7c88> ')
++226: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++230: guard_class(p0, 94358595934440, descr=<Guard0x7f873abeac28>) [p0, p2]
++249: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_map 24>)
++260: guard_value(p4, ConstPtr(ptr5), descr=<Guard0x7f873abe52e0>) [p0, p2]
++269: i8 = call_i(ConstClass(SelfLikeMap.get_index), ConstPtr(ptr7), p2, descr=<Calli 8 rr EF=4>)
++338: guard_no_exception(descr=<Guard0x7f873abeac80>) [i8, p2, p0]
++352: i10 = int_ne(i8, -1)
++356: guard_true(i10, descr=<Guard0x7f873abe5320>) [i8, p2, p0]
++362: p11 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_storage 32>)
++373: i13 = int_lt(i8, 0)
++377: guard_false(i13, descr=<Guard0x7f873abe5360>) [i8, p2, p0]
++383: p14 = getfield_gc_r(p11, descr=<FieldP list.items 16>)
++388: p15 = getarrayitem_gc_r(p14, i8, descr=<ArrayP 8>)
++393: guard_nonnull(p15, descr=<Guard0x7f873abe53a0>) [i8, p2, p0]
++402: leave_portal_frame(0)
++402: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++512: --end of the loop--
+[7781fb470652] jit-log-opt-loop}
+[7781fb4fc3ee] {jit-log-opt-loop
+# Loop 24 ([KIMCHI] evaluating <Identifier object at 0x7f873abd6110> ) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6110> ')
++226: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++230: guard_class(p0, 94358595934440, descr=<Guard0x7f873abead30>) [p0, p2]
++249: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_map 24>)
++260: guard_value(p4, ConstPtr(ptr5), descr=<Guard0x7f873abe53e0>) [p0, p2]
++269: i8 = call_i(ConstClass(SelfLikeMap.get_index), ConstPtr(ptr7), p2, descr=<Calli 8 rr EF=4>)
++338: guard_no_exception(descr=<Guard0x7f873abead88>) [i8, p2, p0]
++352: i10 = int_ne(i8, -1)
++356: guard_true(i10, descr=<Guard0x7f873abe5420>) [i8, p2, p0]
++362: p11 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_storage 32>)
++373: i13 = int_lt(i8, 0)
++377: guard_false(i13, descr=<Guard0x7f873abe5460>) [i8, p2, p0]
++383: p14 = getfield_gc_r(p11, descr=<FieldP list.items 16>)
++388: p15 = getarrayitem_gc_r(p14, i8, descr=<ArrayP 8>)
++393: guard_nonnull(p15, descr=<Guard0x7f873abe54a0>) [i8, p2, p0]
++402: leave_portal_frame(0)
++402: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++512: --end of the loop--
+[7781fb50c5de] jit-log-opt-loop}
+[7781fb56b09a] {jit-log-opt-loop
+# Loop 25 ([KIMCHI] evaluating <IntegerLiteral object at 0x7f873abd7ca0> ) : entry bridge with 6 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <IntegerLiteral object at 0x7f873abd7ca0> ')
++162: i2 = getfield_gc_i(ConstPtr(ptr1), descr=<FieldS src.kimchi_ast.ast.IntegerLiteral.inst_value 16>)
++166: leave_portal_frame(0)
++166: p4 = new_with_vtable(descr=<SizeDescr 24>)
++203: setfield_gc(p4, i2, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++215: finish(p4, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++336: --end of the loop--
+[7781fb571b10] jit-log-opt-loop}
+[7781fb5f9de6] {jit-log-opt-loop
+# Loop 26 ([KIMCHI] evaluating <Identifier object at 0x7f873abd6128> ) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6128> ')
++226: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++230: guard_class(p0, 94358595934440, descr=<Guard0x7f873abeae90>) [p0, p2]
++249: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_map 24>)
++260: guard_value(p4, ConstPtr(ptr5), descr=<Guard0x7f873abe54e0>) [p0, p2]
++269: i8 = call_i(ConstClass(SelfLikeMap.get_index), ConstPtr(ptr7), p2, descr=<Calli 8 rr EF=4>)
++338: guard_no_exception(descr=<Guard0x7f873abeaee8>) [i8, p2, p0]
++352: i10 = int_ne(i8, -1)
++356: guard_true(i10, descr=<Guard0x7f873abe5520>) [i8, p2, p0]
++362: p11 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_storage 32>)
++373: i13 = int_lt(i8, 0)
++377: guard_false(i13, descr=<Guard0x7f873abe5560>) [i8, p2, p0]
++383: p14 = getfield_gc_r(p11, descr=<FieldP list.items 16>)
++388: p15 = getarrayitem_gc_r(p14, i8, descr=<ArrayP 8>)
++393: guard_nonnull(p15, descr=<Guard0x7f873abe55a0>) [i8, p2, p0]
++402: leave_portal_frame(0)
++402: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++512: --end of the loop--
+[7781fb60a8ea] jit-log-opt-loop}
+[7781fb6641de] {jit-log-opt-loop
+# Loop 27 ([KIMCHI] evaluating <BlockStatement object at 0x7f873abd6140> ) : entry bridge with 6 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <BlockStatement object at 0x7f873abd6140> ')
++201: p4 = call_may_force_r(ConstClass(Evaluator.eval_block_statement), ConstPtr(ptr2), ConstPtr(ptr3), p0, descr=<Callr 8 rrr EF=7>)
++281: guard_not_forced(descr=<Guard0x7f873abeaf98>) [p4]
++292: guard_no_exception(descr=<Guard0x7f873abe55e0>) [p4]
++306: leave_portal_frame(0)
++306: finish(p4, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++416: --end of the loop--
+[7781fb66c0d6] jit-log-opt-loop}
+[7781fb73e804] {jit-log-opt-loop
+# Loop 28 ([KIMCHI] evaluating <AssignStatement object at 0x7f873abd4160> ) : entry bridge with 26 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <AssignStatement object at 0x7f873abd4160> ')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.AssignStatement.inst_value 24>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f873abeb0a0>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abd8048> ')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f873abeb0f8>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f873abe5620>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f873abeb150>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.AssignStatement.inst_name 8>)
++640: p11 = getfield_gc_r(p10, descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++644: guard_class(p0, 94358595934440, descr=<Guard0x7f873abe5660>) [p0, p6]
++663: p13 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_map 24>)
++674: guard_value(p13, ConstPtr(ptr14), descr=<Guard0x7f873abe56a0>) [p0, p6]
++683: i17 = call_i(ConstClass(SelfLikeMap.get_index), ConstPtr(ptr16), p11, descr=<Calli 8 rr EF=4>)
++759: guard_no_exception(descr=<Guard0x7f873abeb1a8>) [i17, p6, p11, p0]
++773: i19 = int_ne(i17, -1)
++777: guard_true(i19, descr=<Guard0x7f873abe56e0>) [i17, p6, p11, p0]
++783: p20 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_storage 32>)
++794: i22 = int_lt(i17, 0)
++798: guard_false(i22, descr=<Guard0x7f873abe5720>) [i17, p6, p11, p0]
++804: p23 = getfield_gc_r(p20, descr=<FieldP list.items 16>)
++819: setarrayitem_gc(p23, i17, p6, descr=<ArrayP 8>)
++831: leave_portal_frame(0)
++831: finish(ConstPtr(null), descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++944: --end of the loop--
+[7781fb75674c] jit-log-opt-loop}
+[7781fb86587a] {jit-log-opt-loop
+# Loop 29 ([KIMCHI] evaluating <InfixExpression object at 0x7f873abd8048> ) : entry bridge with 29 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abd8048> ')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f873abeb308>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abd8070> ')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f873abeb360>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f873abe5760>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f873abeb3b8>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++647: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f873abe57a0>) [p0, p6]
++656: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '[KIMCHI] evaluating <Identifier object at 0x7f873abd61b8> ')
++781: p14 = call_assembler_r(p0, descr=<Loop-1>)
++958: guard_not_forced(descr=<Guard0x7f873abeb410>) [p6, p14]
++969: guard_no_exception(descr=<Guard0x7f873abe57e0>) [p6, p14]
++989: leave_portal_frame(0)
++989: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f873abeb468>) [p6, p14]
++1007: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1018: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1029: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1033: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1060: guard_true(i23, descr=<Guard0x7f873abeb4c0>) [i19, i20, i23, p18]
++1069: i24 = int_add(i19, i20)
++1072: leave_portal_frame(0)
++1072: p26 = new_with_vtable(descr=<SizeDescr 24>)
++1109: setfield_gc(p26, i24, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1121: finish(p26, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++1232: --end of the loop--
+[7781fb87f6d8] jit-log-opt-loop}
+[7781fb979344] {jit-log-opt-loop
+# Loop 30 ([KIMCHI] evaluating <InfixExpression object at 0x7f873abd8070> ) : entry bridge with 29 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abd8070> ')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f873abeb620>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abd8098> ')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f873abeb678>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f873abe5820>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f873abeb6d0>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++647: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f873abe5860>) [p0, p6]
++656: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '[KIMCHI] evaluating <Identifier object at 0x7f873abd61a0> ')
++781: p14 = call_assembler_r(p0, descr=<Loop-1>)
++958: guard_not_forced(descr=<Guard0x7f873abeb728>) [p6, p14]
++969: guard_no_exception(descr=<Guard0x7f873abe58a0>) [p6, p14]
++989: leave_portal_frame(0)
++989: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f873abeb780>) [p6, p14]
++1007: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1018: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1029: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1033: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1060: guard_true(i23, descr=<Guard0x7f873abeb7d8>) [i19, i20, i23, p18]
++1069: i24 = int_add(i19, i20)
++1072: leave_portal_frame(0)
++1072: p26 = new_with_vtable(descr=<SizeDescr 24>)
++1109: setfield_gc(p26, i24, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1121: finish(p26, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++1232: --end of the loop--
+[7781fb992d4c] jit-log-opt-loop}
+[7781fba9f4b0] {jit-log-opt-loop
+# Loop 31 ([KIMCHI] evaluating <InfixExpression object at 0x7f873abd8098> ) : entry bridge with 29 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abd8098> ')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f873abeb938>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abd80c0> ')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f873abeb990>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f873abe58e0>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f873abeb9e8>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++647: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f873abe5920>) [p0, p6]
++656: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6188> ')
++781: p14 = call_assembler_r(p0, descr=<Loop-1>)
++958: guard_not_forced(descr=<Guard0x7f873abeba40>) [p6, p14]
++969: guard_no_exception(descr=<Guard0x7f873abe5960>) [p6, p14]
++989: leave_portal_frame(0)
++989: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f873abeba98>) [p6, p14]
++1007: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1018: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1029: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1033: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1060: guard_true(i23, descr=<Guard0x7f873abebaf0>) [i19, i20, i23, p18]
++1069: i24 = int_add(i19, i20)
++1072: leave_portal_frame(0)
++1072: p26 = new_with_vtable(descr=<SizeDescr 24>)
++1109: setfield_gc(p26, i24, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1121: finish(p26, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++1232: --end of the loop--
+[7781fbab94ea] jit-log-opt-loop}
+[7781fbbbb230] {jit-log-opt-loop
+# Loop 32 ([KIMCHI] evaluating <InfixExpression object at 0x7f873abd80c0> ) : entry bridge with 29 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <InfixExpression object at 0x7f873abd80c0> ')
++258: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_left 8>)
++269: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f873abebc50>) [p0, p2]
++278: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6158> ')
++403: p6 = call_assembler_r(p0, descr=<Loop-1>)
++580: guard_not_forced(descr=<Guard0x7f873abebca8>) [p0, p6]
++591: guard_no_exception(descr=<Guard0x7f873abe59a0>) [p0, p6]
++611: leave_portal_frame(0)
++611: guard_nonnull_class(p6, ConstClass(Integer), descr=<Guard0x7f873abebd00>) [p0, p6]
++629: p10 = getfield_gc_r(ConstPtr(ptr9), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_right 24>)
++647: guard_value(p10, ConstPtr(ptr11), descr=<Guard0x7f873abe59e0>) [p0, p6]
++656: enter_portal_frame(0, 0)
+debug_merge_point(1, 2, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6170> ')
++781: p14 = call_assembler_r(p0, descr=<Loop-1>)
++958: guard_not_forced(descr=<Guard0x7f873abebd58>) [p6, p14]
++969: guard_no_exception(descr=<Guard0x7f873abe5a20>) [p6, p14]
++989: leave_portal_frame(0)
++989: guard_nonnull_class(p14, ConstClass(Integer), descr=<Guard0x7f873abebdb0>) [p6, p14]
++1007: p18 = getfield_gc_r(ConstPtr(ptr17), descr=<FieldP src.kimchi_ast.ast.InfixExpression.inst_operator 16>)
++1018: i19 = getfield_gc_i(p6, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1029: i20 = getfield_gc_i(p14, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1033: i23 = call_i(ConstClass(_ll_2_str_eq_checknull_char__rpy_stringPtr_Char), p18, 43, descr=<Calli 8 ri EF=0 OS=30>)
++1060: guard_true(i23, descr=<Guard0x7f873abebe08>) [i19, i20, i23, p18]
++1069: i24 = int_add(i19, i20)
++1072: leave_portal_frame(0)
++1072: p26 = new_with_vtable(descr=<SizeDescr 24>)
++1109: setfield_gc(p26, i24, descr=<FieldS src.kimchi_object.integer.Integer.inst_value 16>)
++1121: finish(p26, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++1232: --end of the loop--
+[7781fbbd4f66] jit-log-opt-loop}
+[7781fbc7512e] {jit-log-opt-loop
+# Loop 33 ([KIMCHI] evaluating <Identifier object at 0x7f873abd6158> ) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6158> ')
++226: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++230: guard_class(p0, 94358595934440, descr=<Guard0x7f873abebeb8>) [p0, p2]
++249: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_map 24>)
++260: guard_value(p4, ConstPtr(ptr5), descr=<Guard0x7f873abe5a60>) [p0, p2]
++269: i8 = call_i(ConstClass(SelfLikeMap.get_index), ConstPtr(ptr7), p2, descr=<Calli 8 rr EF=4>)
++338: guard_no_exception(descr=<Guard0x7f873abebf10>) [i8, p2, p0]
++352: i10 = int_ne(i8, -1)
++356: guard_true(i10, descr=<Guard0x7f873abe5aa0>) [i8, p2, p0]
++362: p11 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_storage 32>)
++373: i13 = int_lt(i8, 0)
++377: guard_false(i13, descr=<Guard0x7f873abe5ae0>) [i8, p2, p0]
++383: p14 = getfield_gc_r(p11, descr=<FieldP list.items 16>)
++388: p15 = getarrayitem_gc_r(p14, i8, descr=<ArrayP 8>)
++393: guard_nonnull(p15, descr=<Guard0x7f873abe5b20>) [i8, p2, p0]
++402: leave_portal_frame(0)
++402: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++512: --end of the loop--
+[7781fbc86b9c] jit-log-opt-loop}
+[7781fbd1ce28] {jit-log-opt-loop
+# Loop 34 ([KIMCHI] evaluating <Identifier object at 0x7f873abd6170> ) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6170> ')
++226: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++230: guard_class(p0, 94358595934440, descr=<Guard0x7f873ac14020>) [p0, p2]
++249: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_map 24>)
++260: guard_value(p4, ConstPtr(ptr5), descr=<Guard0x7f873abe5b60>) [p0, p2]
++269: i8 = call_i(ConstClass(SelfLikeMap.get_index), ConstPtr(ptr7), p2, descr=<Calli 8 rr EF=4>)
++338: guard_no_exception(descr=<Guard0x7f873ac14078>) [i8, p2, p0]
++352: i10 = int_ne(i8, -1)
++356: guard_true(i10, descr=<Guard0x7f873abe5ba0>) [i8, p2, p0]
++362: p11 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_storage 32>)
++373: i13 = int_lt(i8, 0)
++377: guard_false(i13, descr=<Guard0x7f873abe5be0>) [i8, p2, p0]
++383: p14 = getfield_gc_r(p11, descr=<FieldP list.items 16>)
++388: p15 = getarrayitem_gc_r(p14, i8, descr=<ArrayP 8>)
++393: guard_nonnull(p15, descr=<Guard0x7f873abe5c20>) [i8, p2, p0]
++402: leave_portal_frame(0)
++402: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++512: --end of the loop--
+[7781fbd3073e] jit-log-opt-loop}
+[7781fbdc7718] {jit-log-opt-loop
+# Loop 35 ([KIMCHI] evaluating <Identifier object at 0x7f873abd6188> ) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <Identifier object at 0x7f873abd6188> ')
++226: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++230: guard_class(p0, 94358595934440, descr=<Guard0x7f873ac14128>) [p0, p2]
++249: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_map 24>)
++260: guard_value(p4, ConstPtr(ptr5), descr=<Guard0x7f873abe5c60>) [p0, p2]
++269: i8 = call_i(ConstClass(SelfLikeMap.get_index), ConstPtr(ptr7), p2, descr=<Calli 8 rr EF=4>)
++338: guard_no_exception(descr=<Guard0x7f873ac14180>) [i8, p2, p0]
++352: i10 = int_ne(i8, -1)
++356: guard_true(i10, descr=<Guard0x7f873abe5ca0>) [i8, p2, p0]
++362: p11 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_storage 32>)
++373: i13 = int_lt(i8, 0)
++377: guard_false(i13, descr=<Guard0x7f873abe5ce0>) [i8, p2, p0]
++383: p14 = getfield_gc_r(p11, descr=<FieldP list.items 16>)
++388: p15 = getarrayitem_gc_r(p14, i8, descr=<ArrayP 8>)
++393: guard_nonnull(p15, descr=<Guard0x7f873abe5d20>) [i8, p2, p0]
++402: leave_portal_frame(0)
++402: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++512: --end of the loop--
+[7781fbdd7e72] jit-log-opt-loop}
+[7781fbe9e856] {jit-log-opt-loop
+# Loop 36 ([KIMCHI] evaluating <Identifier object at 0x7f873abd61a0> ) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <Identifier object at 0x7f873abd61a0> ')
++226: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++230: guard_class(p0, 94358595934440, descr=<Guard0x7f873ac14230>) [p0, p2]
++249: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_map 24>)
++260: guard_value(p4, ConstPtr(ptr5), descr=<Guard0x7f873abe5d60>) [p0, p2]
++269: i8 = call_i(ConstClass(SelfLikeMap.get_index), ConstPtr(ptr7), p2, descr=<Calli 8 rr EF=4>)
++338: guard_no_exception(descr=<Guard0x7f873ac14288>) [i8, p2, p0]
++352: i10 = int_ne(i8, -1)
++356: guard_true(i10, descr=<Guard0x7f873abe5da0>) [i8, p2, p0]
++362: p11 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_storage 32>)
++373: i13 = int_lt(i8, 0)
++377: guard_false(i13, descr=<Guard0x7f873abe5de0>) [i8, p2, p0]
++383: p14 = getfield_gc_r(p11, descr=<FieldP list.items 16>)
++388: p15 = getarrayitem_gc_r(p14, i8, descr=<ArrayP 8>)
++393: guard_nonnull(p15, descr=<Guard0x7f873abe5e20>) [i8, p2, p0]
++402: leave_portal_frame(0)
++402: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++512: --end of the loop--
+[7781fbeae866] jit-log-opt-loop}
+[7781fbf9b2fc] {jit-log-opt-loop
+# Loop 37 ([KIMCHI] evaluating <Identifier object at 0x7f873abd61b8> ) : entry bridge with 17 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <Identifier object at 0x7f873abd61b8> ')
++226: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.Identifier.inst_value 16>)
++230: guard_class(p0, 94358595934440, descr=<Guard0x7f873ac143e8>) [p0, p2]
++249: p4 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_map 24>)
++260: guard_value(p4, ConstPtr(ptr5), descr=<Guard0x7f873abe5ea0>) [p0, p2]
++269: i8 = call_i(ConstClass(SelfLikeMap.get_index), ConstPtr(ptr7), p2, descr=<Calli 8 rr EF=4>)
++338: guard_no_exception(descr=<Guard0x7f873ac14390>) [i8, p2, p0]
++352: i10 = int_ne(i8, -1)
++356: guard_true(i10, descr=<Guard0x7f873abe5e60>) [i8, p2, p0]
++362: p11 = getfield_gc_r(p0, descr=<FieldP src.kimchi_object.environment.SelfLikeObjEnvironment.inst_storage 32>)
++373: i13 = int_lt(i8, 0)
++377: guard_false(i13, descr=<Guard0x7f873abe5ee0>) [i8, p2, p0]
++383: p14 = getfield_gc_r(p11, descr=<FieldP list.items 16>)
++388: p15 = getarrayitem_gc_r(p14, i8, descr=<ArrayP 8>)
++393: guard_nonnull(p15, descr=<Guard0x7f873abe5f20>) [i8, p2, p0]
++402: leave_portal_frame(0)
++402: finish(p15, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++512: --end of the loop--
+[7781fbfaae78] jit-log-opt-loop}
+[7781fc041504] {jit-log-opt-loop
+# Loop 38 ([KIMCHI] evaluating <ExpressionStatement object at 0x7f873abd61d0> ) : entry bridge with 11 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <ExpressionStatement object at 0x7f873abd61d0> ')
++194: p2 = getfield_gc_r(ConstPtr(ptr1), descr=<FieldP src.kimchi_ast.ast.ExpressionStatement.inst_expression 8>)
++205: guard_value(p2, ConstPtr(ptr3), descr=<Guard0x7f873ac14548>) [p0, p2]
++214: enter_portal_frame(0, 0)
+debug_merge_point(1, 1, '[KIMCHI] evaluating <WhileExpression object at 0x7f873abd4180> ')
++339: p6 = call_assembler_r(p0, descr=<Loop-1>)
++509: guard_not_forced(descr=<Guard0x7f873ac145a0>) [p6]
++520: guard_no_exception(descr=<Guard0x7f873abe5f60>) [p6]
++540: leave_portal_frame(0)
++540: leave_portal_frame(0)
++540: finish(p6, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++656: --end of the loop--
+[7781fc04c260] jit-log-opt-loop}
+[7781fc0a84a8] {jit-log-opt-loop
+# Loop 39 ([KIMCHI] evaluating <WhileExpression object at 0x7f873abd4180> ) : entry bridge with 6 ops
+[p0]
+debug_merge_point(0, 0, '[KIMCHI] evaluating <WhileExpression object at 0x7f873abd4180> ')
++201: p4 = call_may_force_r(ConstClass(Evaluator.eval_while_expression), ConstPtr(ptr2), ConstPtr(ptr3), p0, descr=<Callr 8 rrr EF=7>)
++281: guard_not_forced(descr=<Guard0x7f873ac14650>) [p4]
++292: guard_no_exception(descr=<Guard0x7f873abe5fa0>) [p4]
++306: leave_portal_frame(0)
++306: finish(p4, descr=<DoneWithThisFrameDescrRef object at 0x55d1929b06a0>)
++416: --end of the loop--
+[7781fc0b068e] jit-log-opt-loop}

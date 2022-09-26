@@ -22,13 +22,13 @@ jobs:
       run: git lfs pull
     - name: fs test
       run: |
-        file bin/0.4.0/0.4.0_990f4184c71810fb7aaa3478b0e403a953f4324b_main-jit-c
-        bin/0.4.0/0.4.0_990f4184c71810fb7aaa3478b0e403a953f4324b_main-jit-c ./programs/helloWorld.ki
+        file ./bin/0.4.0/0.4.0_990f4184c71810fb7aaa3478b0e403a953f4324b_main-c
+        ./bin/0.4.0/0.4.0_990f4184c71810fb7aaa3478b0e403a953f4324b_main-c ./programs/loops.ki
     - name: Bench 0.0.4 [loops.ki]
       run: |
-        hyperfine -m 100 -M 100 'bin/0.4.0/0.4.0_990f4184c71810fb7aaa3478b0e403a953f4324b_main-jit-c ./programs/loops.ki' \
+        hyperfine -m 100 -M 100 './bin/0.4.0/0.4.0_990f4184c71810fb7aaa3478b0e403a953f4324b_main-c ./programs/loops.ki' \
          'bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-c ./programs/loops.ki self-like'
     - name: Bench 0.0.4 [loops_recursive.ki]
       run: |
-        hyperfine 'bin/0.4.0/0.4.0_990f4184c71810fb7aaa3478b0e403a953f4324b_main-jit-c ./programs/loops_recursive.ki' \
+        hyperfine './bin/0.4.0/0.4.0_990f4184c71810fb7aaa3478b0e403a953f4324b_main-c ./programs/loops.ki ./programs/loops_recursive.ki' \
          'bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-c ./programs/loops_recursive.ki self-like'
