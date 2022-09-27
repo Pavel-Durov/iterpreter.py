@@ -92,6 +92,21 @@ export BIN='bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-c'
 hyperfine --warmup 10 "${BIN} ./programs/loops.ki" "${BIN} ./programs/loops.ki self-like"
 hyperfine "${BIN} ./programs/loops.ki" "${BIN} ./programs/loops.ki self-like"
 ```
+### VMProf Server
+
+https://github.com/vmprof/vmprof-server
+
+Build docker image and apply migrations (for a new setup or version upgrade):
+
+```shell
+docker-compose build
+docker-compose run --rm vmprof-server python3 manage.py migrate
+docker-compose up # Run the server inside docker container
+docker-compose run --rm vmprof-server python3 manage.py generate_api_token # Generate API token
+```
+VMprof jit log should look something like
+
+<img src="./assets/vmprof.png" width="500">
 
 ## Resources:
 

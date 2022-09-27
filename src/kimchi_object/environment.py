@@ -63,4 +63,3 @@ class SelfLikeObjEnvironment(Environment):
             return
         self.map = map.new_map_with_additional_attribute(name)
         self.storage.append(value)
-

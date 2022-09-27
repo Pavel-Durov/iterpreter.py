@@ -286,7 +286,9 @@ class Parser:
 
     def parse_infix_expression(self, left):
         exp = InfixExpression(
-            token=self.cur_token, operator=self.cur_token.literal, left=left
+            token=self.cur_token,
+            operator=self.cur_token.literal,
+            left=left
         )
         precedence = self.cur_precedence()
         self.next_token()

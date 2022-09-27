@@ -1,7 +1,8 @@
-PYTHONPATH=${PWD}:${PWD}/src/:${PWD}/.pypy/
+PYTHONPATH=${PWD}:${PWD}/src/:${PWD}/.pypy/:${CONDA_PREFIX}/lib/python2.7/site-packages/
 VERSION := 0.4.0
 PYPY_VERSION_ARTIFACT := pypy2.7-v7.3.9-src
-BENCH_BIN=./bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-jit-c
+BENCH_BIN :=./bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-jit-c
+VM_PROF_ATUH := 3cd11e2dac5feaafa0432a1d7b3a8a7c7872adde
 
 .PHONY: test src
 
@@ -16,18 +17,19 @@ test:
 
 init-env: 
 	conda env create -f environment.yml
-	conda init zsh && conda activate interpreter-py
-	conda install pytest
+	conda init bash && conda activate kimchi-py
+	pip install -r ./requirments.txt
 
 clean-env: 
 	conda deactivate
-	conda env remove -n interpreter-py
+	conda env remove -n kimchi-py
 
 repl:
 	PYTHONPATH=$(PYTHONPATH) python ./src/repl.py
 
-jit-viewer:
-	.pypy-bin/bin/pypy -m vmprof --web --jitlog 'python ./src/main.py ./programs/loops.ki'
+vmprof-jit-logs-upload:
+	# dashboard is on http://127.0.0.1:8000/#/35ecfbbd-76fd-4873-be4d-61b858334859
+	.pypy-bin/bin/pypy -m vmprof --web-auth '${VM_PROF_ATUH}'  --web-url 127.0.0.1:8000  --web --jitlog ${PWD}/src/main.py ${PWD}/programs/loops.ki self-like
 
 get-pypy-%:
 	wget https://downloads.python.org/pypy/pypy2.7-v7.3.9-src.tar.bz2
@@ -37,8 +39,6 @@ get-pypy-%:
 	wget https://downloads.python.org/pypy/pypy2.7-v7.3.9-$*64.tar.bz2
 	tar -xvf pypy2.7-v7.3.9-$*64.tar.bz2 && mv ./pypy2.7-v7.3.9-$*64 .pypy-bin && rm pypy2.7-v7.3.9-$*64.tar.bz2
 	
-	
-
 pypy-translate:
 	./scripts/translate_and_store.sh ${VERSION} ./src/main.py jit
 	./scripts/translate_and_store.sh ${VERSION} ./src/main.py

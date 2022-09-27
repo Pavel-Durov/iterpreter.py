@@ -36,7 +36,7 @@ def test_parsing_while_expression():
     assert isinstance(prog.statements[1].expression, WhileExpression)
     while_exp = prog.statements[1].expression
     assert len(while_exp.body.statements) == 2
-    assert_infix_expression(while_exp.condition, "x", "<", 10)
+    assert_infix_expression(while_exp.condition, "x", InfixExpression.LT, 10)
 
 
 def test_parsing_hash_literal_with_expressions():
@@ -48,9 +48,9 @@ def test_parsing_hash_literal_with_expressions():
     assert isinstance(prog.statements[0].expression, HashLiteral)
     assert len(prog.statements[0].expression.pairs) == 3
     tests = {
-        "one": lambda exp: assert_infix_expression(exp, 0, "+", 1),
-        "two": lambda exp: assert_infix_expression(exp, 10, "-", 8),
-        "three": lambda exp: assert_infix_expression(exp, 15, "/", 5),
+        "one": lambda exp: assert_infix_expression(exp, 0, InfixExpression.PLUS, 1),
+        "two": lambda exp: assert_infix_expression(exp, 10, InfixExpression.MINUS, 8),
+        "three": lambda exp: assert_infix_expression(exp, 15, InfixExpression.DIV, 5),
     }
     for key in prog.statements[0].expression.pairs:
         tests[str(key)](prog.statements[0].expression.pairs[key])
@@ -88,7 +88,7 @@ def test_parsing_index_expression():
     assert_no_parser_errors(p.errors)
     assert isinstance(prog.statements[0], ExpressionStatement)
     assert isinstance(prog.statements[0].expression, IndexExpression)
-    assert_infix_expression(prog.statements[0].expression.index, 1, "+", 1)
+    assert_infix_expression(prog.statements[0].expression.index, 1, InfixExpression.PLUS, 1)
 
 
 def test_parsing_array_literals():
@@ -99,8 +99,8 @@ def test_parsing_array_literals():
     assert isinstance(prog.statements[0], ExpressionStatement)
     assert len(prog.statements[0].expression.elements) == 3
     assert_integer_literal(prog.statements[0].expression.elements[0], 1)
-    assert_infix_expression(prog.statements[0].expression.elements[1], 2, "*", 2)
-    assert_infix_expression(prog.statements[0].expression.elements[2], 3, "+", 3)
+    assert_infix_expression(prog.statements[0].expression.elements[1], 2, InfixExpression.MUL, 2)
+    assert_infix_expression(prog.statements[0].expression.elements[2], 3, InfixExpression.PLUS, 3)
 
 
 def test_string_literal_expression():
@@ -237,17 +237,17 @@ def test_parsing_prefix_expressions():
 
 def test_parsing_infix_expressions():
     tests = [
-        ("5 + 5;", 5, "+", 5),
-        ("5 - 5;", 5, "-", 5),
-        ("5 * 5;", 5, "*", 5),
-        ("5 / 5;", 5, "/", 5),
-        ("5 > 5;", 5, ">", 5),
-        ("5 < 5;", 5, "<", 5),
-        ("5 == 5;", 5, "==", 5),
-        ("5 != 5;", 5, "!=", 5),
-        ("true == true", True, "==", True),
-        ("false == false", False, "==", False),
-        ("false == false", False, "==", False),
+        ("5 + 5;", 5, InfixExpression.PLUS, 5),
+        ("5 - 5;", 5, InfixExpression.MINUS, 5),
+        ("5 * 5;", 5, InfixExpression.MUL, 5),
+        ("5 / 5;", 5, InfixExpression.DIV, 5),
+        ("5 > 5;", 5, InfixExpression.GT, 5),
+        ("5 < 5;", 5, InfixExpression.LT, 5),
+        ("5 == 5;", 5, InfixExpression.EQ, 5),
+        ("5 != 5;", 5, InfixExpression.NOT_EQ, 5),
+        ("true == true", True, InfixExpression.EQ, True),
+        ("false == false", False, InfixExpression.EQ, False),
+        ("false == false", False, InfixExpression.EQ, False),
     ]
     for t in tests:
         p = Parser(Lexer(t[0]))
@@ -340,7 +340,7 @@ def test_if_expression():
     assert isinstance(prog.statements[0], ExpressionStatement)
 
     assert isinstance(prog.statements[0].expression, IfExpression)
-    assert_infix_expression(prog.statements[0].expression.condition, "x", "<", "y")
+    assert_infix_expression(prog.statements[0].expression.condition, "x", InfixExpression.LT, "y")
     assert len(prog.statements[0].expression.consequence.statements) == 1
     assert isinstance(prog.statements[0].expression.consequence.statements[0], ExpressionStatement)
     assert_identifier(prog.statements[0].expression.consequence.statements[0].expression, "x")
@@ -355,7 +355,7 @@ def test_if_else_expression():
     assert len(prog.statements) == 1
     assert prog.statements[0], ExpressionStatement
     assert isinstance(prog.statements[0].expression, IfExpression)
-    assert_infix_expression(prog.statements[0].expression.condition, "x", "<", "y")
+    assert_infix_expression(prog.statements[0].expression.condition, "x", InfixExpression.LT, "y")
     assert len(prog.statements[0].expression.consequence.statements) == 1
     assert isinstance(prog.statements[0].expression.consequence.statements[0], ExpressionStatement)
     assert_identifier(prog.statements[0].expression.consequence.statements[0].expression, "x")
@@ -377,7 +377,7 @@ def test_function_literal():
     assert len(prog.statements[0].expression.body.statements) == 1
     assert isinstance(prog.statements[0].expression.body.statements[0], ExpressionStatement)
     assert_infix_expression(
-        prog.statements[0].expression.body.statements[0].expression, "x", "+", "y"
+        prog.statements[0].expression.body.statements[0].expression, "x", InfixExpression.PLUS, "y"
     )
 
 
@@ -414,8 +414,8 @@ def test_call_expression():
     assert_identifier(stmt.expression.function, "add")
     assert len(stmt.expression.arguments) == 3
     assert_literal_expression(stmt.expression.arguments[0], 1)
-    assert_infix_expression(stmt.expression.arguments[1], 2, "*", 3)
-    assert_infix_expression(stmt.expression.arguments[2], 4, "+", 5)
+    assert_infix_expression(stmt.expression.arguments[1], 2, InfixExpression.MUL, 3)
+    assert_infix_expression(stmt.expression.arguments[2], 4, InfixExpression.PLUS, 5)
 
 
 def assert_identifier(exp, value):
