@@ -10,11 +10,12 @@ def main():
     evaluator = Evaluator(IOC())
     env = evaluator.create_env(None)
 
+    print_line("Welcome to Kimchi REPL! Type away :)")
     while True:
-        s = raw_input("> ")
+        s = raw_input(":) ")
 
         if s == "":
-            break
+            continue
         lex = Lexer(s)
         p = Parser(lex)
         prog = p.parse_program()
