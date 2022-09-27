@@ -195,7 +195,7 @@ class InfixExpression(Expression):
         self.token = token
         self.left = left
         self.literal_operator = operator
-        assert operator in self.op_to_code, 'expected one of: ' + str(self.op_to_code.keys()) + 'got: ' + op
+        assert operator in self.op_to_code, 'expected one of: ' + str(self.op_to_code.keys()) + 'got: ' + operator
         self.operator = self.op_to_code[operator]
 
     def expression_node(self):
