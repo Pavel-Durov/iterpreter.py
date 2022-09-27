@@ -26,9 +26,18 @@ clean-env:
 repl:
 	PYTHONPATH=$(PYTHONPATH) python ./src/repl.py
 
-get-pypy:
-	wget https://downloads.python.org/pypy/$(PYPY_VERSION_ARTIFACT).tar.bz2
-	tar -xvf $(PYPY_VERSION_ARTIFACT).tar.bz2 && mv ./$(PYPY_VERSION_ARTIFACT) .pypy && rm $(PYPY_VERSION_ARTIFACT).tar.bz2
+jit-viewer:
+	.pypy-bin/bin/pypy -m vmprof --web --jitlog 'python ./src/main.py ./programs/loops.ki'
+
+get-pypy-%:
+	wget https://downloads.python.org/pypy/pypy2.7-v7.3.9-src.tar.bz2
+	tar -xvf pypy2.7-v7.3.9-src.tar.bz2 && mv ./pypy2.7-v7.3.9-src .pypy && rm pypy2.7-v7.3.9-src.tar.bz2
+	
+	# $* - osx / linux
+	wget https://downloads.python.org/pypy/pypy2.7-v7.3.9-$*64.tar.bz2
+	tar -xvf pypy2.7-v7.3.9-$*64.tar.bz2 && mv ./pypy2.7-v7.3.9-$*64 .pypy-bin && rm pypy2.7-v7.3.9-$*64.tar.bz2
+	
+	
 
 pypy-translate:
 	./scripts/translate_and_store.sh ${VERSION} ./src/main.py jit
