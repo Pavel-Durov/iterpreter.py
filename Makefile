@@ -27,8 +27,8 @@ clean-env:
 repl:
 	PYTHONPATH=$(PYTHONPATH) python ./src/repl.py
 
-vmprof-jit-logs-upload:
-	# dashboard is on http://127.0.0.1:8000/#/35ecfbbd-76fd-4873-be4d-61b858334859
+# VMprof - https://vmprof.readthedocs.io/en/latest/jitlog.html
+vmprof-cpu-logs-upload:
 	.pypy-bin/bin/pypy -m vmprof --web-auth '${VM_PROF_ATUH}'  --web-url 127.0.0.1:8000  --web --jitlog ${PWD}/src/main.py ${PWD}/programs/loops.ki self-like
 
 get-pypy-%:

@@ -120,10 +120,8 @@ class Evaluator():
             if isinstance(right, obj.Error):
                 return right
             return self.eval_infix_expression(node, left, right)
-
         elif isinstance(node, ast.IfExpression):
             return self.eval_if_expression(node, env)
-
         elif isinstance(node, ast.WhileExpression):
             return self.eval_while_expression(node, env)
 
