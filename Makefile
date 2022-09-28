@@ -9,15 +9,15 @@ version:
 	@echo $(VERSION)
 
 run:
-	PYTHONPATH=$(PYTHONPATH) python ./src/main.py
+	PYTHONPATH=$(PYTHONPATH) python ./src/main.py ./programs/loops.ki
 
 test: 
 	pytest ./src
 
 init-env: 
 	conda env create -f environment.yml
-	conda init zsh && conda activate interpreter-py
-	conda install pytest
+	conda init bash && conda activate interpreter-py
+	pip install -r ./requirments.txt 
 
 clean-env: 
 	conda deactivate
