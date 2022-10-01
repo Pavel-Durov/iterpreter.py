@@ -1,4 +1,4 @@
-from rpython.rlib.jit import purefunction, hint
+from rpython.rlib.jit import elidable, hint
 
 
 class Environment():
@@ -23,11 +23,11 @@ class SelfLikeMap(object):
         self.attribute_indexes = {}
         self.other_maps = {}
 
-    @purefunction
+    @elidable
     def get_index(self, name):
         return self.attribute_indexes.get(name, -1)
 
-    @purefunction
+    @elidable
     def new_map_with_additional_attribute(self, name):
         if name not in self.other_maps:
             newmap = SelfLikeMap()

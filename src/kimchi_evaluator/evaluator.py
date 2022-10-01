@@ -1,5 +1,5 @@
 from rpython.jit.codewriter.policy import JitPolicy
-from rpython.rlib.jit import JitDriver, purefunction
+from rpython.rlib.jit import JitDriver, elidable
 
 import src.kimchi_ast as ast
 import src.kimchi_object as obj
@@ -92,7 +92,7 @@ class Evaluator():
         elif isinstance(node, ast.FunctionLiteral):
             return obj.Function(node.parameters, node.body, env)
         elif isinstance(node, ast.IntegerLiteral):
-            return obj.Integer(node.value)
+            return self.ioc.IntegerBuilder.build(node.value)
         elif isinstance(node, ast.LetStatement):
             val = self.eval(node.value, env)
             if isinstance(val, obj.Error):
@@ -152,7 +152,7 @@ class Evaluator():
         return NULL
 
     def eval_index_expression(self, left, index):
-        if isinstance(left, obj.Array) and isinstance(index, obj.Integer):
+        if isinstance(left, obj.Array) and obj.IntegerBuilder.is_int(index):
             return self.eval_array_index_expression(left, index)
         elif isinstance(left, obj.Hash):
             return self.eval_hash_index_expression(left, index)
@@ -257,53 +257,57 @@ class Evaluator():
             return self.eval(node.alternative, env)
         return NULL
 
-    @purefunction
+    @elidable
     def is_plus(self, node):
         return node.operator == ast.InfixExpression.PLUS
 
-    @purefunction
+    @elidable
     def is_minus(self, node):
         return node.operator == ast.InfixExpression.MINUS
 
-    @purefunction
+    @elidable
     def is_mul(self, node):
         return node.operator == ast.InfixExpression.MUL
 
-    @purefunction
+    @elidable
     def is_divide(self, node):
         return node.operator == ast.InfixExpression.DIV
 
-    @purefunction
+    @elidable
     def is_less_than(self, node):
         return node.operator == ast.InfixExpression.LT
 
-    @purefunction
+    @elidable
     def is_greater_than(self, node):
         return node.operator == ast.InfixExpression.GT
 
-    @purefunction
+    @elidable
     def is_greater_than(self, node):
         return node.operator == ast.InfixExpression.GT
 
-    @purefunction
+    @elidable
     def is_greater_eq(self, node):
         return node.operator == ast.InfixExpression.EQ
 
-    @purefunction
+    @elidable
     def is_greater_not_eq(self, node):
         return node.operator == ast.InfixExpression.NOT_EQ
 
     def eval_integer_infix_expression(self, node, left, right):
-        left_val = left.value
-        right_val = right.value
+        left_val = left["value"]
+        right_val = right["value"]
         if self.is_plus(node):
-            return obj.Integer(left_val + right_val)
+            self.ioc.IntegerBuilder.set_value(left, left_val + right_val)
+            return left
         elif self.is_minus(node):
-            return obj.Integer(left_val - right_val)
+            self.ioc.IntegerBuilder.set_value(left, left_val - right_val)
+            return left
         elif self.is_mul(node):
-            return obj.Integer(left_val * right_val)
+            self.ioc.IntegerBuilder.set_value(left, left_val * right_val)
+            return left
         elif self.is_divide(node):
-            return obj.Integer(left_val / right_val)
+            self.ioc.IntegerBuilder.set_value(left, left_val / right_val)
+            return left
         elif self.is_less_than(node):
             return self.native_bool_to_boolean_object(left_val < right_val)
         elif self.is_greater_than(node):
@@ -317,7 +321,7 @@ class Evaluator():
             "unknown operator: %s %s %s" % (str(left.type()), str(node.literal_operator), str(right.type())))
 
     def eval_infix_expression(self, node, left, right):
-        if isinstance(left, obj.Integer) and isinstance(right, obj.Integer):
+        if obj.IntegerBuilder.is_int(left) and obj.IntegerBuilder.is_int(right):
             return self.eval_integer_infix_expression(node, left, right)
         elif node.operator == InfixExpression.EQ:
             return self.native_bool_to_boolean_object(left == right)
@@ -344,8 +348,8 @@ class Evaluator():
         return FALSE
 
     def eval_minus_prefix_operator_expression(self, right):
-        if isinstance(right, obj.Integer):
-            return obj.Integer(-right.value)
+        if obj.IntegerBuilder(right):
+            return obj.Integer.set_value(right, -right["value"])
 
         return obj.Error("unknown operator: -%s" % (right.type()))
 
@@ -363,9 +367,9 @@ class Evaluator():
 
     def builtin_len(self, arg):
         if isinstance(arg, obj.String):
-            return obj.Integer(len(arg.value))
+            return self.ioc.IntegerBuilder.build(len(arg.value))
         elif isinstance(arg, obj.Array):
-            return obj.Integer(len(arg.elements))
+            return self.ioc.IntegerBuilder.build(len(arg.elements))
         else:
             return obj.Error("argument to `len` not supported, got %s" % (arg.type()))
 
