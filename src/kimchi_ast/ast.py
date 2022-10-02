@@ -138,6 +138,7 @@ class IntegerLiteral(Expression):
     def __init__(self, token, value):
         self.token = token
         self.value = value
+        self.int_value = value
 
     def expression_node(self):
         pass

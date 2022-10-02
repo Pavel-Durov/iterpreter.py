@@ -15,8 +15,9 @@ class IOC():
         print_line('[Kimchi Config]: self_like: ' + str(self.self_like))
 
     def create_env(self, outer=None):
-        if self.self_like:
-            return SelfLikeObjEnvironment(outer)
-        else:
-            return Environment(outer)
+        return SelfLikeObjEnvironment(outer)
+        # if self.self_like:
+        #     return SelfLikeObjEnvironment(outer)
+        # else:
+        #     return Environment(outer)
     

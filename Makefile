@@ -40,7 +40,7 @@ get-pypy-%:
 	tar -xvf pypy2.7-v7.3.9-$*64.tar.bz2 && mv ./pypy2.7-v7.3.9-$*64 .pypy-bin && rm pypy2.7-v7.3.9-$*64.tar.bz2
 	
 pypy-translate:
-	./scripts/translate_and_store.sh ${VERSION} ./src/main.py jit
+	# ./scripts/translate_and_store.sh ${VERSION} ./src/main.py jit
 	./scripts/translate_and_store.sh ${VERSION} ./src/main.py
 	
 run-jit-logs:
@@ -59,3 +59,6 @@ hyperfine-no-jit:
 
 git-lfs:
 	git lfs track ./bin/**/*-c
+
+docker-translate:
+	docker build -f ./build.Dockerfile -t kimchi:build .

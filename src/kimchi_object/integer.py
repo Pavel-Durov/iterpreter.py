@@ -22,7 +22,7 @@ class IntegerBuilder():
     def is_int(obj):
         if isinstance(obj, Integer):
             return True
-        return "type" in obj and obj["type"] == 1
+        return type(obj) == dict and "type" in obj and obj["type"] == 1
     
     @staticmethod
     def set_value(obj, value):

@@ -16,7 +16,8 @@ def get_location(node, self):
     return "[KIMCHI] evaluating %s " % (str(node))
 
 
-jitdriver = JitDriver(greens=["node", "self"], reds=["env"], get_printable_location=get_location)
+jitdriver = JitDriver(greens=["node", "self"], reds=[
+                      "env"], get_printable_location=get_location)
 
 
 class Evaluator():
@@ -57,14 +58,14 @@ class Evaluator():
             return self.eval_program(node.statements, env)
         elif isinstance(node, ast.HashLiteral):
             return self.eval_hash_literal(node, env)
-        elif isinstance(node, ast.IndexExpression):
-            left = self.eval(node.left, env)
-            if isinstance(left, obj.Error):
-                return left
-            index = self.eval(node.index, env)
-            if isinstance(index, obj.Error):
-                return index
-            return self.eval_index_expression(left, index)
+        # elif isinstance(node, ast.IndexExpression):
+        #     left = self.eval(node.left, env)
+        #     if isinstance(left, obj.Error):
+        #         return left
+        #     index = self.eval(node.index, env)
+        #     if isinstance(index, obj.Error):
+        #         return index
+        #     return self.eval_index_expression(left, index)
         elif isinstance(node, ast.StringLiteral):
             return obj.String(node.value)
         elif isinstance(node, ast.ArrayLiteral):
@@ -92,12 +93,10 @@ class Evaluator():
         elif isinstance(node, ast.FunctionLiteral):
             return obj.Function(node.parameters, node.body, env)
         elif isinstance(node, ast.IntegerLiteral):
-            return self.ioc.IntegerBuilder.build(node.value)
+            if type(node.value) == int:
+                return self.ioc.IntegerBuilder.build(node.value)
         elif isinstance(node, ast.LetStatement):
-            val = self.eval(node.value, env)
-            if isinstance(val, obj.Error):
-                return val
-            env.set(node.name.value, val)
+            return self.eval_let_stmt(node, env)
         elif isinstance(node, ast.AssignStatement):
             val = self.eval(node.value, env)
             if isinstance(val, obj.Error):
@@ -107,25 +106,63 @@ class Evaluator():
             return self.eval_identifier(node, env)
         elif isinstance(node, ast.Boolean):
             return self.native_bool_to_boolean_object(node.value)
-        elif isinstance(node, ast.PrefixExpression):
-            right = self.eval(node.right, env)
-            if isinstance(right, obj.Error):
-                return right
-            return self.eval_prefix_expression(node.operator, right)
+        # elif isinstance(node, ast.PrefixExpression):
+        #     right = self.eval(node.right, env)
+        #     if isinstance(right, obj.Error):
+        #         return right
+        #     return self.eval_prefix_expression(node.operator, right)
         elif isinstance(node, ast.InfixExpression):
-            left = self.eval(node.left, env)
-            if isinstance(left, obj.Error):
-                return left
-            right = self.eval(node.right, env)
-            if isinstance(right, obj.Error):
-                return right
-            return self.eval_infix_expression(node, left, right)
+            return self.eval_infix_exp(node, env)
         elif isinstance(node, ast.IfExpression):
             return self.eval_if_expression(node, env)
         elif isinstance(node, ast.WhileExpression):
             return self.eval_while_expression(node, env)
 
         return None
+
+    def eval_infix_exp(self, node, env):
+        left = 0
+        right = 0
+        # if isinstance(node, ast.Expression):
+        #     left = self.eval(node.left, env)
+        if isinstance(node.left, ast.Expression):
+            left = self.eval(node.left, env)
+        elif isinstance(node.left, ast.IntegerLiteral):
+            if node.left.value:
+              val = int(node.left.value)
+              left = self.ioc.IntegerBuilder.build(val)
+        elif self.ioc.IntegerBuilder.is_int(node.left):
+            left = node.left.int_value
+        # else:
+        #     left = self.eval(node.left, env)
+            # if isinstance(left, obj.Error):
+            #     return left
+
+        if node and node.right and isinstance(node.right, ast.IntegerLiteral) and node.right.value:
+            if node.right.value:
+                val = int(node.right.value)
+                right = self.ioc.IntegerBuilder.build(val)
+        elif self.ioc.IntegerBuilder.is_int(node.right):
+            right = node.right.int_value
+        else:
+            right = self.eval(node.right, env)
+            # if isinstance(right, obj.Error):
+            #     return right
+        return self.eval_infix_expression(node, left, right)
+
+    def eval_let_stmt(self, node, env):
+        if node is not None and isinstance(node.value, ast.IntegerLiteral):
+            int_value = int(node.value.int_value)
+            env.set(node.name.value, self.ioc.IntegerBuilder.build(int_value))
+            # if val is not None and type(val.value) == int:
+        # else:
+        #   val = self.eval(node.value, env)
+            # if isinstance(val, obj.Error):
+            #     return val
+            # if isinstance(val, ast.IntegerLiteral):
+            #     env.set(node.name.value, self.ioc.IntegerBuilder.build(val.value))
+            # else:
+            #     env.set(node.name.value, val)
 
     def eval_hash_literal(self, node, env):
         pairs = {}
@@ -151,15 +188,15 @@ class Evaluator():
             return pair.value
         return NULL
 
-    def eval_index_expression(self, left, index):
-        if isinstance(left, obj.Array) and obj.IntegerBuilder.is_int(index):
-            return self.eval_array_index_expression(left, index)
-        elif isinstance(left, obj.Hash):
-            return self.eval_hash_index_expression(left, index)
-        return obj.Error("index operator not supported: %s" % (left.type()))
+    # def eval_index_expression(self, left, index):
+    #     if isinstance(left, obj.Array) and obj.IntegerBuilder.is_int(index):
+    #         return self.eval_array_index_expression(left, index)
+    #     elif isinstance(left, obj.Hash):
+    #         return self.eval_hash_index_expression(left, index)
+    #     return obj.Error("index operator not supported: %s" % (left.type()))
 
     def eval_array_index_expression(self, array, index):
-        idx = index.value
+        idx = index['value']
         max = len(array.elements) - 1
         if idx < 0 or idx > max:
             return NULL
@@ -185,21 +222,21 @@ class Evaluator():
             return self.unwrap_return_value(evaluated)
         if args is None:
             return None
-        if fn.name == "len":
-            if isinstance(args, list) and len(args) == 1:
-                return self.builtin_len(args[0])
-            else:
-                return obj.Error("wrong number of arguments. got=%d, want=1" % (len(args)))
-        elif fn.name == "puts":
-            return self.builtin_puts(args)
-        elif fn.name == "first":
-            return self.builtin_first(args)
-        elif fn.name == "last":
-            return self.builtin_last(args)
-        elif fn.name == "rest":
-            return self.builtin_rest(args)
-        elif fn.name == "push":
-            return self.builtin_push(args)
+        # if fn.name == "len":
+        #     if isinstance(args, list) and len(args) == 1:
+        #         return self.builtin_len(args[0])
+        #     else:
+        #         return obj.Error("wrong number of arguments. got=%d, want=1" % (len(args)))
+        # elif fn.name == "puts":
+        #     return self.builtin_puts(args)
+        # elif fn.name == "first":
+        #     return self.builtin_first(args)
+        # elif fn.name == "last":
+        #     return self.builtin_last(args)
+        # elif fn.name == "rest":
+        #     return self.builtin_rest(args)
+        # elif fn.name == "push":
+        #     return self.builtin_push(args)
         return obj.Error("not a function: %s" % (fn.type()))
 
     def eval_expressions(self, args, env):
@@ -240,12 +277,12 @@ class Evaluator():
     def eval_while_expression(self, node, env):
         result = NULL
         while True:
-            condition = self.eval(node.condition, env)
+            condition = self.eval_infix_exp(node.condition, env)
             if isinstance(condition, obj.Error):
                 return condition
             if not self.is_truthy(condition):
                 return result
-            result = self.eval(node.body, env)
+            result = self.eval_block_statement(node.body, env)
 
     def eval_if_expression(self, node, env):
         condition = self.eval(node.condition, env)
@@ -297,17 +334,17 @@ class Evaluator():
         left_val = left["value"]
         right_val = right["value"]
         if self.is_plus(node):
-            self.ioc.IntegerBuilder.set_value(left, left_val + right_val)
-            return left
+            # self.ioc.IntegerBuilder.set_value(left, left_val + right_val)
+            return self.ioc.IntegerBuilder.build(left_val + right_val)
         elif self.is_minus(node):
-            self.ioc.IntegerBuilder.set_value(left, left_val - right_val)
-            return left
+            # self.ioc.IntegerBuilder.set_value(left, left_val - right_val)
+            return self.ioc.IntegerBuilder.build(left_val - right_val)
         elif self.is_mul(node):
-            self.ioc.IntegerBuilder.set_value(left, left_val * right_val)
-            return left
+            # self.ioc.IntegerBuilder.set_value(left, left_val * right_val)
+            return self.ioc.IntegerBuilder.build(left_val * right_val)
         elif self.is_divide(node):
-            self.ioc.IntegerBuilder.set_value(left, left_val / right_val)
-            return left
+            # self.ioc.IntegerBuilder.set_value(left, left_val / right_val)
+            return self.ioc.IntegerBuilder.build(left_val / right_val)
         elif self.is_less_than(node):
             return self.native_bool_to_boolean_object(left_val < right_val)
         elif self.is_greater_than(node):
@@ -329,8 +366,8 @@ class Evaluator():
             return self.native_bool_to_boolean_object(left != right)
         elif isinstance(left, obj.String) and isinstance(right, obj.String):
             return self.eval_string_infix_expression(left, right, node)
-        elif left.type() != right.type():
-            return obj.Error("type mismatch: %s %s %s" % (left.type(), node.literal_operator, right.type()))
+        # elif left.type() != right.type():
+        #     return obj.Error("type mismatch: %s %s %s" % (left.type(), node.literal_operator, right.type()))
         return obj.Error("unknown operator: %s %s %s" % (left.type(), node.literal_operator, right.type()))
 
     def eval_string_infix_expression(self, left, right, node):
@@ -347,18 +384,20 @@ class Evaluator():
             return TRUE
         return FALSE
 
-    def eval_minus_prefix_operator_expression(self, right):
-        if obj.IntegerBuilder(right):
-            return obj.Integer.set_value(right, -right["value"])
+    # def eval_minus_prefix_operator_expression(self, right):
+    #     # if isinstance(right, obj.Object) or isinstance(right, ast.Expression):
+    #     #     return obj.Error("unknown operator: -%s" % (right.type()))
+    #     if not isinstance(right, obj.Object) and not isinstance(right, ast.Expression) and right and self.ioc.IntegerBuilder.is_int(right):
+    #         return self.ioc.IntegerBuilder.set_value(right, -right["value"])
 
-        return obj.Error("unknown operator: -%s" % (right.type()))
+    #     return obj.Error("unknown operator: -%s" % (right.type()))
 
-    def eval_prefix_expression(self, operator, right):
-        if operator == "!":
-            return self.eval_bang_operator_expression(right)
-        elif operator == "-":
-            return self.eval_minus_prefix_operator_expression(right)
-        return obj.Error("unknown operator: %s" % (operator, right.type()))
+    # def eval_prefix_expression(self, operator, right):
+    #     if operator == "!":
+    #         return self.eval_bang_operator_epxpression(right)
+    #     elif operator == "-":
+    #         return self.eval_minus_prefix_operator_expression(right)
+    #     return obj.Error("unknown operator: %s" % (operator, right.type()))
 
     def native_bool_to_boolean_object(self, input):
         if input:
