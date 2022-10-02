@@ -134,7 +134,7 @@ class ExpressionStatement(Statement):
         return ""
 
 
-class IntegerLiteral(Expression):
+class IntegerLiteral():
     def __init__(self, token, value):
         self.token = token
         self.value = value

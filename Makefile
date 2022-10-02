@@ -12,7 +12,7 @@ run:
 	PYTHONPATH=$(PYTHONPATH) python ./src/main.py ./programs/loops.ki
 
 test: 
-	pytest ./src
+	python -m pytest ./src
 
 init-env: 
 	conda env create -f environment.yml

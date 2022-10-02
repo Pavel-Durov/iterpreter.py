@@ -210,7 +210,7 @@ def test_integer_literal_expression():
     assert len(prog.statements) == 1
 
     assert isinstance(prog.statements[0], ExpressionStatement)
-    assert isinstance(prog.statements[0].expression, Expression)
+    assert isinstance(prog.statements[0].expression, IntegerLiteral)
     assert prog.statements[0].expression.value == 6
     assert prog.statements[0].expression.token_literal() == "6"
 
