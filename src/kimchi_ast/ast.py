@@ -134,7 +134,7 @@ class ExpressionStatement(Statement):
         return ""
 
 
-class IntegerLiteral():
+class IntegerLiteral(Node):
     def __init__(self, token, value):
         self.token = token
         self.value = value

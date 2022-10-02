@@ -1,5 +1,5 @@
 from rpython.jit.codewriter.policy import JitPolicy
-from rpython.rlib.jit import JitDriver, purefunction
+from rpython.rlib.jit import JitDriver, elidable, hint
 
 import src.kimchi_ast as ast
 import src.kimchi_object as obj
@@ -30,7 +30,8 @@ class Evaluator():
     }
 
     def __init__(self, ioc):
-        self.ioc = ioc
+        self.ioc = hint(ioc)
+        self.builtins = hint(self.builtins)
 
     def create_env(self, env):
         return self.ioc.create_env(env)
@@ -113,13 +114,7 @@ class Evaluator():
                 return right
             return self.eval_prefix_expression(node.operator, right)
         elif isinstance(node, ast.InfixExpression):
-            left = self.eval(node.left, env)
-            if isinstance(left, obj.Error):
-                return left
-            right = self.eval(node.right, env)
-            if isinstance(right, obj.Error):
-                return right
-            return self.eval_infix_expression(node, left, right)
+            return self.eval_infix_expression(node, env)
         elif isinstance(node, ast.IfExpression):
             return self.eval_if_expression(node, env)
         elif isinstance(node, ast.WhileExpression):
@@ -257,39 +252,39 @@ class Evaluator():
             return self.eval(node.alternative, env)
         return NULL
 
-    @purefunction
+    @elidable
     def is_plus(self, node):
         return node.operator == ast.InfixExpression.PLUS
 
-    @purefunction
+    @elidable
     def is_minus(self, node):
         return node.operator == ast.InfixExpression.MINUS
 
-    @purefunction
+    @elidable
     def is_mul(self, node):
         return node.operator == ast.InfixExpression.MUL
 
-    @purefunction
+    @elidable
     def is_divide(self, node):
         return node.operator == ast.InfixExpression.DIV
 
-    @purefunction
+    @elidable
     def is_less_than(self, node):
         return node.operator == ast.InfixExpression.LT
 
-    @purefunction
+    @elidable
     def is_greater_than(self, node):
         return node.operator == ast.InfixExpression.GT
 
-    @purefunction
+    @elidable
     def is_greater_than(self, node):
         return node.operator == ast.InfixExpression.GT
 
-    @purefunction
+    @elidable
     def is_greater_eq(self, node):
         return node.operator == ast.InfixExpression.EQ
 
-    @purefunction
+    @elidable
     def is_greater_not_eq(self, node):
         return node.operator == ast.InfixExpression.NOT_EQ
 
@@ -312,11 +307,18 @@ class Evaluator():
             return self.native_bool_to_boolean_object(left_val == right_val)
         elif self.is_greater_not_eq(node):
             return self.native_bool_to_boolean_object(left_val != right_val)
-
         return obj.Error(
             "unknown operator: %s %s %s" % (str(left.type()), str(node.literal_operator), str(right.type())))
 
-    def eval_infix_expression(self, node, left, right):
+    def eval_infix_expression(self, node, env):
+        left = self.eval(node.left, env)
+        if isinstance(left, obj.Error):
+          return left
+        
+        right = self.eval(node.right, env)
+        if isinstance(right, obj.Error):
+          return right      
+
         if isinstance(left, obj.Integer) and isinstance(right, obj.Integer):
             return self.eval_integer_infix_expression(node, left, right)
         elif node.operator == InfixExpression.EQ:
