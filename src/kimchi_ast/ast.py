@@ -299,7 +299,7 @@ class CallExpression(Expression):
         return str(self.function) + "(" + ", ".join(args) + ")"
 
 
-class StringLiteral(Expression):
+class StringLiteral(Node):
     def __init__(self, token, value):
         self.token = token
         self.value = value
