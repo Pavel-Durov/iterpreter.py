@@ -134,7 +134,7 @@ class ExpressionStatement(Statement):
         return ""
 
 
-class IntegerLiteral():
+class IntegerLiteral(Node):
     def __init__(self, token, value):
         self.token = token
         self.value = value
@@ -167,10 +167,36 @@ class PrefixExpression(Expression):
 
 
 class InfixExpression(Expression):
+    ASSIGN = 0  # "="
+    PLUS = 1  # "+"
+    MINUS = 2  # "-"
+    BANG = 3  # "!"
+    MUL = 4  # "*"
+    DIV = 5  # "/"
+    LT = 6  # "<"
+    GT = 7  # ">"
+    EQ = 8  # "=="
+    NOT_EQ = 9  # "!="
+
+    op_to_code = {
+        "=": ASSIGN,
+        "+": PLUS,
+        "-": MINUS,
+        "!": BANG,
+        "*": MUL,
+        "/": DIV,
+        "<": LT,
+        ">": GT,
+        "==": EQ,
+        "!=": NOT_EQ,
+    }
+
     def __init__(self, token, left, operator):
         self.token = token
         self.left = left
-        self.operator = operator
+        self.literal_operator = operator
+        assert operator in self.op_to_code, 'expected one of: ' + str(self.op_to_code.keys()) + 'got: ' + operator
+        self.operator = self.op_to_code[operator]
 
     def expression_node(self):
         pass
@@ -179,7 +205,7 @@ class InfixExpression(Expression):
         return self.token.literal
 
     def __str__(self):
-        return "(" + str(self.left) + " " + self.operator + " " + str(self.right) + ")"
+        return "(" + str(self.left) + " " + self.literal_operator + " " + str(self.right) + ")"
 
 
 class Boolean(Expression):
@@ -273,7 +299,7 @@ class CallExpression(Expression):
         return str(self.function) + "(" + ", ".join(args) + ")"
 
 
-class StringLiteral(Expression):
+class StringLiteral(Node):
     def __init__(self, token, value):
         self.token = token
         self.value = value

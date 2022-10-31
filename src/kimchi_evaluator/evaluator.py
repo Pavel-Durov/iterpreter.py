@@ -1,8 +1,9 @@
 from rpython.jit.codewriter.policy import JitPolicy
-from rpython.rlib.jit import JitDriver
+from rpython.rlib.jit import JitDriver, elidable, hint
 
 import src.kimchi_ast as ast
 import src.kimchi_object as obj
+from src.kimchi_ast.ast import InfixExpression
 from src.kimchi_evaluator.const import TRUE, FALSE, NULL
 from src.kimchi_io import print_line
 
@@ -13,6 +14,7 @@ def jitpolicy(driver):
 
 def get_location(node, self):
     return "[KIMCHI] evaluating %s " % (str(node))
+
 
 jitdriver = JitDriver(greens=["node", "self"], reds=["env"], get_printable_location=get_location)
 
@@ -28,11 +30,12 @@ class Evaluator():
     }
 
     def __init__(self, ioc):
-        self.ioc = ioc
+        self.ioc = hint(ioc)
+        self.builtins = hint(self.builtins)
 
     def create_env(self, env):
         return self.ioc.create_env(env)
-  
+
     def eval_program(self, statements, env):
         result = None
         pc = 0
@@ -48,7 +51,7 @@ class Evaluator():
             pc += 1
 
         return result
-    
+
     def eval(self, node, env):
         jitdriver.jit_merge_point(node=node, env=env, self=self)
         if isinstance(node, ast.Program):
@@ -111,17 +114,9 @@ class Evaluator():
                 return right
             return self.eval_prefix_expression(node.operator, right)
         elif isinstance(node, ast.InfixExpression):
-            left = self.eval(node.left, env)
-            if isinstance(left, obj.Error):
-                return left
-            right = self.eval(node.right, env)
-            if isinstance(right, obj.Error):
-                return right
-            return self.eval_infix_expression(node.operator, left, right)
-
+            return self.eval_infix_expression(node, env)
         elif isinstance(node, ast.IfExpression):
             return self.eval_if_expression(node, env)
-
         elif isinstance(node, ast.WhileExpression):
             return self.eval_while_expression(node, env)
 
@@ -243,10 +238,8 @@ class Evaluator():
             condition = self.eval(node.condition, env)
             if isinstance(condition, obj.Error):
                 return condition
-
             if not self.is_truthy(condition):
                 return result
-
             result = self.eval(node.body, env)
 
     def eval_if_expression(self, node, env):
@@ -259,44 +252,88 @@ class Evaluator():
             return self.eval(node.alternative, env)
         return NULL
 
-    def eval_integer_infix_expression(self, operator, left, right):
+    @elidable
+    def is_plus(self, node):
+        return node.operator == ast.InfixExpression.PLUS
+
+    @elidable
+    def is_minus(self, node):
+        return node.operator == ast.InfixExpression.MINUS
+
+    @elidable
+    def is_mul(self, node):
+        return node.operator == ast.InfixExpression.MUL
+
+    @elidable
+    def is_divide(self, node):
+        return node.operator == ast.InfixExpression.DIV
+
+    @elidable
+    def is_less_than(self, node):
+        return node.operator == ast.InfixExpression.LT
+
+    @elidable
+    def is_greater_than(self, node):
+        return node.operator == ast.InfixExpression.GT
+
+    @elidable
+    def is_greater_than(self, node):
+        return node.operator == ast.InfixExpression.GT
+
+    @elidable
+    def is_greater_eq(self, node):
+        return node.operator == ast.InfixExpression.EQ
+
+    @elidable
+    def is_greater_not_eq(self, node):
+        return node.operator == ast.InfixExpression.NOT_EQ
+
+    def eval_integer_infix_expression(self, node, left, right):
         left_val = left.value
         right_val = right.value
-        if operator == "+":
+        if self.is_plus(node):
             return obj.Integer(left_val + right_val)
-        elif operator == "-":
+        elif self.is_minus(node):
             return obj.Integer(left_val - right_val)
-        elif operator == "*":
+        elif self.is_mul(node):
             return obj.Integer(left_val * right_val)
-        elif operator == "/":
+        elif self.is_divide(node):
             return obj.Integer(left_val / right_val)
-        elif operator == "<":
+        elif self.is_less_than(node):
             return self.native_bool_to_boolean_object(left_val < right_val)
-        elif operator == ">":
+        elif self.is_greater_than(node):
             return self.native_bool_to_boolean_object(left_val > right_val)
-        elif operator == "==":
+        elif self.is_greater_eq(node):
             return self.native_bool_to_boolean_object(left_val == right_val)
-        elif operator == "!=":
+        elif self.is_greater_not_eq(node):
             return self.native_bool_to_boolean_object(left_val != right_val)
+        return obj.Error(
+            "unknown operator: %s %s %s" % (str(left.type()), str(node.literal_operator), str(right.type())))
 
-        return obj.Error("unknown operator: %s %s %s" % (str(left.type()), str(operator), str(right.type())))
+    def eval_infix_expression(self, node, env):
+        left = self.eval(node.left, env)
+        if isinstance(left, obj.Error):
+          return left
+        
+        right = self.eval(node.right, env)
+        if isinstance(right, obj.Error):
+          return right      
 
-    def eval_infix_expression(self, operator, left, right):
         if isinstance(left, obj.Integer) and isinstance(right, obj.Integer):
-            return self.eval_integer_infix_expression(operator, left, right)
-        elif operator == "==":
+            return self.eval_integer_infix_expression(node, left, right)
+        elif node.operator == InfixExpression.EQ:
             return self.native_bool_to_boolean_object(left == right)
-        elif operator == "!=":
+        elif node.operator == InfixExpression.NOT_EQ:
             return self.native_bool_to_boolean_object(left != right)
         elif isinstance(left, obj.String) and isinstance(right, obj.String):
-            return self.eval_string_infix_expression(left, right, operator)
+            return self.eval_string_infix_expression(left, right, node)
         elif left.type() != right.type():
-            return obj.Error("type mismatch: %s %s %s" % (left.type(), operator, right.type()))
-        return obj.Error("unknown operator: %s %s %s" % (left.type(), operator, right.type()))
+            return obj.Error("type mismatch: %s %s %s" % (left.type(), node.literal_operator, right.type()))
+        return obj.Error("unknown operator: %s %s %s" % (left.type(), node.literal_operator, right.type()))
 
-    def eval_string_infix_expression(self, left, right, operator):
-        if operator != "+":
-            return obj.Error("Unknown operator: %s %s %s" % (left.type(), operator, right.type()))
+    def eval_string_infix_expression(self, left, right, node):
+        if node.operator != InfixExpression.PLUS:
+            return obj.Error("Unknown operator: %s %s %s" % (left.type(), node.literal_operator, right.type()))
         return obj.String(left.value + right.value)
 
     def eval_bang_operator_expression(self, right):

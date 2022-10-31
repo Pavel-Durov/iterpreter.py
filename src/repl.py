@@ -1,7 +1,6 @@
-from src.kimchi_ioc import IOC
-
 from src.kimchi_evaluator.evaluator import Evaluator
 from src.kimchi_io import print_line
+from src.kimchi_ioc import IOC
 from src.kimchi_lexer import Lexer
 from src.kimchi_parser import Parser
 

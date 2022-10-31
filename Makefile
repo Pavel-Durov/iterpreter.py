@@ -1,7 +1,8 @@
-PYTHONPATH=${PWD}:${PWD}/src/:${PWD}/.pypy/
+PYTHONPATH=${PWD}:${PWD}/src/:${PWD}/.pypy/:${CONDA_PREFIX}/lib/python2.7/site-packages/
 VERSION := 0.4.0
 PYPY_VERSION_ARTIFACT := pypy2.7-v7.3.9-src
-BENCH_BIN=./bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-jit-c
+BENCH_BIN :=./bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-jit-c
+VM_PROF_ATUH := 3cd11e2dac5feaafa0432a1d7b3a8a7c7872adde
 
 .PHONY: test src
 
@@ -16,20 +17,28 @@ test:
 
 init-env: 
 	conda env create -f environment.yml
-	conda init bash && conda activate interpreter-py
-	pip install -r ./requirments.txt 
+	conda init bash && conda activate kimchi-py
+	pip install -r ./requirments.txt
 
 clean-env: 
 	conda deactivate
-	conda env remove -n interpreter-py
+	conda env remove -n kimchi-py
 
 repl:
 	PYTHONPATH=$(PYTHONPATH) python ./src/repl.py
 
-get-pypy:
-	wget https://downloads.python.org/pypy/$(PYPY_VERSION_ARTIFACT).tar.bz2
-	tar -xvf $(PYPY_VERSION_ARTIFACT).tar.bz2 && mv ./$(PYPY_VERSION_ARTIFACT) .pypy && rm $(PYPY_VERSION_ARTIFACT).tar.bz2
+# VMprof - https://vmprof.readthedocs.io/en/latest/jitlog.html
+vmprof-cpu-logs-upload:
+	.pypy-bin/bin/pypy -m vmprof --web-auth '${VM_PROF_ATUH}'  --web-url 127.0.0.1:8000  --web --jitlog ${PWD}/src/main.py ${PWD}/programs/loops.ki self-like
 
+get-pypy-%:
+	wget https://downloads.python.org/pypy/pypy2.7-v7.3.9-src.tar.bz2
+	tar -xvf pypy2.7-v7.3.9-src.tar.bz2 && mv ./pypy2.7-v7.3.9-src .pypy && rm pypy2.7-v7.3.9-src.tar.bz2
+	
+	# $* - osx / linux
+	wget https://downloads.python.org/pypy/pypy2.7-v7.3.9-$*64.tar.bz2
+	tar -xvf pypy2.7-v7.3.9-$*64.tar.bz2 && mv ./pypy2.7-v7.3.9-$*64 .pypy-bin && rm pypy2.7-v7.3.9-$*64.tar.bz2
+	
 pypy-translate:
 	./scripts/translate_and_store.sh ${VERSION} ./src/main.py jit
 	./scripts/translate_and_store.sh ${VERSION} ./src/main.py

@@ -10,7 +10,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Download PyPy
-      run: make get-pypy
+      run: make get-pypy-linux
     - name: RPython Translate
       run: PYTHONPATH=${PWD}:${PWD}/src/:${PWD}/.pypy/ bash ./scripts/translate_and_store.sh $(make version) ./src/main.py
 

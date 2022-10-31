@@ -71,7 +71,8 @@ $ make test
 
 ## Pypy Translate
 ```shell
-$ make get-pypy # downloads and extracts pypy source code
+$ make get-pypy-osx # OSX only - downloads and extracts pypy source code 
+$ make get-pypy-linux # Linux only - downloads and extracts pypy source code 
 $ make translate # translate ./src RPython to c
 ```
 
@@ -91,3 +92,34 @@ export BIN='bin/0.4.0/0.4.0_0ef9af68f13bc45c233617e2d2954df62ebfdd78_main-c'
 hyperfine --warmup 10 "${BIN} ./programs/loops.ki" "${BIN} ./programs/loops.ki self-like"
 hyperfine "${BIN} ./programs/loops.ki" "${BIN} ./programs/loops.ki self-like"
 ```
+### VMProf Server
+
+https://github.com/vmprof/vmprof-server
+
+Build docker image and apply migrations (for a new setup or version upgrade):
+
+```shell
+docker-compose build
+docker-compose run --rm vmprof-server python3 manage.py migrate
+docker-compose up # Run the server inside docker container
+docker-compose run --rm vmprof-server python3 manage.py generate_api_token # Generate API token
+```
+VMprof jit log should look something like
+
+<img src="./assets/vmprof.png" width="500">
+
+## Resources:
+
+[VMProf Platform](https://vmprof.readthedocs.io/en/latest/)
+
+[A gentle introduction to PyPy, Python performance and benchmarking](https://iamkimchi.medium.com/a-gentle-introduction-to-pypy-python-performance-and-benchmarking-3d0e5609985)
+
+[An Efficient Implementation of SELF,a Dynamically-Typed Object-Oriented Language Based on Prototypes](https://dl.acm.org/doi/pdf/10.1145/74878.74884)
+
+[PyPy Tooling Upgrade: JitViewer and VMProf](https://www.pypy.org/posts/2016/08/pypy-tooling-upgrade-jitviewer-and-5107430577468391432.html)
+
+[Tutorial Part 1](https://morepypy.blogspot.com/2011/04/tutorial-writing-interpreter-with-pypy.html)
+
+[Tutorial Part 2](https://morepypy.blogspot.com/2011/04/tutorial-part-2-adding-jit.html)
+
+[Brainfuck](https://en.wikipedia.org/wiki/Brainfuck)

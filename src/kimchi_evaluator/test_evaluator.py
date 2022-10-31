@@ -36,10 +36,10 @@ def test_array_literals():
 
 
 def test_string_concat():
-    input = """
+    source = """
       "Hello" + " " + "World!"
     """
-    evaluated = eval_test(input)
+    evaluated = eval_test(source)
     assert isinstance(evaluated, obj.String)
     assert evaluated.value == "Hello World!"
 

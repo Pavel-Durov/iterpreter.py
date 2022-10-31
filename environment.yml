@@ -1,4 +1,4 @@
-name: interpreter-py
+name: kimchi-py
 dependencies:
   - python=2.7.18
 
